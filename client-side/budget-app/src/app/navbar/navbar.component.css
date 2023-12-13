@@ -1,0 +1,13 @@
+.nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: right;
+}
+.item{
+    padding-left: 2em;
+}
+
+.item > a {
+    text-decoration: none;
+}

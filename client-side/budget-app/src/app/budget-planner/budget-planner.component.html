@@ -1,9 +1,426 @@
 <!DOCTYPE html>
 <p>budget-planner works!</p>
-<div class="container p-2">
-    <label for="income">income: </label>
-    <mat-form-field>
-        <mat-label>Input</mat-label>
-        <input matInput [formControl]="income">
-    </mat-form-field>
-</div>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="container">
+    <hr>
+    <h3 class="text-center">Income</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Pay (after tax)</mat-label>
+                <input matInput formControlName="incomePay">
+                <span matTextPrefix>€&nbsp;</span>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Benfits</mat-label>
+                <input matInput formControlName="incomeBenefits">
+                <span matTextPrefix>€&nbsp;</span>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Pension</mat-label>
+                <input matInput formControlName="incomePension">
+                <span matTextPrefix>€&nbsp;</span>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Other Income</mat-label>
+                <input matInput formControlName="incomeOther">
+                <span matTextPrefix>€&nbsp;</span>
+            </mat-form-field>
+        </div>
+    </div>
+    <hr>
+    <h3 class="text-center">Household Bills</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Mortgage Payment</mat-label>
+                <input matInput formControlName="paymentMortgage">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Rent</mat-label>
+                <input matInput formControlName="paymentRent">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Home Insurance</mat-label>
+                <input matInput formControlName="paymentHomeInsurance">
+            </mat-form-field>
+        </div>
+    </div>
+    <hr>
+    <h3 class="text-center">Household Utilities</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Council Tax or Rates</mat-label>
+                <input matInput formControlName="paymentHouseTax">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Gas</mat-label>
+                <input matInput formControlName="paymentHouseGas">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Electricity</mat-label>
+                <input matInput formControlName="paymentElectricity">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Water</mat-label>
+                <input matInput formControlName="paymentWater">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Home Phone</mat-label>
+                <input matInput formControlName="paymentHomePhone">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Mobile Phone</mat-label>
+                <input matInput formControlName="paymentMobilePhone">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Internet/Broadband</mat-label>
+                <input matInput formControlName="paymentBroadband">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Tv License</mat-label>
+                <input matInput formControlName="paymentTvLicense">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Home Maintenance</mat-label>
+                <input matInput formControlName="paymentHomeMaintenance">
+            </mat-form-field>
+        </div>
+    </div>
+    <hr>
+    <h3 class="text-center">Living Costs</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Grocery Shopping</mat-label>
+                <input matInput formControlName="paymentGroceries">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Takeaways</mat-label>
+                <input matInput formControlName="paymentTakeaways">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Cigarettes & Tobacco</mat-label>
+                <input matInput formControlName="paymentCigarettes">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Eating Out</mat-label>
+                <input matInput formControlName="paymentEatingOut">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Clothing</mat-label>
+                <input matInput formControlName="paymentClothing">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Childcare</mat-label>
+                <input matInput formControlName="paymentChildcare">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Health & Beauty Treatments</mat-label>
+                <input matInput formControlName="paymentHealthandBeauty">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Eye Care</mat-label>
+                <input matInput formControlName="paymentEyeCare">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Dental Care</mat-label>
+                <input matInput formControlName="paymentDentalCare">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Perscriptions & Medications</mat-label>
+                <input matInput formControlName="paymentMedicine">
+            </mat-form-field>
+        </div>
+    </div>
+    <h3 class="text-center">Friends and Family</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Activities and Clubs</mat-label>
+                <input matInput formControlName="paymentActivities">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Pocket Money</mat-label>
+                <input matInput formControlName="paymentPocketMoney">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Maintenance or Child Support</mat-label>
+                <input matInput formControlName="paymentChildSupport">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>School Fees</mat-label>
+                <input matInput formControlName="paymentSchoolFees">
+            </mat-form-field>
+        </div>
+    </div>
+    <h3 class="text-center">Pets</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Pet Food</mat-label>
+                <input matInput formControlName="paymentPetFood">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Vet Bills</mat-label>
+                <input matInput formControlName="paymentVetBills">
+            </mat-form-field>
+        </div>
+    </div>
+    <hr>
+    <h3 class="text-center">Insurance</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Life Insurance</mat-label>
+                <input matInput formControlName="paymentLifeInsurance">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Health Insurance</mat-label>
+                <input matInput formControlName="paymentHealthInsurance">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Dental Insurance</mat-label>
+                <input matInput formControlName="paymentDentalInsurance">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Pet Insurance</mat-label>
+                <input matInput formControlName="paymentPetInsurance">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Car Insurance</mat-label>
+                <input matInput formControlName="paymentCarInsurance">
+            </mat-form-field>
+        </div>
+    </div>
+    <hr>
+    <h3 class="text-center">Banking and Investments</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Bank Account Fees</mat-label>
+                <input matInput formControlName="paymentBankFees">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Loan Repayments</mat-label>
+                <input matInput formControlName="paymentLoan">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Credit Card Repayments</mat-label>
+                <input matInput formControlName="paymentCreditCard">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Hire Purchase Repayments</mat-label>
+                <input matInput formControlName="paymentHirePurchases">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Shares and other Investments</mat-label>
+                <input matInput formControlName="paymentInvestments">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Private Pension Contributions</mat-label>
+                <input matInput formControlName="paymentPension">
+            </mat-form-field>
+        </div>
+    </div>
+    <hr>
+    <h3 class="text-center">Travel and Leisure</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Car Petrol or Diesel</mat-label>
+                <input matInput formControlName="paymentCarFuel">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Car Tax</mat-label>
+                <input matInput formControlName="paymentCarTax">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Car Maintenance</mat-label>
+                <input matInput formControlName="paymentCarMaintenance">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Public Transport</mat-label>
+                <input matInput formControlName="paymentPublicTransport">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Gym Subscription</mat-label>
+                <input matInput formControlName="paymentGym">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Streaming Services</mat-label>
+                <input matInput formControlName="paymentStreamingServices">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Holidays</mat-label>
+                <input matInput formControlName="paymentHolidays">
+            </mat-form-field>
+        </div>
+    </div>
+    <button mat-raised-button type="submit">Submit</button>
+  </form>
+  

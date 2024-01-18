@@ -4,6 +4,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Chart } from 'chart.js/auto';
+
 @Component({
   selector: 'app-budget-planner',
   standalone: true,
@@ -20,6 +22,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators} from '@angular
 export class BudgetPlannerComponent {
 
   myForm: FormGroup;
+  chart: any;
 
   constructor(private fb: FormBuilder) {
     this.myForm = this.fb.group({
@@ -88,6 +91,41 @@ export class BudgetPlannerComponent {
     if (this.myForm.valid) {
       // Process the form data here
       console.log(this.myForm.value);
+      const formData = this.myForm.value;
+      const chartData = Object.values(formData).map(Number);
+      const chartLabels = Object.keys(formData);
+      // Create or update the doughnut chart
+      this.updateDoughnutChart(chartLabels, chartData);
+    }
+  }
+
+  updateDoughnutChart(labels: string[], data: number[]) {
+    if (this.chart) {
+      // If the chart already exists, update its data
+      this.chart.data.labels = labels;
+      this.chart.data.datasets[0].data = data;
+      this.chart.update();
+    } else {
+      // If the chart doesn't exist, create a new doughnut chart
+      this.chart = new Chart('doughnutChart', {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(54, 162, 235, 0.6)',
+              'rgba(255, 206, 86, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+              'rgba(153, 102, 255, 0.6)',
+              'rgba(255, 159, 64, 0.6)',
+              'rgba(255, 255, 255, 0.6)',
+              'rgba(0, 0, 0, 0.6)',
+            ],
+          }]
+        }
+      });
     }
   }
 }

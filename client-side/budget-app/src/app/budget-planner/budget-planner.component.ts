@@ -26,66 +26,168 @@ export class BudgetPlannerComponent {
 
   constructor(private fb: FormBuilder) {
     this.myForm = this.fb.group({
-      incomePay: [0.00, Validators.required],
-      incomeBenefits: [0.00, Validators.required],
-      incomePension: [0.00, Validators.required],
-      incomeOther: [0.00, Validators.required],
+      incomePay: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      incomeBenefits: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      incomePension: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      incomeOther: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentMortgage: [0.00, Validators.required],
-      paymentRent: [0.00, Validators.required],
-      paymentHomeInsurance: [0.00, Validators.required],
+      paymentMortgage: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentRent: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHomeInsurance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentHouseTax: [0.00, Validators.required],
-      paymentHouseGas: [0.00, Validators.required],
-      paymentElectricity: [0.00, Validators.required],
-      paymentWater: [0.00, Validators.required],
-      paymentHomePhone: [0.00, Validators.required],
-      paymentMobilePhone: [0.00, Validators.required],
-      paymentBroadband: [0.00, Validators.required],
-      paymentTvLicense: [0.00, Validators.required],
-      paymentHomeMaintenance: [0.00, Validators.required],
+      paymentHouseTax: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHouseGas: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentElectricity: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentWater: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHomePhone: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentMobilePhone: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentBroadband: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentTvLicense: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHomeMaintenance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentGroceries: [0.00, Validators.required],
-      paymentTakeaways: [0.00, Validators.required],
-      paymentCigarettes: [0.00, Validators.required],
-      paymentEatingOut: [0.00, Validators.required],
-      paymentClothing: [0.00, Validators.required],
-      paymentChildcare: [0.00, Validators.required],
-      paymentHealthandBeauty: [0.00, Validators.required],
-      paymentEyeCare: [0.00, Validators.required],
-      paymentDentalCare: [0.00, Validators.required],
-      paymentMedicine: [0.00, Validators.required],
+      paymentGroceries: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentTakeaways: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentCigarettes: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentEatingOut: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentClothing: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentChildcare: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHealthandBeauty: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentEyeCare: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentDentalCare: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentMedicine: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentActivities: [0.00, Validators.required],
-      paymentPocketMoney: [0.00, Validators.required],
-      paymentChildSupport: [0.00, Validators.required],
-      paymentSchoolFees: [0.00, Validators.required],
+      paymentActivities: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentPocketMoney: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentChildSupport: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentSchoolFees: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentPetFood: [0.00, Validators.required],
-      paymentVetBills: [0.00, Validators.required],
+      paymentPetFood: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentVetBills: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentLifeInsurance: [0.00, Validators.required],
-      paymentHealthInsurance: [0.00, Validators.required],
-      paymentDentalInsurance: [0.00, Validators.required],
-      paymentPetInsurance: [0.00, Validators.required],
-      paymentCarInsurance: [0.00, Validators.required],
+      paymentLifeInsurance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHealthInsurance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentDentalInsurance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentPetInsurance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentCarInsurance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentBankFees: [0.00, Validators.required],
-      paymentLoan: [0.00, Validators.required],
-      paymentCreditCard: [0.00, Validators.required],
-      paymentHirePurchases: [0.00, Validators.required],
-      paymentInvestments: [0.00, Validators.required],
-      paymentPension: [0.00, Validators.required],
+      paymentBankFees: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentLoan: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentCreditCard: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHirePurchases: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentInvestments: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentPension: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentCarFuel: [0.00, Validators.required],
-      paymentCarTax: [0.00, Validators.required],
-      paymentCarMaintenance: [0.00, Validators.required],
-      paymentPublicTransport: [0.00, Validators.required],
-      paymentGym: [0.00, Validators.required],
-      paymentStreamingServices: [0.00, Validators.required],
-      paymentHolidays: [0.00, Validators.required],
+      paymentCarFuel: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentCarTax: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentCarMaintenance: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentPublicTransport: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentGym: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentStreamingServices: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
+      paymentHolidays: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
 
-      paymentOther: [0.00, Validators.required],
+      paymentOther: [0.00, [
+        Validators.required, Validators.min(0),
+      ]],
     });
    }
 

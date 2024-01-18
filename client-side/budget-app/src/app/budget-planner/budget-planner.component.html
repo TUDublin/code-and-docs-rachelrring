@@ -9,7 +9,14 @@
                 <mat-label>Pay (after tax)</mat-label>
                 <input matInput formControlName="incomePay">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["incomePay"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["incomePay"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
+            <!-- TODO: Add dropdown menu for user to select how often payments and income are -->
         </div>
     </div>
     <div class="row">
@@ -18,6 +25,12 @@
                 <mat-label>Benfits</mat-label>
                 <input matInput formControlName="incomeBenefits">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["incomeBenefits"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["incomeBenefits"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -27,6 +40,12 @@
                 <mat-label>Pension</mat-label>
                 <input matInput formControlName="incomePension">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["incomePension"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["incomePension"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -36,6 +55,12 @@
                 <mat-label>Other Income</mat-label>
                 <input matInput formControlName="incomeOther">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["incomeOther"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["incomeOther"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -47,6 +72,12 @@
                 <mat-label>Mortgage Payment</mat-label>
                 <input matInput formControlName="paymentMortgage">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentMortgage"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentMortgage"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -56,6 +87,12 @@
                 <mat-label>Rent</mat-label>
                 <input matInput formControlName="paymentRent">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentRent"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentRent"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -65,6 +102,12 @@
                 <mat-label>Home Insurance</mat-label>
                 <input matInput formControlName="paymentHomeInsurance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHomeInsurance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHomeInsurance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -76,6 +119,12 @@
                 <mat-label>Council Tax or Rates</mat-label>
                 <input matInput formControlName="paymentHouseTax">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHouseTax"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHouseTax"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -85,6 +134,12 @@
                 <mat-label>Gas</mat-label>
                 <input matInput formControlName="paymentHouseGas">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHouseGas"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHouseGas"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -94,6 +149,12 @@
                 <mat-label>Electricity</mat-label>
                 <input matInput formControlName="paymentElectricity">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentElectricity"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentElectricity"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -103,6 +164,12 @@
                 <mat-label>Water</mat-label>
                 <input matInput formControlName="paymentWater">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentWater"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentWater"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -112,6 +179,12 @@
                 <mat-label>Home Phone</mat-label>
                 <input matInput formControlName="paymentHomePhone">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHomePhone"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHomePhone"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -121,6 +194,12 @@
                 <mat-label>Mobile Phone</mat-label>
                 <input matInput formControlName="paymentMobilePhone">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentMobilePhone"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentMobilePhone"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -130,6 +209,12 @@
                 <mat-label>Internet/Broadband</mat-label>
                 <input matInput formControlName="paymentBroadband">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentBroadband"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentBroadband"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -139,6 +224,12 @@
                 <mat-label>Tv License</mat-label>
                 <input matInput formControlName="paymentTvLicense">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentTvLicense"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentTvLicense"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -148,6 +239,12 @@
                 <mat-label>Home Maintenance</mat-label>
                 <input matInput formControlName="paymentHomeMaintenance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHomeMaintenance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHomeMaintenance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -159,6 +256,12 @@
                 <mat-label>Grocery Shopping</mat-label>
                 <input matInput formControlName="paymentGroceries">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentGroceries"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentGroceries"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -168,6 +271,12 @@
                 <mat-label>Takeaways</mat-label>
                 <input matInput formControlName="paymentTakeaways">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentTakeaways"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentTakeaways"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -177,6 +286,12 @@
                 <mat-label>Cigarettes & Tobacco</mat-label>
                 <input matInput formControlName="paymentCigarettes">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentCigarettes"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentCigarettes"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -186,6 +301,12 @@
                 <mat-label>Eating Out</mat-label>
                 <input matInput formControlName="paymentEatingOut">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentEatingOut"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentEatingOut"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -195,6 +316,12 @@
                 <mat-label>Clothing</mat-label>
                 <input matInput formControlName="paymentClothing">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentClothing"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentClothing"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -204,6 +331,12 @@
                 <mat-label>Childcare</mat-label>
                 <input matInput formControlName="paymentChildcare">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentChildcare"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentChildcare"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -213,6 +346,12 @@
                 <mat-label>Health & Beauty Treatments</mat-label>
                 <input matInput formControlName="paymentHealthandBeauty">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHealthandBeauty"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHealthandBeauty"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -222,6 +361,12 @@
                 <mat-label>Eye Care</mat-label>
                 <input matInput formControlName="paymentEyeCare">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentEyeCare"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentEyeCare"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -231,6 +376,12 @@
                 <mat-label>Dental Care</mat-label>
                 <input matInput formControlName="paymentDentalCare">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentDentalCare"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentDentalCare"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -240,6 +391,12 @@
                 <mat-label>Perscriptions & Medications</mat-label>
                 <input matInput formControlName="paymentMedicine">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentMedicine"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentMedicine"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -251,6 +408,12 @@
                 <mat-label>Activities and Clubs</mat-label>
                 <input matInput formControlName="paymentActivities">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentActivities"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentActivities"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -260,6 +423,12 @@
                 <mat-label>Pocket Money</mat-label>
                 <input matInput formControlName="paymentPocketMoney">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentPocketMoney"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentPocketMoney"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -269,6 +438,12 @@
                 <mat-label>Maintenance or Child Support</mat-label>
                 <input matInput formControlName="paymentChildSupport">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentChildSupport"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentChildSupport"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -278,6 +453,12 @@
                 <mat-label>School Fees</mat-label>
                 <input matInput formControlName="paymentSchoolFees">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentSchoolFees"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentSchoolFees"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -289,6 +470,12 @@
                 <mat-label>Pet Food</mat-label>
                 <input matInput formControlName="paymentPetFood">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentPetFood"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentPetFood"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -298,6 +485,12 @@
                 <mat-label>Vet Bills</mat-label>
                 <input matInput formControlName="paymentVetBills">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentVetBills"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentVetBills"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -309,6 +502,12 @@
                 <mat-label>Life Insurance</mat-label>
                 <input matInput formControlName="paymentLifeInsurance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentLifeInsurance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentLifeInsurance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -318,6 +517,12 @@
                 <mat-label>Health Insurance</mat-label>
                 <input matInput formControlName="paymentHealthInsurance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHealthInsurance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHealthInsurance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -327,6 +532,12 @@
                 <mat-label>Dental Insurance</mat-label>
                 <input matInput formControlName="paymentDentalInsurance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentDentalInsurance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentDentalInsurance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -336,6 +547,12 @@
                 <mat-label>Pet Insurance</mat-label>
                 <input matInput formControlName="paymentPetInsurance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentPetInsurance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentPetInsurance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -345,6 +562,12 @@
                 <mat-label>Car Insurance</mat-label>
                 <input matInput formControlName="paymentCarInsurance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentCarInsurance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentCarInsurance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -356,6 +579,12 @@
                 <mat-label>Bank Account Fees</mat-label>
                 <input matInput formControlName="paymentBankFees">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentBankFees"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentBankFees"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -365,6 +594,12 @@
                 <mat-label>Loan Repayments</mat-label>
                 <input matInput formControlName="paymentLoan">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentLoan"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentLoan"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -374,6 +609,12 @@
                 <mat-label>Credit Card Repayments</mat-label>
                 <input matInput formControlName="paymentCreditCard">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentCreditCard"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentCreditCard"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -383,6 +624,12 @@
                 <mat-label>Hire Purchase Repayments</mat-label>
                 <input matInput formControlName="paymentHirePurchases">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHirePurchases"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHirePurchases"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -392,6 +639,12 @@
                 <mat-label>Shares and other Investments</mat-label>
                 <input matInput formControlName="paymentInvestments">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentInvestments"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentInvestments"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -401,6 +654,12 @@
                 <mat-label>Private Pension Contributions</mat-label>
                 <input matInput formControlName="paymentPension">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentPension"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentPension"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -412,6 +671,12 @@
                 <mat-label>Car Petrol or Diesel</mat-label>
                 <input matInput formControlName="paymentCarFuel">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentCarFuel"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentCarFuel"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -421,6 +686,12 @@
                 <mat-label>Car Tax</mat-label>
                 <input matInput formControlName="paymentCarTax">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentCarTax"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentCarTax"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -430,6 +701,12 @@
                 <mat-label>Car Maintenance</mat-label>
                 <input matInput formControlName="paymentCarMaintenance">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentCarMaintenance"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentCarMaintenance"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -439,6 +716,12 @@
                 <mat-label>Public Transport</mat-label>
                 <input matInput formControlName="paymentPublicTransport">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentPublicTransport"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentPublicTransport"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -448,6 +731,12 @@
                 <mat-label>Gym Subscription</mat-label>
                 <input matInput formControlName="paymentGym">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentGym"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentGym"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -457,6 +746,12 @@
                 <mat-label>Streaming Services</mat-label>
                 <input matInput formControlName="paymentStreamingServices">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentStreamingServices"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentStreamingServices"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -466,6 +761,12 @@
                 <mat-label>Holidays</mat-label>
                 <input matInput formControlName="paymentHolidays">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentHolidays"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentHolidays"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
@@ -477,15 +778,24 @@
                 <mat-label>Other Expenses</mat-label>
                 <input matInput formControlName="paymentOther">
                 <span matTextPrefix>€&nbsp;</span>
+                @if (myForm.controls["paymentOther"].hasError('required')) {
+                    <mat-error>Value is <strong>required</strong>. Enter 0 instead of leaving it blank.</mat-error>
+                }
+                @if (myForm.controls["paymentOther"].hasError('min')) {
+                    <mat-error>Value must either 0 or more</mat-error>
+                }
             </mat-form-field>
         </div>
     </div>
-    <button mat-raised-button type="submit">Submit</button>
+    <hr>
+    <div>
+       <button mat-raised-button [disabled]="!myForm.valid" type="submit" color="primary" style="float: right;">Submit</button> 
+    </div>
 </form>
   
 <!-- Add this div at the bottom of your template -->
 <div class="row mt-4">
-    <div class="col-md-12">
+    <div>
       <canvas id="doughnutChart" width="400" height="400"></canvas>
     </div>
   </div>

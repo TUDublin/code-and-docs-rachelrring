@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar.component';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -8,7 +10,8 @@ describe('NavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavbarComponent]
+      imports: [NavbarComponent, NoopAnimationsModule, RouterLink,],
+      providers: [{provide: ActivatedRoute, useValue: of()}]
     })
     .compileComponents();
     

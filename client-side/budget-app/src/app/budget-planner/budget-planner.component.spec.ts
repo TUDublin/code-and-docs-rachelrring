@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BudgetPlannerComponent } from './budget-planner.component';
 
 describe('BudgetPlannerComponent', () => {
@@ -8,7 +8,7 @@ describe('BudgetPlannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BudgetPlannerComponent]
+      imports: [BudgetPlannerComponent, NoopAnimationsModule,]
     })
     .compileComponents();
     
@@ -20,4 +20,5 @@ describe('BudgetPlannerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

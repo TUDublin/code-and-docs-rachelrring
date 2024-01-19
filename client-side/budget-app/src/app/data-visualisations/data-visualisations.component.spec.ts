@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DataVisualisationsComponent } from './data-visualisations.component';
 
 describe('DataVisualisationsComponent', () => {
@@ -8,7 +8,7 @@ describe('DataVisualisationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DataVisualisationsComponent]
+      imports: [DataVisualisationsComponent, NoopAnimationsModule,]
     })
     .compileComponents();
     

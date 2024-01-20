@@ -216,12 +216,10 @@ export class BudgetPlannerComponent {
 
   updateDoughnutChart(labels: string[], data: number[]) {
     if (this.chart) {
-      // If the chart already exists, update its data
       this.chart.data.labels = labels;
       this.chart.data.datasets[0].data = data;
       this.chart.update();
     } else {
-      // If the chart doesn't exist, create a new doughnut chart
       this.chart = new Chart('doughnutChart', {
         type: 'doughnut',
         data: {

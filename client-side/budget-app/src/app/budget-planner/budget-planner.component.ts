@@ -25,6 +25,9 @@ export class BudgetPlannerComponent {
 
   myForm: FormGroup;
   chart: any;
+  totalIncome: number = 0;
+  totalYearlyExpenses: number = 0;
+
   fields: string[] = [
     'incomePay',
     'incomeBenefits',
@@ -317,6 +320,8 @@ export class BudgetPlannerComponent {
         "Other",
       ];
       this.updateDoughnutChart(chartLabels, chartData);
+      this.totalIncome = chartData.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      this.totalYearlyExpenses = chartData.slice(4,51).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
     }
   }
 

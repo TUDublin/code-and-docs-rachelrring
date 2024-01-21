@@ -350,9 +350,8 @@ export class BudgetPlannerComponent {
     }
   }
 
-  getChartData(cd: number[]){
+  getChartData(cd: number[]): number[]{
     let chartData:number[] = [];
-    cd[0] = this.getYearlyValues('incomePay');
     // add income to chartData
     chartData.push(cd.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
     // add HouseholdBills to chartData
@@ -376,7 +375,7 @@ export class BudgetPlannerComponent {
     return chartData;
   }
 
-  getYearlyValues(controlField: string){
+  getYearlyValues(controlField: string): number{
     let frequencyField = this.myForm.get(controlField.concat('Frequency'));
     let controlValue: number = this.myForm.get(controlField)?.value;
     if (frequencyField?.value == 'weekly'){

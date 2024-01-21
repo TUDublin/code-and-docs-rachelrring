@@ -61,4 +61,21 @@ describe('BudgetPlannerComponent', () => {
       expect(submitButton.disabled).toBeTrue();
     });
   });
+
+  describe('getYearlyValues', () => {
+    it('returns the correct value when the payment is weekly', () => {
+      component.myForm.get('incomePay')?.setValue(10);
+      expect(component.getYearlyValues('incomePay')).toEqual(10*52);
+    });
+    it('returns the correct value when the payment is monthly', () => {
+      component.myForm.get('incomePay')?.setValue(10);
+      component.myForm.get('incomePayFrequency')?.setValue('monthly');
+      expect(component.getYearlyValues('incomePay')).toEqual(10*12);
+    });
+    it('returns the correct value when the payment is yearly', () => {
+      component.myForm.get('incomePay')?.setValue(10);
+      component.myForm.get('incomePayFrequency')?.setValue('yearly');
+      expect(component.getYearlyValues('incomePay')).toEqual(10);
+    });
+  });
 });

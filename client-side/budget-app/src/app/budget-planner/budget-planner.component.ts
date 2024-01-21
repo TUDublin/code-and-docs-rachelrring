@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
 
@@ -15,6 +16,7 @@ import { Chart } from 'chart.js/auto';
     MatInputModule, 
     ReactiveFormsModule,
     MatButtonModule,
+    MatSelectModule,
   ],
   templateUrl: './budget-planner.component.html',
   styleUrl: './budget-planner.component.css'
@@ -29,6 +31,7 @@ export class BudgetPlannerComponent {
       incomePay: [0.00, [
         Validators.required, Validators.min(0),
       ]],
+      incomePayFrequency: ['weekly', Validators.required],
       incomeBenefits: [0.00, [
         Validators.required, Validators.min(0),
       ]],
@@ -193,10 +196,8 @@ export class BudgetPlannerComponent {
 
    onSubmit() {
     if (this.myForm.valid) {
-      // Process the form data here
-      console.log(this.myForm.value);
       const formData = this.myForm.value;
-      const chartData = this.getChartData(Object.values(formData).map(Number)) ;
+      const chartData = this.getChartData(Object.values(formData).map(Number));
       const chartLabels = [
         "Income", 
         "Household Bills", 
@@ -209,7 +210,6 @@ export class BudgetPlannerComponent {
         "Travel and Leisure", 
         "Other",
       ];
-      // Create or update the doughnut chart
       this.updateDoughnutChart(chartLabels, chartData);
     }
   }

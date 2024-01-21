@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<p>budget-planner works!</p>
+<!-- TODO: explain how to use this -->
+<p>We're going to explain how to use the budget planner when it's done!</p>
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="container">
     <hr>
     <h3 class="text-center">Income</h3>
     <div class="row">
+        <div class="col-md-2 text-center ">
+            <strong>Pay after Tax:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Pay (after tax)</mat-label>
@@ -17,6 +21,15 @@
                 }
             </mat-form-field>
             <!-- TODO: Add dropdown menu for user to select how often payments and income are -->
+        </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="incomePayFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </div>
     <div class="row">
@@ -792,11 +805,11 @@
        <button mat-raised-button [disabled]="!myForm.valid" type="submit" color="primary" style="float: right;">Submit</button> 
     </div>
 </form>
-  
-<!-- Add this div at the bottom of your template -->
-<div class="row mt-4">
+
+<div class="row bg-white">
     <div>
-      <canvas id="doughnutChart" width="400" height="400"></canvas>
+        <canvas id="doughnutChart" width="400" height="400"></canvas>
     </div>
-  </div>
+</div>
+
   

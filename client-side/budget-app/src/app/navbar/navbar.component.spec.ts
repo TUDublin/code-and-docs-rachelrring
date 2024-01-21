@@ -3,6 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;

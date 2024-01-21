@@ -349,9 +349,20 @@ export class BudgetPlannerComponent {
               'rgba(121, 124, 255, 1)',
               'rgba(121, 255, 125, 1)',
               'rgba(255, 127, 128, 1)',
-              'rgba(127, 127, 128, 1)',
             ],
-          }]
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'right',
+            },
+            title: {
+              display: true,
+              text: 'Expenses Breakdown'
+            }
+          },
         }
       });
     }

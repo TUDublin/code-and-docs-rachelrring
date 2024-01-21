@@ -5,7 +5,7 @@
     <hr>
     <h3 class="text-center">Income</h3>
     <div class="row">
-        <div class="col-md-2 text-center ">
+        <div class="col-md-2">
             <strong>Pay after Tax:</strong>
         </div>
         <div class="col-md-6">
@@ -20,7 +20,6 @@
                     <mat-error>Value must either 0 or more</mat-error>
                 }
             </mat-form-field>
-            <!-- TODO: Add dropdown menu for user to select how often payments and income are -->
         </div>
         <div class="col-md-3">
             <mat-form-field>
@@ -33,6 +32,9 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Benefits:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Benfits</mat-label>
@@ -46,8 +48,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="incomeBenefitsFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Pension Income:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Pension</mat-label>
@@ -61,8 +75,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="incomePensionFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Any other Income:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Other Income</mat-label>
@@ -76,10 +102,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="incomeOtherFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Household Bills</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Mortage Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Mortgage Payment</mat-label>
@@ -93,8 +131,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentMortgageFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Rent Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Rent</mat-label>
@@ -108,8 +158,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentRentFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Home Insurance:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Home Insurance</mat-label>
@@ -123,10 +185,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHomeInsuranceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Household Utilities</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Council Tax:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Council Tax or Rates</mat-label>
@@ -140,8 +214,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHouseTaxFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Gas Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Gas</mat-label>
@@ -155,8 +241,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHouseGasFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Electricity Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Electricity</mat-label>
@@ -170,8 +268,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentElectricityFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Water Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Water</mat-label>
@@ -185,8 +295,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentWaterFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Home Phone Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Home Phone</mat-label>
@@ -200,8 +322,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHomePhoneFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Mobile Phone Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Mobile Phone</mat-label>
@@ -215,8 +349,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentMobilePhoneFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Broadband Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Internet/Broadband</mat-label>
@@ -230,8 +376,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentBroadbandFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Tv License:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Tv License</mat-label>
@@ -245,8 +403,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentTvLicenseFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Home Maintenance:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Home Maintenance</mat-label>
@@ -260,10 +430,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHomeMaintenanceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Living Costs</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Groceries:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Grocery Shopping</mat-label>
@@ -277,8 +459,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentGroceriesFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Takeaways:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Takeaways</mat-label>
@@ -292,8 +486,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentTakeawaysFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Cigarettes:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Cigarettes & Tobacco</mat-label>
@@ -307,8 +513,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentCigarettesFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Dining Out:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Eating Out</mat-label>
@@ -322,8 +540,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentEatingOutFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>New Clothes:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Clothing</mat-label>
@@ -337,8 +567,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentClothingFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Childcare Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Childcare</mat-label>
@@ -352,8 +594,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentChildcareFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Health / Beauty Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Health & Beauty Treatments</mat-label>
@@ -367,8 +621,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHealthandBeautyFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Eye Care Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Eye Care</mat-label>
@@ -382,8 +648,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentEyeCareFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Dentist Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Dental Care</mat-label>
@@ -397,8 +675,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentDentalCareFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Medications:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Perscriptions & Medications</mat-label>
@@ -412,10 +702,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentMedicineFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Friends and Family</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Extra Curricular Activities:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Activities and Clubs</mat-label>
@@ -429,8 +731,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentActivitiesFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Pocket Money Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Pocket Money</mat-label>
@@ -444,8 +758,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentPocketMoneyFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Child Support Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Maintenance or Child Support</mat-label>
@@ -459,8 +785,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentChildSupportFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>School Fees:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>School Fees</mat-label>
@@ -474,10 +812,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentSchoolFeesFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Pets</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Pet Food:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Pet Food</mat-label>
@@ -491,8 +841,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentPetFoodFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Vet Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Vet Bills</mat-label>
@@ -506,10 +868,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentVetBillsFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Insurance</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Life Insurance Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Life Insurance</mat-label>
@@ -523,8 +897,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentLifeInsuranceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Health Insurance Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Health Insurance</mat-label>
@@ -538,8 +924,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHealthInsuranceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Dental Insurance Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Dental Insurance</mat-label>
@@ -553,8 +951,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentDentalInsuranceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Pet Insurance Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Pet Insurance</mat-label>
@@ -568,8 +978,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentPetInsuranceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Car Insurance Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Car Insurance</mat-label>
@@ -583,10 +1005,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentCarInsuranceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Banking and Investments</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Bank Fees:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Bank Account Fees</mat-label>
@@ -600,8 +1034,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentBankFeesFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Loan Repayments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Loan Repayments</mat-label>
@@ -615,8 +1061,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentLoanFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Credit Card Repayments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Credit Card Repayments</mat-label>
@@ -630,8 +1088,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentCreditCardFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Hire Purchase Repayments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Hire Purchase Repayments</mat-label>
@@ -645,8 +1115,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHirePurchasesFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Investments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Shares and other Investments</mat-label>
@@ -660,8 +1142,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentInvestmentsFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Private Pension Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Private Pension Contributions</mat-label>
@@ -675,10 +1169,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentPensionFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Travel and Leisure</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Car Fuel:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Car Petrol or Diesel</mat-label>
@@ -692,8 +1198,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentCarFuelFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Car Tax Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Car Tax</mat-label>
@@ -707,8 +1225,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentCarTaxFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Car Maintenance Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Car Maintenance</mat-label>
@@ -722,8 +1252,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentCarMaintenanceFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Public Transport:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Public Transport</mat-label>
@@ -737,8 +1279,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentPublicTransportFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Gym Subscriptions:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Gym Subscription</mat-label>
@@ -752,8 +1306,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentGymFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Streaming Services Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Streaming Services</mat-label>
@@ -767,8 +1333,20 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentStreamingServicesFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Holiday Payments:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Holidays</mat-label>
@@ -782,10 +1360,22 @@
                 }
             </mat-form-field>
         </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentHolidaysFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <hr>
     <h3 class="text-center">Other Expenses</h3>
     <div class="row">
+        <div class="col-md-2">
+            <strong>Any Other Expenses:</strong>
+        </div>
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Other Expenses</mat-label>
@@ -797,6 +1387,15 @@
                 @if (myForm.controls["paymentOther"].hasError('min')) {
                     <mat-error>Value must either 0 or more</mat-error>
                 }
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-select formControlName="paymentOtherFrequency">
+                    <mat-option value="weekly">Weekly</mat-option>
+                    <mat-option value="monthly">Monthly</mat-option>
+                    <mat-option value="yearly">Yearly</mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
     </div>

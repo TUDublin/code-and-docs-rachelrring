@@ -307,8 +307,10 @@ export class BudgetPlannerComponent {
       for (let i = 0; i < this.fields.length; i++){
         chartData.push(this.getYearlyValues(this.fields[i]))
       }
+      this.totalIncome = chartData.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      this.totalYearlyExpenses = chartData.slice(4,51).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      chartData.shift()
       const chartLabels = [
-        "Income", 
         "Household Bills", 
         "Household Utilities", 
         "Living Costs", 
@@ -320,8 +322,6 @@ export class BudgetPlannerComponent {
         "Other",
       ];
       this.updateDoughnutChart(chartLabels, chartData);
-      this.totalIncome = chartData.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-      this.totalYearlyExpenses = chartData.slice(4,51).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
     }
   }
 

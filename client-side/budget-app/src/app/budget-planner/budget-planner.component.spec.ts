@@ -90,7 +90,7 @@ describe('BudgetPlannerComponent', () => {
       submitButton.click();
       fixture.detectChanges();
 
-      expect(component.totalIncome).toEqual(expectedYearlyIncome);
+      expect(component.totalYearlyIncome).toEqual(expectedYearlyIncome);
       expect(component.totalYearlyExpenses).toEqual(0);
     });
   });
@@ -109,7 +109,30 @@ describe('BudgetPlannerComponent', () => {
       fixture.detectChanges();
 
       expect(component.totalYearlyExpenses).toEqual(expectedYearlyExpenses);
-      expect(component.totalIncome).toEqual(0);
+      expect(component.totalYearlyIncome).toEqual(0);
+    });
+  });
+
+  describe('Yearly Surplus', () => {
+    it('is calculated correctly', () => {
+      component.myForm.get('paymentRent')?.setValue(100);
+      component.myForm.get('paymentTvLicense')?.setValue(20);
+      component.myForm.get('paymentMortgage')?.setValue(100);
+      component.myForm.get('paymentOther')?.setValue(100);
+      component.myForm.get('incomePay')?.setValue(10);
+      component.myForm.get('incomeBenefits')?.setValue(20);
+      fixture.detectChanges();
+      let expectedYearlyExpenses = (100*52) + (20*52) + (100*52) + (100*52);
+      let expectedYearlyIncome = (10*52) + (20*52);
+      let expectedYearlySurplus = expectedYearlyIncome - expectedYearlyExpenses;
+      
+      const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+      submitButton.click();
+      fixture.detectChanges();
+
+      expect(component.totalYearlyExpenses).toEqual(expectedYearlyExpenses);
+      expect(component.totalYearlyIncome).toEqual(expectedYearlyIncome);
+      expect(component.totalYearlySurplus).toEqual(expectedYearlySurplus);
     });
   });
 });

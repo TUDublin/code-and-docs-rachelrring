@@ -25,8 +25,9 @@ export class BudgetPlannerComponent {
 
   myForm: FormGroup;
   chart: any;
-  totalIncome: number = 0;
+  totalYearlyIncome: number = 0;
   totalYearlyExpenses: number = 0;
+  totalYearlySurplus: number = 0;
 
   fields: string[] = [
     'incomePay',
@@ -305,10 +306,11 @@ export class BudgetPlannerComponent {
       let chartData: number[] = [];
       const formData = this.myForm.value;
       for (let i = 0; i < this.fields.length; i++){
-        chartData.push(this.getYearlyValues(this.fields[i]))
+        chartData.push(this.getYearlyValues(this.fields[i]));
       }
-      this.totalIncome = chartData.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-      this.totalYearlyExpenses = chartData.slice(4,51).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      this.totalYearlyIncome = chartData.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      this.totalYearlyExpenses = chartData.slice(4,51).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
       chartData.shift()
       const chartLabels = [
         "Household Bills", 

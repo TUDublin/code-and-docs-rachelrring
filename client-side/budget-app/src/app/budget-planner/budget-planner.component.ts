@@ -309,7 +309,7 @@ export class BudgetPlannerComponent {
         chartData.push(this.getYearlyValues(this.fields[i]));
       }
       this.totalYearlyIncome = chartData.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-      this.totalYearlyExpenses = chartData.slice(4,51).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      this.totalYearlyExpenses = chartData.slice(4,chartData.length).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
       this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
       chartData.shift()
       const chartLabels = [
@@ -338,6 +338,7 @@ export class BudgetPlannerComponent {
         data: {
           labels: labels,
           datasets: [{
+            label: '€ spent',
             data: data,
             backgroundColor: [
               'rgba(0, 255, 255, 1)',

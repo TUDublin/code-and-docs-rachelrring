@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,7 @@ var albums = []album{
 func main() {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
+	router.GET("/data", getCSOData)
 
 	router.Run("localhost:8080")
 }
@@ -31,4 +33,23 @@ func main() {
 // getAlbums responds with the list of all albums as JSON.
 func getAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
+}
+
+func getCSOData(c *gin.Context) {
+	url := "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EHQ04/JSON-stat/2.0/en"
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	}
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	}
+	defer res.Body.Close()
+	body, readErr := ioutil.ReadAll(res.Body)
+	if readErr != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	}
+	myString := string(body[:])
+	c.String(http.StatusOK, myString)
 }

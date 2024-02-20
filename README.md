@@ -9,7 +9,7 @@ Supervisor: Gary Clynch
 
 Project Name: Household Budgeting WebApp
 
-Project Languages: Angular, Typescript, Go
+Project Languages: Angular, Typescript, Go, C#
 
 Project Testing Frameworks: Jasmine, Karma test runner, Go testing package
 

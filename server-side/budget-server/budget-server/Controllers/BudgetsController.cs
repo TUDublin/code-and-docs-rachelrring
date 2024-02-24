@@ -30,7 +30,7 @@ namespace budget_server.Controllers
 
         // GET: api/Budgets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Budget>> GetBudget(int id)
+        public async Task<ActionResult<Budget>> GetBudget(string id)
         {
             var budget = await _context.Budget.FindAsync(id);
 
@@ -45,9 +45,9 @@ namespace budget_server.Controllers
         // PUT: api/Budgets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBudget(int id, Budget budget)
+        public async Task<IActionResult> PutBudget(string id, Budget budget)
         {
-            if (id != budget.Id)
+            if (id != budget.Email)
             {
                 return BadRequest();
             }
@@ -79,14 +79,37 @@ namespace budget_server.Controllers
         public async Task<ActionResult<Budget>> PostBudget(Budget budget)
         {
             _context.Budget.Add(budget);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (BudgetExists(budget.Email))
+                {
+                    _context.Budget.Update(budget);
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return CreatedAtAction("GetBudget", new { id = budget.Id }, budget);
+            return CreatedAtAction("GetBudget", new { id = budget.Email }, budget);
         }
 
         // DELETE: api/Budgets/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBudget(int id)
+        public async Task<IActionResult> DeleteBudget(string id)
         {
             var budget = await _context.Budget.FindAsync(id);
             if (budget == null)
@@ -100,9 +123,9 @@ namespace budget_server.Controllers
             return NoContent();
         }
 
-        private bool BudgetExists(int id)
+        private bool BudgetExists(string id)
         {
-            return _context.Budget.Any(e => e.Id == id);
+            return _context.Budget.Any(e => e.Email == id);
         }
     }
 }

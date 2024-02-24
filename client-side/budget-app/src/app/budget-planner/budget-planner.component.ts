@@ -6,6 +6,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { catchError } from 'rxjs/operators'
+
+interface Budget {
+  email: string;
+  income: number;
+  expenses: number;
+}
 
 @Component({
   selector: 'app-budget-planner',
@@ -17,6 +25,7 @@ import { Chart } from 'chart.js/auto';
     ReactiveFormsModule,
     MatButtonModule,
     MatSelectModule,
+    HttpClientModule,
   ],
   templateUrl: './budget-planner.component.html',
   styleUrl: './budget-planner.component.css'
@@ -83,7 +92,10 @@ export class BudgetPlannerComponent {
     'paymentOther',
   ]  
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder, 
+    private http: HttpClient,
+    ) {
     this.myForm = this.fb.group({
       incomePay: [0.00, [
         Validators.required, Validators.min(0),
@@ -403,5 +415,22 @@ export class BudgetPlannerComponent {
       return controlValue * 12;
     }
     return controlValue;
+  }
+
+  saveBudget() {
+    var b: Budget = {
+      email: "testUser",
+      income: this.totalYearlyIncome,
+      expenses: this.totalYearlyExpenses,
+    };
+
+    this.http.post("https://localhost:7050/api/Budgets", b).subscribe({
+      next: data => {
+        console.log(data);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    });
   }
 }

@@ -1401,7 +1401,7 @@
     </div>
     <hr>
     <div>
-       <button mat-raised-button [disabled]="!myForm.valid" type="submit" color="primary" style="float: right;">Submit</button> 
+       <button mat-raised-button [disabled]="!myForm.valid" type="submit" color="primary" style="float: right;">Okay</button> 
     </div>
 </form>
 
@@ -1418,6 +1418,9 @@
     </div>
     <div>
         <canvas id="doughnutChart" width="400" height="400"></canvas>
+    </div>
+    <div *ngIf="myForm.valid">
+        <button mat-raised-button color="primary" style="float: right;" (click)="saveBudget()">Save My Budget</button> 
     </div>
 </div>
 

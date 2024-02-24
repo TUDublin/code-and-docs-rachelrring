@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 interface Budget {
-  id: number;
   email: string;
   income: number;
   expenses: number;

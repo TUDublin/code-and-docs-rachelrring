@@ -37,6 +37,7 @@ export class BudgetPlannerComponent {
   totalYearlyIncome: number = 0;
   totalYearlyExpenses: number = 0;
   totalYearlySurplus: number = 0;
+  allowSave = false;
 
   fields: string[] = [
     'incomePay',
@@ -336,6 +337,7 @@ export class BudgetPlannerComponent {
         "Other",
       ];
       this.updateDoughnutChart(chartLabels, chartData);
+      this.allowSave = true;
     }
   }
 

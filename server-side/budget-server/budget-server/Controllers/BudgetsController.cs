@@ -47,7 +47,7 @@ namespace budget_server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBudget(string id, Budget budget)
         {
-            if (id != budget.Email)
+            if (id != budget.UserId)
             {
                 return BadRequest();
             }
@@ -85,18 +85,9 @@ namespace budget_server.Controllers
             }
             catch (DbUpdateException)
             {
-                if (BudgetExists(budget.Email))
+                if (BudgetExists(budget.UserId))
                 {
-                    _context.Budget.Update(budget);
-                    try
-                    {
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
+                    return Conflict();
                 }
                 else
                 {
@@ -104,7 +95,7 @@ namespace budget_server.Controllers
                 }
             }
 
-            return CreatedAtAction("GetBudget", new { id = budget.Email }, budget);
+            return CreatedAtAction("GetBudget", new { id = budget.UserId }, budget);
         }
 
         // DELETE: api/Budgets/5
@@ -125,7 +116,7 @@ namespace budget_server.Controllers
 
         private bool BudgetExists(string id)
         {
-            return _context.Budget.Any(e => e.Email == id);
+            return _context.Budget.Any(e => e.UserId == id);
         }
     }
 }

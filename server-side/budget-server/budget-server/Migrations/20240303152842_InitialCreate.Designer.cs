@@ -12,7 +12,7 @@ using budget_server.Data;
 namespace budget_server.Migrations
 {
     [DbContext(typeof(budget_serverContext))]
-    [Migration("20240303144042_InitialCreate")]
+    [Migration("20240303152842_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -345,10 +345,6 @@ namespace budget_server.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

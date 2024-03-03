@@ -6,9 +6,6 @@ namespace budget_server
 {
     public class User : IdentityUser
     {
-        [Key]
-        public string Email { get; set; }
-        public string FirstName { get; set; }
     }
 
     public class Budget

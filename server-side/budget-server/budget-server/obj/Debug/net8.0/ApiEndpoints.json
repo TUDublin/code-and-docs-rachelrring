@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "budget_server.Controllers.AccountsController",
+    "Method": "RegisterUser",
+    "RelativePath": "api/Accounts/Registration",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userForRegistration",
+        "Type": "budget_server.UserForRegistrationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "budget_server.Controllers.BudgetsController",
     "Method": "GetBudget",
     "RelativePath": "api/Budgets",

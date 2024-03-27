@@ -1,13 +1,24 @@
 .nav {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: right;
-}
-.item{
-    padding-left: 2em;
+    justify-content: space-between;
+    background-color: #1976d2; /* Change background color as needed */
+    color: white; /* Text color */
 }
 
-.item > a {
-    text-decoration: none;
+.item {
+    margin-right: 10px; /* Adjust spacing between links */
+}
+
+.link {
+    text-decoration: none; /* Remove text decoration */
+    color: inherit; /* Inherit text color */
+}
+
+.link:hover {
+    color: lightgrey; /* Change hover text color */
+}
+
+.right-links {
+    display: flex;
+    align-items: center;
 }

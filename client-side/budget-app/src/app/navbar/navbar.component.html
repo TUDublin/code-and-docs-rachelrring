@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <mat-toolbar color="primary" class="nav">
-    <span class="item"><a routerLink="#">Home</a></span>
-    <span class="item"><a routerLink="/budget-planner">Budget Planner</a></span>
+    <div class="left-links">
+        <span class="item"><a routerLink="#" class="link">Home</a></span>
+        <span class="item"><a routerLink="/budget-planner" class="link">Budget Planner</a></span>
+    </div>
+    <div class="right-links">
+        <mat-menu #accountMenu="matMenu">
+            <button mat-menu-item>
+                <a routerLink="/register" class="link">Register</a>
+            </button>
+        </mat-menu>
+        <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+    </div>
 </mat-toolbar>
+

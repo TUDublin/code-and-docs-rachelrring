@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserForRegistrationDto } from './../../_interfaces/user/userForRegistrationDto.model';
 import { AuthenticationService } from './../../shared/services/authentication.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
-
+import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
 @Component({
   selector: 'app-register-user',
   standalone: true,
@@ -19,7 +19,7 @@ export class RegisterUserComponent implements OnInit{
 
   errorString: string = "";
 
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder) {}
+  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private passConfValidator: PasswordConfirmationValidatorService) {}
 
    ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -27,8 +27,9 @@ export class RegisterUserComponent implements OnInit{
       lastName: new FormControl(''),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
-      confirm: new FormControl('')
+      confirm: new FormControl('', [Validators.required])
     });
+    this.registerForm.get('confirm')?.setValidators([this.passConfValidator.validateConfirmPassword(this.registerForm.get('password') as AbstractControl)]);
   }
   
   public validateControl = (controlName: string) => {

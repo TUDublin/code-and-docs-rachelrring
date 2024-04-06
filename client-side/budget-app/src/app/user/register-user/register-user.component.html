@@ -45,6 +45,9 @@
                     <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid">Register</button>
                 </div>
             </div>
+            <div *ngIf="errorString.length != 0">
+                <p><em>{{ errorString }}</em></p>
+            </div>
         </form>
     </div>
   </div>

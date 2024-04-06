@@ -15,17 +15,11 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, Abstract
 
 export class RegisterUserComponent implements OnInit{
 
-  registerForm: FormGroup;
+  registerForm!: FormGroup;
 
-  constructor(private authService: AuthenticationService,  private fb: FormBuilder, ) {
-    this.registerForm = this.fb.group({
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      confirm: new FormControl('')
-    });
-   }
+  errorString: string = "";
+
+  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder) {}
 
    ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -47,6 +41,7 @@ export class RegisterUserComponent implements OnInit{
 
   public registerUser = (registerFormValue: any) => {
     const formValues = { ...registerFormValue };
+    
     const user: UserForRegistrationDto = {
       firstName: formValues.firstName,
       lastName: formValues.lastName,
@@ -57,8 +52,21 @@ export class RegisterUserComponent implements OnInit{
     
     this.authService.registerUser("api/accounts/registration", user)
     .subscribe({
-      next: (_) => console.log("Successful registration"),
-      error: (err: HttpErrorResponse) => console.log(err.error.errors)
+      next: (_) => {
+        console.log("Successful registration")
+      } ,
+      error: (err: HttpErrorResponse) => {
+        console.log(err.error.errors)
+        if (err.error.errors.ConfirmPassword) {
+          this.errorString = err.error.errors.ConfirmPassword[0]
+        } else if (err.error.errors) {
+          this.errorString = err.error.errors.join('\n ');
+        } else {
+          this.errorString = "Unknown error occurred.";
+        }
+        console.log(this.errorString);
+      }
+        
     })
   }
 

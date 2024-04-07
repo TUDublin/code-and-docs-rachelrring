@@ -22,14 +22,14 @@ export class DataVisualisationsComponent implements OnInit {
   constructor(private http: HttpClient) {}
   
   ngOnInit() {
-    this.http.get<Budget[]>('https://localhost:7050/api/Budgets').subscribe(
-      (result) => {
-        this.budgets = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-    console.log(this.budgets);
+    // this.http.get<Budget[]>('https://localhost:7050/api/Budgets').subscribe(
+    //   (result) => {
+    //     this.budgets = result;
+    //   },
+    //   (error) => {
+    //     console.error(error);
+    //   }
+    // );
+    // console.log(this.budgets);
   }
 }

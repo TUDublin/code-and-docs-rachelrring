@@ -3,7 +3,10 @@
         <h1 class="card-title">Login</h1>
   
         <div *ngIf="showError" class="alert alert-danger" role="alert">
-            {{errorString}}
+            <p>
+                You are unable to log in at this time.<br>
+                Please check and make sure your password and username are correct.
+            </p>
         </div>
         
         <form [formGroup]="loginForm" autocomplete="off" novalidate (ngSubmit)="loginUser(loginForm.value)">

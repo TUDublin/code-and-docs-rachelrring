@@ -18,7 +18,6 @@ export class LoginUserComponent implements OnInit{
 
   loginForm!: FormGroup;
 
-  errorString: string = "";
   private returnUrl: string = "";
   showError: boolean = false;
 
@@ -47,14 +46,13 @@ export class LoginUserComponent implements OnInit{
       email: login.username,
       password: login.password
     }
-    this.authService.loginUser('api/accounts/login', userForAuth)
+    this.authService.loginUser('login', userForAuth)
     .subscribe({
       next: (res:AuthResponseDto) => {
-       localStorage.setItem("token", res.token);
-       this.router.navigate([this.returnUrl]);
+        localStorage.setItem("token", res.accessToken);
+        this.router.navigate([this.returnUrl]);
     },
     error: (err: HttpErrorResponse) => {
-      this.errorString = err.message;
       this.showError = true;
     }})
   }

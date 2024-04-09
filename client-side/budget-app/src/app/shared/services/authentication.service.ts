@@ -6,6 +6,9 @@ import { EnvironmentUrlService } from './environment-url.service';
 import { AuthResponseDto } from '../../_interfaces/response/AuthenticationResponseDto.model';
 import { UserForAuthenticationDto } from '../../_interfaces/user/userForAuthenticationDto.model';
 import { Subject } from 'rxjs';
+import { Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,7 @@ export class AuthenticationService {
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
 
-  constructor(private http: HttpClient, private envUrl: EnvironmentUrlService) { }
+  constructor(private http: HttpClient, private envUrl: EnvironmentUrlService, @Inject(DOCUMENT) private document: Document) { }
 
   public registerUser = (route: string, body: UserForRegistrationDto) => {
     return this.http.post<RegistrationResponseDto> (this.createCompleteRoute(route, this.envUrl.urlAddress), body);
@@ -32,5 +35,13 @@ export class AuthenticationService {
   public logout = () => {
     localStorage.removeItem("token");
     this.sendAuthStateChangeNotification(false);
+  }
+
+  public isUserAuthenticated = (): boolean => {
+    const token = localStorage.getItem("token");
+    if(token){
+      return true
+    }
+    return false;
   }
 }

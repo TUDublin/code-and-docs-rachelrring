@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -15,14 +15,26 @@ import { AuthenticationService } from './../shared/services/authentication.servi
 })
 export class NavbarComponent {
   public isUserAuthenticated: boolean = false;
+  public auth:boolean = false;
 
-  constructor(private authService: AuthenticationService, private router: Router) { }
-  ngOnInit(): void {
-    this.authService.authChanged
-    .subscribe(res => {
+  constructor(private authService: AuthenticationService, private router: Router,  @Inject(DOCUMENT) private document: Document) {
+    this.authService.authChanged.subscribe(res => {
       this.isUserAuthenticated = res;
     })
+    const localStorage = document.defaultView?.localStorage;
+    if (localStorage){
+      this.auth = true;
+    }
   }
+
+  ngOnInit(): void {
+    if(this.auth){
+      this.authService.authChanged.subscribe(res => {
+      this.isUserAuthenticated = res;
+    });
+    }
+  }
+
   public logout = () => {
     this.authService.logout();
     this.router.navigate(["/"]);

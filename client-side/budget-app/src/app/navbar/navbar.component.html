@@ -6,9 +6,19 @@
     </div>
     <div class="right-links">
         <mat-menu #accountMenu="matMenu">
-            <button mat-menu-item>
-                <a routerLink="/register" class="link">Register</a>
-            </button>
+            <span *ngIf="!isUserAuthenticated">
+                <button mat-menu-item>
+                    <a routerLink="/register" class="link">Register</a>
+                </button>
+                <button mat-menu-item>
+                    <a routerLink="/login" class="link">Login</a>
+                </button>
+            </span>
+            <span *ngIf="isUserAuthenticated">
+                <button mat-menu-item>
+                    <a routerLink="/register" class="link">Logout</a>
+                </button>
+            </span>  
         </mat-menu>
         <button mat-icon-button [matMenuTriggerFor]="accountMenu">
             <mat-icon>account_circle</mat-icon>

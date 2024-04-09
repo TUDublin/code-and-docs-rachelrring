@@ -50,6 +50,9 @@ export class LoginUserComponent implements OnInit{
     .subscribe({
       next: (res:AuthResponseDto) => {
         localStorage.setItem("token", res.accessToken);
+        if (res.accessToken){
+          this.authService.sendAuthStateChangeNotification(true);
+        }
         this.router.navigate([this.returnUrl]);
     },
     error: (err: HttpErrorResponse) => {

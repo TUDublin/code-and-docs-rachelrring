@@ -15,8 +15,8 @@
                 </button>
             </span>
             <span *ngIf="isUserAuthenticated">
-                <button mat-menu-item>
-                    <a routerLink="/register" class="link">Logout</a>
+                <button mat-menu-item (click)="logout()">
+                    Logout
                 </button>
             </span>  
         </mat-menu>

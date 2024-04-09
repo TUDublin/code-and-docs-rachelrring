@@ -5,6 +5,8 @@ import { UserForRegistrationDto } from './../../_interfaces/user/userForRegistra
 import { AuthenticationService } from './../../shared/services/authentication.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-register-user',
   standalone: true,
@@ -19,7 +21,7 @@ export class RegisterUserComponent implements OnInit{
 
   errorString: string = "";
 
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private passConfValidator: PasswordConfirmationValidatorService) {}
+  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private passConfValidator: PasswordConfirmationValidatorService, private router: Router) {}
 
    ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -54,7 +56,7 @@ export class RegisterUserComponent implements OnInit{
     this.authService.registerUser("api/accounts/registration", user)
     .subscribe({
       next: (_) => {
-        console.log("Successful registration")
+        this.router.navigate(["/login"])
       } ,
       error: (err: HttpErrorResponse) => {
         console.log(err.error.errors)

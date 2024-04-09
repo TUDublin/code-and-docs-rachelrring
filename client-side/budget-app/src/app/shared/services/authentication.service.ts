@@ -29,4 +29,8 @@ export class AuthenticationService {
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
   }
+  public logout = () => {
+    localStorage.removeItem("token");
+    this.sendAuthStateChangeNotification(false);
+  }
 }

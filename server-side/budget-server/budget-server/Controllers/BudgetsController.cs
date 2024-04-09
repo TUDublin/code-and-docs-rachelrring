@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using budget_server;
 using budget_server.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace budget_server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class BudgetsController : ControllerBase
     {

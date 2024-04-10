@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using budget_server.Data;
 using budget_server;
-using Microsoft.AspNetCore.Identity;
-using System.Reflection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using EmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddIdentityApiEndpoints<User>()
@@ -45,7 +43,6 @@ builder.Services.AddAuthentication(opt =>
             .GetBytes(jwtSettings.GetSection("securityKey").Value))
     };
 });
-
 // Add services to the container.
 
 builder.Services.AddControllers();

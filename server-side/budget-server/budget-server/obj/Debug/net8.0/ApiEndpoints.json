@@ -1,6 +1,26 @@
 [
   {
     "ContainingType": "budget_server.Controllers.AccountsController",
+    "Method": "GetBudget",
+    "RelativePath": "api/Accounts/Budgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[budget_server.Budget, budget-server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "budget_server.Controllers.AccountsController",
     "Method": "Login",
     "RelativePath": "api/Accounts/Login",
     "HttpMethod": "POST",
@@ -10,6 +30,22 @@
       {
         "Name": "userForAuthentication",
         "Type": "budget_server.UserForAuthenticationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "budget_server.Controllers.AccountsController",
+    "Method": "PostBudget",
+    "RelativePath": "api/Accounts/NewBudget",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "budget",
+        "Type": "budget_server.BudgetToSaveDto",
         "IsRequired": true
       }
     ],
@@ -30,52 +66,6 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "budget_server.Controllers.BudgetsController",
-    "Method": "GetBudget",
-    "RelativePath": "api/Budgets",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[budget_server.Budget, budget-server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "budget_server.Controllers.BudgetsController",
-    "Method": "PostBudget",
-    "RelativePath": "api/Budgets",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "budget",
-        "Type": "budget_server.Budget",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "budget_server.Budget",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "budget_server.Controllers.BudgetsController",

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <!-- TODO: explain how to use this -->
+<p *ngIf="isUserAuthenticated">
+    You are logged in
+</p>
 <p>We're going to explain how to use the budget planner when it's done!</p>
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="container">
     <hr>
@@ -1419,7 +1422,7 @@
     <div>
         <canvas id="doughnutChart" width="400" height="400"></canvas>
     </div>
-    <div *ngIf="allowSave">
+    <div *ngIf="isUserAuthenticated">
         <button mat-raised-button color="primary" style="float: right;" (click)="saveBudget()">Save My Budget</button> 
     </div>
 </div>

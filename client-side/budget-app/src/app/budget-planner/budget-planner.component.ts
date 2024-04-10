@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators'
+import { AuthenticationService } from '../shared/services/authentication.service';
+import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
 
 interface Budget {
   email: string;
@@ -30,14 +32,16 @@ interface Budget {
   templateUrl: './budget-planner.component.html',
   styleUrl: './budget-planner.component.css'
 })
-export class BudgetPlannerComponent {
+export class BudgetPlannerComponent implements OnInit{
 
   myForm: FormGroup;
   chart: any;
   totalYearlyIncome: number = 0;
   totalYearlyExpenses: number = 0;
   totalYearlySurplus: number = 0;
-  allowSave = false;
+
+  public isUserAuthenticated: boolean = false;
+  public auth:boolean = false;
 
   fields: string[] = [
     'incomePay',
@@ -96,6 +100,8 @@ export class BudgetPlannerComponent {
   constructor(
     private fb: FormBuilder, 
     private http: HttpClient,
+    private authService: AuthenticationService,
+    @Inject(DOCUMENT) private document: Document,
     ) {
     this.myForm = this.fb.group({
       incomePay: [0.00, [
@@ -312,7 +318,17 @@ export class BudgetPlannerComponent {
       ]],
       paymentOtherFrequency: ['weekly', Validators.required],
     });
+    const localStorage = document.defaultView?.localStorage;
+    if (localStorage){
+      this.auth = true;
+    }
    }
+
+   ngOnInit(): void {
+    if(this.auth){
+      this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    }
+  }
 
    onSubmit() {
     if (this.myForm.valid) {
@@ -337,7 +353,6 @@ export class BudgetPlannerComponent {
         "Other",
       ];
       this.updateDoughnutChart(chartLabels, chartData);
-      this.allowSave = true;
     }
   }
 
@@ -420,19 +435,74 @@ export class BudgetPlannerComponent {
   }
 
   saveBudget() {
-    var b: Budget = {
-      email: "testUser",
-      income: this.totalYearlyIncome,
-      expenses: this.totalYearlyExpenses,
-    };
 
-    this.http.post("https://localhost:7050/api/Budgets", b).subscribe({
-      next: data => {
-        console.log(data);
-      },
-      error: error => {
-        console.error('There was an error!', error);
-      }
-    });
+    var userEmail = this.authService.getUserEmail();
+
+    var budgettosave: BudgetToSaveDto = {
+      userEmail: userEmail,
+      incomePay: this.myForm.get('incomePay')?.value,
+      incomeBenefits: this.myForm.get('incomeBenefits')?.value,
+      incomePension: this.myForm.get('incomePension')?.value,
+      incomeOther: this.myForm.get('incomeOther')?.value,
+      paymentMortgage: this.myForm.get('paymentMortgage')?.value,
+      paymentRent: this.myForm.get('paymentRent')?.value,
+      paymentHomeInsurance: this.myForm.get('paymentHomeInsurance')?.value,
+      paymentHouseTax: this.myForm.get('paymentHouseTax')?.value,
+      paymentHouseGas: this.myForm.get('paymentHouseGas')?.value,
+      paymentElectricity: this.myForm.get('paymentElectricity')?.value,
+      paymentWater: this.myForm.get('paymentWater')?.value,
+      paymentHomePhone: this.myForm.get('paymentHomePhone')?.value,
+      paymentMobilePhone: this.myForm.get('paymentMobilePhone')?.value,
+      paymentBroadband: this.myForm.get('paymentBroadband')?.value,
+      paymentTvLicense: this.myForm.get('paymentTvLicense')?.value,
+      paymentHomeMaintenance: this.myForm.get('paymentHomeMaintenance')?.value,
+      paymentGroceries: this.myForm.get('paymentGroceries')?.value,
+      paymentTakeaways: this.myForm.get('paymentTakeaways')?.value,
+      paymentCigarettes: this.myForm.get('paymentCigarettes')?.value,
+      paymentEatingOut: this.myForm.get('paymentEatingOut')?.value,
+      paymentClothing: this.myForm.get('paymentClothing')?.value,
+      paymentChildcare: this.myForm.get('paymentChildcare')?.value,
+      paymentHealthandBeauty: this.myForm.get('paymentHealthandBeauty')?.value,
+      paymentEyeCare: this.myForm.get('paymentEyeCare')?.value,
+      paymentDentalCare: this.myForm.get('paymentDentalCare')?.value,
+      paymentMedicine: this.myForm.get('paymentMedicine')?.value,
+      paymentActivities: this.myForm.get('paymentActivities')?.value,
+      paymentPocketMoney: this.myForm.get('paymentPocketMoney')?.value,
+      paymentChildSupport: this.myForm.get('paymentChildSupport')?.value,
+      paymentSchoolFees: this.myForm.get('paymentSchoolFees')?.value,
+      paymentPetFood: this.myForm.get('paymentPetFood')?.value,
+      paymentVetBills: this.myForm.get('paymentVetBills')?.value,
+      paymentLifeInsurance: this.myForm.get('paymentLifeInsurance')?.value,
+      paymentHealthInsurance: this.myForm.get('paymentHealthInsurance')?.value,
+      paymentDentalInsurance: this.myForm.get('paymentDentalInsurance')?.value,
+      paymentPetInsurance: this.myForm.get('paymentPetInsurance')?.value,
+      paymentCarInsurance: this.myForm.get('paymentCarInsurance')?.value,
+      paymentBankFees: this.myForm.get('paymentBankFees')?.value,
+      paymentLoan: this.myForm.get('paymentLoan')?.value,
+      paymentCreditCard: this.myForm.get('paymentCreditCard')?.value,
+      paymentHirePurchases: this.myForm.get('paymentHirePurchases')?.value,
+      paymentInvestments: this.myForm.get('paymentInvestments')?.value,
+      paymentPension: this.myForm.get('paymentPension')?.value,
+      paymentCarFuel: this.myForm.get('paymentCarFuel')?.value,
+      paymentCarTax: this.myForm.get('paymentCarTax')?.value,
+      paymentCarMaintenance: this.myForm.get('paymentCarMaintenance')?.value,
+      paymentPublicTransport: this.myForm.get('paymentPublicTransport')?.value,
+      paymentGym: this.myForm.get('paymentGym')?.value,
+      paymentStreamingServices: this.myForm.get('paymentStreamingServices')?.value,
+      paymentHolidays: this.myForm.get('paymentHolidays')?.value,
+      paymentOther: this.myForm.get('paymentOther')?.value,
+      incomeTotal: this.totalYearlyIncome,
+      paymentTotal: this.totalYearlyExpenses
+  };
+  this.authService.saveBudget("api/accounts/newbudget", budgettosave)
+  .subscribe({
+    next: (_) => {
+      console.log("It Worked!")
+    } ,
+    error: (err: HttpErrorResponse) => {
+      console.log(err)
+    }
+      
+  })
   }
 }

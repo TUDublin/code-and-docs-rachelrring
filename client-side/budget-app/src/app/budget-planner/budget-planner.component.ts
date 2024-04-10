@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,9 +38,9 @@ export class BudgetPlannerComponent implements OnInit{
   totalYearlyIncome: number = 0;
   totalYearlyExpenses: number = 0;
   totalYearlySurplus: number = 0;
-  allowSave = false;
 
   public isUserAuthenticated: boolean = false;
+  public auth:boolean = false;
 
   fields: string[] = [
     'incomePay',
@@ -100,6 +100,7 @@ export class BudgetPlannerComponent implements OnInit{
     private fb: FormBuilder, 
     private http: HttpClient,
     private authService: AuthenticationService,
+    @Inject(DOCUMENT) private document: Document,
     ) {
     this.myForm = this.fb.group({
       incomePay: [0.00, [
@@ -316,10 +317,16 @@ export class BudgetPlannerComponent implements OnInit{
       ]],
       paymentOtherFrequency: ['weekly', Validators.required],
     });
+    const localStorage = document.defaultView?.localStorage;
+    if (localStorage){
+      this.auth = true;
+    }
    }
 
    ngOnInit(): void {
-    this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    if(this.auth){
+      this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    }
   }
 
    onSubmit() {
@@ -345,7 +352,6 @@ export class BudgetPlannerComponent implements OnInit{
         "Other",
       ];
       this.updateDoughnutChart(chartLabels, chartData);
-      this.allowSave = true;
     }
   }
 

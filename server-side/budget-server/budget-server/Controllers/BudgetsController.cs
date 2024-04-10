@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using budget_server;
 using budget_server.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace budget_server.Controllers
 {
@@ -16,18 +17,13 @@ namespace budget_server.Controllers
     [ApiController]
     public class BudgetsController : ControllerBase
     {
+        private readonly UserManager<User> _userManager;
         private readonly budget_serverContext _context;
 
-        public BudgetsController(budget_serverContext context)
+        public BudgetsController(budget_serverContext context, UserManager<User> userManager)
         {
             _context = context;
-        }
-
-        // GET: api/Budgets
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Budget>>> GetBudget()
-        {
-            return await _context.Budget.ToListAsync();
+            _userManager = userManager;
         }
 
         // GET: api/Budgets/5
@@ -73,31 +69,6 @@ namespace budget_server.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Budgets
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Budget>> PostBudget(Budget budget)
-        {
-            _context.Budget.Add(budget);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (BudgetExists(budget.UserId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetBudget", new { id = budget.UserId }, budget);
         }
 
         // DELETE: api/Budgets/5

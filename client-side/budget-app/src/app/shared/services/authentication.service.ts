@@ -34,6 +34,7 @@ export class AuthenticationService {
   }
   public logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
     this.sendAuthStateChangeNotification(false);
   }
 

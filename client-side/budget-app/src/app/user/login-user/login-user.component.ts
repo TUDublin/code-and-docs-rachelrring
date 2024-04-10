@@ -50,6 +50,7 @@ export class LoginUserComponent implements OnInit{
     .subscribe({
       next: (res:AuthResponseDto) => {
         localStorage.setItem("token", res.accessToken);
+        localStorage.setItem("email", userForAuth.email)
         if (res.accessToken){
           this.authService.sendAuthStateChangeNotification(true);
         }

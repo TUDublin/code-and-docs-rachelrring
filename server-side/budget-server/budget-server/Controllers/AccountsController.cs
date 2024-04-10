@@ -127,14 +127,21 @@ namespace budget_server.Controllers
             };
 
 
-            var result = _context.Budget.Add(newBudget);
+            _context.Budget.Add(newBudget);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                throw;
+                try
+                {
+                    _context.Budget.Update(newBudget);
+                }
+                catch
+                {
+                    throw;
+                }
             }
 
             return Ok();

@@ -8,6 +8,7 @@ import { UserForAuthenticationDto } from '../../_interfaces/user/userForAuthenti
 import { Subject } from 'rxjs';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { BudgetToSaveDto } from '../../_interfaces/user/budgetToSaveDto.model';
 
 
 @Injectable({
@@ -29,6 +30,9 @@ export class AuthenticationService {
   public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
     this.authChangeSub.next(isAuthenticated);
   }
+  public saveBudget = (route:string, body: BudgetToSaveDto) => {
+    return this.http.post<BudgetToSaveDto> (this.createCompleteRoute(route, this.envUrl.urlAddress), body);
+  }
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
   }
@@ -44,5 +48,13 @@ export class AuthenticationService {
       return true
     }
     return false;
+  }
+
+  public getUserEmail = (): string =>{
+    const token = localStorage.getItem("email");
+    if(token){
+      return token
+    }
+    return "";
   }
 }

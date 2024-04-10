@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,7 +13,8 @@ import { AuthenticationService } from './../shared/services/authentication.servi
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
+
   public isUserAuthenticated: boolean = false;
   public auth:boolean = false;
 
@@ -30,7 +31,7 @@ export class NavbarComponent {
   ngOnInit(): void {
     if(this.auth){
       this.authService.authChanged.subscribe(res => {
-      this.isUserAuthenticated = res;
+        this.isUserAuthenticated = res;
     });
     }
   }

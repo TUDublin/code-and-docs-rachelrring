@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, Abstract
 import { Chart } from 'chart.js/auto';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { catchError } from 'rxjs/operators'
+import { AuthenticationService } from '../shared/services/authentication.service';
 
 interface Budget {
   email: string;
@@ -30,7 +31,7 @@ interface Budget {
   templateUrl: './budget-planner.component.html',
   styleUrl: './budget-planner.component.css'
 })
-export class BudgetPlannerComponent {
+export class BudgetPlannerComponent implements OnInit{
 
   myForm: FormGroup;
   chart: any;
@@ -38,6 +39,8 @@ export class BudgetPlannerComponent {
   totalYearlyExpenses: number = 0;
   totalYearlySurplus: number = 0;
   allowSave = false;
+
+  public isUserAuthenticated: boolean = false;
 
   fields: string[] = [
     'incomePay',
@@ -96,6 +99,7 @@ export class BudgetPlannerComponent {
   constructor(
     private fb: FormBuilder, 
     private http: HttpClient,
+    private authService: AuthenticationService,
     ) {
     this.myForm = this.fb.group({
       incomePay: [0.00, [
@@ -313,6 +317,10 @@ export class BudgetPlannerComponent {
       paymentOtherFrequency: ['weekly', Validators.required],
     });
    }
+
+   ngOnInit(): void {
+    this.isUserAuthenticated = this.authService.isUserAuthenticated();
+  }
 
    onSubmit() {
     if (this.myForm.valid) {

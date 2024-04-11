@@ -2,6 +2,7 @@
 using budget_server;
 using budget_server.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -151,6 +152,30 @@ namespace budget_server.Controllers
         public async Task<ActionResult<IEnumerable<Budget>>> GetBudget()
         {
             return await _context.Budget.ToListAsync();
+        }
+
+        // POST: /api/Accounts/PasswordReset
+        [HttpPost("PasswordReset")]
+        public async Task<IActionResult> PasswordReset([FromBody] UserPasswordResetDto upr)
+        {
+            var user = await _userManager.FindByEmailAsync(upr.Email);
+
+            if (user == null || !ModelState.IsValid)
+                return BadRequest("User Error");
+
+
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            IdentityResult passwordChangeResult = await _userManager.ResetPasswordAsync(user, resetToken, upr.Password);
+
+
+            if (!passwordChangeResult.Succeeded)
+            {
+                var errors = passwordChangeResult.Errors.Select(e => e.Description);
+
+                return BadRequest(new PasswordResponseDto { Errors = errors });
+            }
+
+            return Ok();
         }
     }
 }

@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BudgetToSaveDto } from '../../_interfaces/user/budgetToSaveDto.model';
+import { UserPasswordResetDto } from '../../_interfaces/user/userPasswordReset.model';
 
 
 @Injectable({
@@ -32,6 +33,9 @@ export class AuthenticationService {
   }
   public saveBudget = (route:string, body: BudgetToSaveDto) => {
     return this.http.post<BudgetToSaveDto> (this.createCompleteRoute(route, this.envUrl.urlAddress), body);
+  }
+  public resetPassword = (route:string, body: UserPasswordResetDto) => {
+    return this.http.post<UserPasswordResetDto> (this.createCompleteRoute(route, this.envUrl.urlAddress), body);
   }
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;

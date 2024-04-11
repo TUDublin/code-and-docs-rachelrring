@@ -6,11 +6,13 @@ import { AuthenticationService } from './../../shared/services/authentication.se
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule],
   templateUrl: './register-user.component.html',
   styleUrl: './register-user.component.css'
 })
@@ -21,7 +23,7 @@ export class RegisterUserComponent implements OnInit{
 
   errorString: string = "";
 
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private passConfValidator: PasswordConfirmationValidatorService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private passConfValidator: PasswordConfirmationValidatorService, private router: Router, private snackBar: MatSnackBar) {}
 
    ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -57,9 +59,9 @@ export class RegisterUserComponent implements OnInit{
     .subscribe({
       next: (_) => {
         this.router.navigate(["/login"])
+        this.snackBar.open('successfully registered', 'x', {duration: 2000});
       } ,
       error: (err: HttpErrorResponse) => {
-        console.log(err.error.errors)
         if (err.error.errors.ConfirmPassword) {
           this.errorString = err.error.errors.ConfirmPassword[0]
         } else if (err.error.errors) {

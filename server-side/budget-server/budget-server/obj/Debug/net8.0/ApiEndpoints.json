@@ -53,6 +53,22 @@
   },
   {
     "ContainingType": "budget_server.Controllers.AccountsController",
+    "Method": "PasswordReset",
+    "RelativePath": "api/Accounts/PasswordReset",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "upr",
+        "Type": "budget_server.UserPasswordResetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "budget_server.Controllers.AccountsController",
     "Method": "RegisterUser",
     "RelativePath": "api/Accounts/Registration",
     "HttpMethod": "POST",

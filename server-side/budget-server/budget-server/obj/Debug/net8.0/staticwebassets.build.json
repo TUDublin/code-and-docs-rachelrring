@@ -1,19 +1,11 @@
 {
   "Version": 1,
-  "Hash": "AUR45NLrLr7CzpKebDciZ4t633SJJrHiWNIVUu0+NHQ=",
+  "Hash": "6PjyMSJp+AK9E6/vPLgHxNbh9JoJmjl3OTYQKcC8D6c=",
   "Source": "budget-server",
   "BasePath": "_content/budget-server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "budget-server\\wwwroot",
-      "Source": "budget-server",
-      "ContentRoot": "C:\\Users\\Rachel\\year 4\\Dissertation\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\wwwroot\\",
-      "BasePath": "_content/budget-server",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": []
 }

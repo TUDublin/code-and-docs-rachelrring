@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from './../../shared/services/authentication.service';
@@ -16,23 +16,45 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.css'
 })
-export class PasswordResetComponent {
+export class PasswordResetComponent implements OnInit{
   resetPasswordForm!: FormGroup;
 
   private returnUrl: string = "";
   showError: boolean = false;
   errorString: string = "";
+  public auth:boolean = false;
+  public isUserAuthenticated: boolean = false;
+  public setField:boolean = false;
+  public userEmail:string = "";
 
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private passConfValidator: PasswordConfirmationValidatorService, private snackBar: MatSnackBar) {}
+  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private passConfValidator: PasswordConfirmationValidatorService, private snackBar: MatSnackBar,  @Inject(DOCUMENT) private document: Document) {
+    this.authService.authChanged.subscribe(res => {
+      this.isUserAuthenticated = res;
+    })
+    const localStorage = document.defaultView?.localStorage;
+    if (localStorage){
+      this.auth = true;
+    }
+    if (this.auth || this.isUserAuthenticated){
+      let ue = this.authService.getUserEmail();
+      if (ue != ""){
+        this.userEmail = ue;
+        this.setField = true;
+      }
+    }
+  }
 
    ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
       email: new FormControl("", [Validators.required]),
       password: new FormControl("", [Validators.required]),
-      confirm: new FormControl('', [Validators.required])
+      confirm: new FormControl("", [Validators.required])
     });
     this.resetPasswordForm.get('confirm')?.setValidators([this.passConfValidator.validateConfirmPassword(this.resetPasswordForm.get('password') as AbstractControl)]);
-
+    if(this.setField){
+      this.resetPasswordForm.get('email')?.patchValue(this.userEmail);
+      this.resetPasswordForm.get('email')?.disable();
+    }
   }
 
   validateControl = (controlName: string) => {

@@ -57,7 +57,6 @@ export class PasswordResetComponent {
         this.snackBar.open('password successfully changed', 'x', {duration: 2000});
     },
     error: (err: HttpErrorResponse) => {
-      console.log(err.error.errors)
         if (err.error.errors.ConfirmPassword) {
           this.errorString = err.error.errors.ConfirmPassword[0]
         } else if (err.error.errors) {

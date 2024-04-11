@@ -38,7 +38,11 @@ namespace budget_server
         public string? Token { get; set; }
     }
 
-
+    public class UserPasswordResetDto
+    {
+        public string UserEmail { get; set; }
+        public string NewPassword { get; set; }
+    }
 
     public class BudgetToSaveDto
     {

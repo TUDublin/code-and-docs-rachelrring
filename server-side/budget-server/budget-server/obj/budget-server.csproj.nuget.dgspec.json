@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Rachel\\year 4\\Dissertation\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj": {}
+    "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Rachel\\year 4\\Dissertation\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj": {
+    "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rachel\\year 4\\Dissertation\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj",
+        "projectUniqueName": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj",
         "projectName": "budget-server",
-        "projectPath": "C:\\Users\\Rachel\\year 4\\Dissertation\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj",
+        "projectPath": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget-server.csproj",
         "packagesPath": "C:\\Users\\Rachel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rachel\\year 4\\Dissertation\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\obj\\",
+        "outputPath": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Rachel\\AppData\\Roaming\\NuGet\\NuGet.Config",

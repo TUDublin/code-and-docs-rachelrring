@@ -152,5 +152,27 @@ namespace budget_server.Controllers
         {
             return await _context.Budget.ToListAsync();
         }
+
+        // POST: /api/Accounts/PasswordReset
+        [HttpPost("PasswordReset")]
+        public async Task<ActionResult> PasswordReset([FromBody] UserPasswordResetDto upr)
+        {
+            var user = await _userManager.FindByEmailAsync(upr.UserEmail);
+
+            if (user == null || !ModelState.IsValid)
+                return BadRequest("User Error");
+
+
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            IdentityResult passwordChangeResult = await _userManager.ResetPasswordAsync(user, resetToken, upr.NewPassword);
+
+
+            if (passwordChangeResult.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }

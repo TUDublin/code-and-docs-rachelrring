@@ -6,12 +6,13 @@ import { AuthenticationService } from './../../shared/services/authentication.se
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
 import { UserPasswordResetDto } from '../../_interfaces/user/userPasswordReset.model';
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-password-reset',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.css'
 })
@@ -22,7 +23,7 @@ export class PasswordResetComponent {
   showError: boolean = false;
   errorString: string = "";
 
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private passConfValidator: PasswordConfirmationValidatorService, ) {}
+  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private passConfValidator: PasswordConfirmationValidatorService, private snackBar: MatSnackBar) {}
 
    ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
@@ -53,6 +54,7 @@ export class PasswordResetComponent {
     .subscribe({
       next: (_) => {
         this.router.navigate(["/login"]);
+        this.snackBar.open('password successfully changed', 'x', {duration: 2000});
     },
     error: (err: HttpErrorResponse) => {
       console.log(err.error.errors)

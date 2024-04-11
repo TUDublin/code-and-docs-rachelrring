@@ -23,6 +23,12 @@ namespace budget_server
         public IEnumerable<string>? Errors { get; set; }
     }
 
+    public class PasswordResponseDto
+    {
+        public bool IsSuccessfulReset { get; set; }
+        public IEnumerable<string>? Errors { get; set; }
+    }
+
     public class UserForAuthenticationDto
     {
         [Required(ErrorMessage = "Email is required.")]
@@ -40,8 +46,8 @@ namespace budget_server
 
     public class UserPasswordResetDto
     {
-        public string UserEmail { get; set; }
-        public string NewPassword { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 
     public class BudgetToSaveDto

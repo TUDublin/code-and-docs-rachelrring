@@ -2,7 +2,7 @@
     <div *ngIf="hasBudget">
         You have a budget: {{budget}}
     </div>
-    <div *ngIf="!hasBudget">
+    <div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
         You haven't added a budget yet! <br>
         Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
     </div>

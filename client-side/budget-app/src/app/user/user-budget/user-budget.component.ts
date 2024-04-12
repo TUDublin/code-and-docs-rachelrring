@@ -18,6 +18,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UserBudgetComponent implements OnInit {
   public isUserAuthenticated: boolean = false;
   public auth: boolean = false;
+  public hasBudget: boolean = false;
+  public budget!: UserBudgetResponseDto;
 
   constructor(
     private authService: AuthenticationService,
@@ -40,11 +42,13 @@ export class UserBudgetComponent implements OnInit {
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
             console.log(res);
+            this.hasBudget = true;
+            this.budget = res;
           },
           error: (err: HttpErrorResponse) => {
             console.log(err);
           }
-        })
+        });
       }
     }
   }

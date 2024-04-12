@@ -138,6 +138,7 @@ namespace budget_server.Controllers
                 try
                 {
                     _context.Budget.Update(newBudget);
+                    await _context.SaveChangesAsync();
                 }
                 catch
                 {
@@ -147,9 +148,11 @@ namespace budget_server.Controllers
 
             return Ok();
         }
+
+        // This endpoint will only be used for testing purposes and should be removed before production starts
         // GET: api/Accounts/Budgets
         [HttpGet("Budgets")]
-        public async Task<ActionResult<IEnumerable<Budget>>> GetBudget()
+        public async Task<ActionResult<IEnumerable<Budget>>> GetBudgets()
         {
             return await _context.Budget.ToListAsync();
         }
@@ -177,5 +180,81 @@ namespace budget_server.Controllers
 
             return Ok();
         }
+
+        // GET: api/Accounts/Budget/{userEmail}
+        [HttpGet("Budget/{userEmail}")]
+        public async Task<ActionResult<UserBudgetResponseDto>> GetBudget(string userEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user == null || !ModelState.IsValid)
+                return BadRequest("User Error");
+
+            var budget = await _context.Budget.FindAsync(user.Id);
+
+            if (budget == null)
+            {
+                return NotFound();
+            }
+
+            UserBudgetResponseDto userBudgetResponseDto = new UserBudgetResponseDto
+            {
+                IncomePay = budget.IncomePay,
+                IncomeBenefits = budget.IncomeBenefits,
+                IncomePension = budget.IncomePension,
+                IncomeOther = budget.IncomeOther,
+                PaymentMortgage = budget.PaymentMortgage,
+                PaymentRent = budget.PaymentRent,
+                PaymentHomeInsurance = budget.PaymentHomeInsurance,
+                PaymentHouseTax = budget.PaymentHouseTax,
+                PaymentHouseGas = budget.PaymentHouseGas,
+                PaymentElectricity = budget.PaymentElectricity,
+                PaymentWater = budget.PaymentWater,
+                PaymentHomePhone = budget.PaymentHomePhone,
+                PaymentMobilePhone = budget.PaymentMobilePhone,
+                PaymentBroadband = budget.PaymentBroadband,
+                PaymentTvLicense = budget.PaymentTvLicense,
+                PaymentHomeMaintenance = budget.PaymentHomeMaintenance,
+                PaymentGroceries = budget.PaymentGroceries,
+                PaymentTakeaways = budget.PaymentTakeaways,
+                PaymentCigarettes = budget.PaymentCigarettes,
+                PaymentEatingOut = budget.PaymentEatingOut,
+                PaymentClothing = budget.PaymentClothing,
+                PaymentChildcare = budget.PaymentChildcare,
+                PaymentHealthandBeauty = budget.PaymentHealthandBeauty,
+                PaymentEyeCare = budget.PaymentEyeCare,
+                PaymentDentalCare = budget.PaymentDentalCare,
+                PaymentMedicine = budget.PaymentMedicine,
+                PaymentActivities = budget.PaymentActivities,
+                PaymentPocketMoney = budget.PaymentPocketMoney,
+                PaymentChildSupport = budget.PaymentChildSupport,
+                PaymentSchoolFees = budget.PaymentSchoolFees,
+                PaymentPetFood = budget.PaymentPetFood,
+                PaymentVetBills = budget.PaymentVetBills,
+                PaymentLifeInsurance = budget.PaymentLifeInsurance,
+                PaymentHealthInsurance = budget.PaymentHealthInsurance,
+                PaymentDentalInsurance = budget.PaymentDentalInsurance,
+                PaymentPetInsurance = budget.PaymentPetInsurance,
+                PaymentCarInsurance = budget.PaymentCarInsurance,
+                PaymentBankFees = budget.PaymentBankFees,
+                PaymentLoan = budget.PaymentLoan,
+                PaymentCreditCard = budget.PaymentCreditCard,
+                PaymentHirePurchases = budget.PaymentHirePurchases,
+                PaymentInvestments = budget.PaymentInvestments,
+                PaymentPension = budget.PaymentPension,
+                PaymentCarFuel = budget.PaymentCarFuel,
+                PaymentCarTax = budget.PaymentCarTax,
+                PaymentCarMaintenance = budget.PaymentCarMaintenance,
+                PaymentPublicTransport = budget.PaymentPublicTransport,
+                PaymentGym = budget.PaymentGym,
+                PaymentStreamingServices = budget.PaymentStreamingServices,
+                PaymentHolidays = budget.PaymentHolidays,
+                PaymentOther = budget.PaymentOther,
+                IncomeTotal = budget.IncomeTotal,
+                PaymentTotal = budget.PaymentTotal
+            };
+            return Ok(userBudgetResponseDto);
+        }
+
     }
 }

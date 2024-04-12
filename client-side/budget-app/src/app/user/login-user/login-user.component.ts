@@ -10,11 +10,15 @@ import { AuthResponseDto } from '../../_interfaces/response/AuthenticationRespon
 @Component({
   selector: 'app-login-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
   templateUrl: './login-user.component.html',
   styleUrl: './login-user.component.css'
 })
-export class LoginUserComponent implements OnInit{
+export class LoginUserComponent implements OnInit {
 
   loginForm!: FormGroup;
 
@@ -26,9 +30,9 @@ export class LoginUserComponent implements OnInit{
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.loginForm = new FormGroup({
       username: new FormControl("", [Validators.required]),
       password: new FormControl("", [Validators.required])
@@ -39,30 +43,31 @@ export class LoginUserComponent implements OnInit{
   validateControl = (controlName: string) => {
     return this.loginForm.get(controlName)?.invalid && this.loginForm.get(controlName)?.touched
   }
-  
+
   hasError = (controlName: string, errorName: string) => {
     return this.loginForm.get(controlName)?.hasError(errorName)
   }
-  
+
   loginUser = (loginFormValue: any) => {
     this.showError = false;
-    const login = {... loginFormValue };
+    const login = { ...loginFormValue };
     const userForAuth: UserForAuthenticationDto = {
       email: login.username,
       password: login.password
     }
     this.authService.loginUser('login', userForAuth)
-    .subscribe({
-      next: (res:AuthResponseDto) => {
-        localStorage.setItem("token", res.accessToken);
-        localStorage.setItem("email", userForAuth.email)
-        if (res.accessToken){
-          this.authService.sendAuthStateChangeNotification(true);
+      .subscribe({
+        next: (res: AuthResponseDto) => {
+          localStorage.setItem("token", res.accessToken);
+          localStorage.setItem("email", userForAuth.email)
+          if (res.accessToken) {
+            this.authService.sendAuthStateChangeNotification(true);
+          }
+          this.router.navigate([this.returnUrl]);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.showError = true;
         }
-        this.router.navigate([this.returnUrl]);
-    },
-    error: (err: HttpErrorResponse) => {
-      this.showError = true;
-    }})
+      })
   }
 }

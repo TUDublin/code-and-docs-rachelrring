@@ -1,1 +1,7 @@
-<p>user-budget works!</p>
+<div *ngIf="isUserAuthenticated">
+    <p>user-budget works!</p>
+</div>
+
+<div *ngIf="!isUserAuthenticated">
+    <p>nah nah nah you're not logged in</p>
+</div>

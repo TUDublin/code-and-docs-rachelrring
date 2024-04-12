@@ -7,15 +7,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators'
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
-
-interface Budget {
-  email: string;
-  income: number;
-  expenses: number;
-}
 
 @Component({
   selector: 'app-budget-planner',

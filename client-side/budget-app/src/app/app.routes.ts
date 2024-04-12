@@ -5,11 +5,13 @@ import { DataVisualisationsComponent } from './data-visualisations/data-visualis
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { LoginUserComponent } from './user/login-user/login-user.component';
 import { PasswordResetComponent } from './user/password-reset/password-reset.component';
+import { UserBudgetComponent } from './user/user-budget/user-budget.component';
 export const routes: Routes = [
     {path: 'budget-planner', component: BudgetPlannerComponent },
     {path: 'register', component: RegisterUserComponent },
     {path: 'login', component: LoginUserComponent },
     {path: 'reset-password', component: PasswordResetComponent },
+    {path: 'budget', component: UserBudgetComponent },
     {path: '', component: DataVisualisationsComponent},
     {path: '**', component: DataVisualisationsComponent},
 ];

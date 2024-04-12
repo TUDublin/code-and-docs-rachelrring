@@ -21,7 +21,12 @@ export class LoginUserComponent implements OnInit{
   private returnUrl: string = "";
   showError: boolean = false;
 
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private authService: AuthenticationService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
    ngOnInit(): void {
     this.loginForm = new FormGroup({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserForAuthenticationDto } from './../../_interfaces/user/userForAuthenticationDto.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthenticationService } from './../../shared/services/authentication.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
 import { AuthResponseDto } from '../../_interfaces/response/AuthenticationResponseDto.model';
@@ -10,7 +10,7 @@ import { AuthResponseDto } from '../../_interfaces/response/AuthenticationRespon
 @Component({
   selector: 'app-login-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login-user.component.html',
   styleUrl: './login-user.component.css'
 })

@@ -5,14 +5,14 @@ import { UserForRegistrationDto } from './../../_interfaces/user/userForRegistra
 import { AuthenticationService } from './../../shared/services/authentication.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule, RouterModule,],
   templateUrl: './register-user.component.html',
   styleUrl: './register-user.component.css'
 })

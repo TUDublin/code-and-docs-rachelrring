@@ -9,6 +9,7 @@ import { Chart } from 'chart.js/auto';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-budget-planner',
@@ -21,6 +22,7 @@ import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
     MatButtonModule,
     MatSelectModule,
     HttpClientModule,
+    RouterModule,
   ],
   templateUrl: './budget-planner.component.html',
   styleUrl: './budget-planner.component.css'
@@ -95,6 +97,7 @@ export class BudgetPlannerComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthenticationService,
     @Inject(DOCUMENT) private document: Document,
+    private router: Router,
   ) {
     this.myForm = this.fb.group({
       incomePay: [0.00, [
@@ -491,6 +494,7 @@ export class BudgetPlannerComponent implements OnInit {
       .subscribe({
         next: (_) => {
           console.log("It Worked!")
+          this.router.navigate(["/budget"])
         },
         error: (err: HttpErrorResponse) => {
           console.log(err)

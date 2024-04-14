@@ -49,11 +49,8 @@ export class UserBudgetComponent implements OnInit {
             console.log(res);
             this.hasBudget = true;
             this.budget = res;
-            // this.dataSource = new MatTableDataSource<any>(Object.entries(this.budget).map(([key, value]) => ({ key: key, value: value })));
-            // Filter the key-value pairs to include only those where the key starts with "payment"
             const paymentEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('payment'));
             const incomeEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('income'));
-            // Map the filtered key-value pairs to an array of objects with 'key' and 'value' properties
             this.expensesDataSource = new MatTableDataSource<any>(
               paymentEntries.map(([key, value]) => ({ key: key, value: value }))
             );

@@ -500,6 +500,6 @@ export class BudgetPlannerComponent implements OnInit {
           console.log(err)
         }
 
-      })
+      });
   }
 }

@@ -7,12 +7,20 @@
       "RelativeMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|solutionrelative:budget-server\\controllers\\accountscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|c:\\users\\rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\userregistrationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|solutionrelative:budget-server\\userregistrationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|c:\\users\\rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|solutionrelative:budget-server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|c:\\users\\rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\migrations\\budget_servercontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|solutionrelative:budget-server\\migrations\\budget_servercontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|c:\\users\\rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\budget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|solutionrelative:budget-server\\budget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|c:\\users\\rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\userregistrationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|solutionrelative:budget-server\\userregistrationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{80A933C8-4465-4A91-AE84-4D9CFF975907}|budget-server\\budget-server.csproj|c:\\users\\rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\controllers\\budgetscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,11 +42,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\appsettings.json",
+              "RelativeDocumentMoniker": "budget-server\\appsettings.json",
+              "ToolTip": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\appsettings.json",
+              "RelativeToolTip": "budget-server\\appsettings.json",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAwAAABMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-12T14:30:53.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "budget_serverContextModelSnapshot.cs",
+              "DocumentMoniker": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Migrations\\budget_serverContextModelSnapshot.cs",
+              "RelativeDocumentMoniker": "budget-server\\Migrations\\budget_serverContextModelSnapshot.cs",
+              "ToolTip": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Migrations\\budget_serverContextModelSnapshot.cs",
+              "RelativeToolTip": "budget-server\\Migrations\\budget_serverContextModelSnapshot.cs",
+              "ViewState": "AQIAAKsBAAAAAAAAAAAgwLgBAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-12T14:17:19.979Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -48,50 +82,53 @@
               "RelativeDocumentMoniker": "budget-server\\Controllers\\AccountsController.cs",
               "ToolTip": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Controllers\\AccountsController.cs",
               "RelativeToolTip": "budget-server\\Controllers\\AccountsController.cs",
-              "ViewState": "AQIAAJIAAAAAAAAAAADwv6cAAABuAAAA",
+              "ViewState": "AQIAAK8AAAAAAAAAAAAkwLYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-26T13:59:16.888Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "UserRegistrationDTO.cs",
               "DocumentMoniker": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\UserRegistrationDTO.cs",
               "RelativeDocumentMoniker": "budget-server\\UserRegistrationDTO.cs",
               "ToolTip": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\UserRegistrationDTO.cs",
               "RelativeToolTip": "budget-server\\UserRegistrationDTO.cs",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAmwDEAAAAWAAAA",
+              "ViewState": "AQIAAGEAAAAAAAAAAAA/wG4AAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-26T13:55:38.653Z"
+              "WhenOpened": "2024-03-26T13:55:38.653Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Budget.cs",
               "DocumentMoniker": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Budget.cs",
               "RelativeDocumentMoniker": "budget-server\\Budget.cs",
               "ToolTip": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Budget.cs",
               "RelativeToolTip": "budget-server\\Budget.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAA/wD4AAAAzAAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAUwD4AAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-03T15:12:11.748Z"
+              "WhenOpened": "2024-03-03T15:12:11.748Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "BudgetsController.cs",
               "DocumentMoniker": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Controllers\\BudgetsController.cs",
               "RelativeDocumentMoniker": "budget-server\\Controllers\\BudgetsController.cs",
               "ToolTip": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Controllers\\BudgetsController.cs",
               "RelativeToolTip": "budget-server\\Controllers\\BudgetsController.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAywBsAAAAAAAAA",
+              "ViewState": "AQIAABEAAAAAAAAAAAAywB8AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-10T11:38:39.674Z"
+              "WhenOpened": "2024-04-10T11:38:39.674Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "20240303152842_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Migrations\\20240303152842_InitialCreate.cs",
               "RelativeDocumentMoniker": "budget-server\\Migrations\\20240303152842_InitialCreate.cs",
@@ -103,7 +140,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "budget_serverContext.cs",
               "DocumentMoniker": "C:\\Users\\Rachel\\year 4\\code-and-docs-rachelrring\\server-side\\budget-server\\budget-server\\Data\\budget_serverContext.cs",
               "RelativeDocumentMoniker": "budget-server\\Data\\budget_serverContext.cs",

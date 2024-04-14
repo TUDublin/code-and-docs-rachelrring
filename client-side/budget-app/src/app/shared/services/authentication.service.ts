@@ -1,4 +1,4 @@
-import { UserForRegistrationDto } from './../../_interfaces/user/userForRegistrationDto.model'; 
+import { UserForRegistrationDto } from './../../_interfaces/user/userForRegistrationDto.model';
 import { RegistrationResponseDto } from './../../_interfaces/response/registrationResponseDto.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -10,6 +10,7 @@ import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BudgetToSaveDto } from '../../_interfaces/user/budgetToSaveDto.model';
 import { UserPasswordResetDto } from '../../_interfaces/user/userPasswordReset.model';
+import { UserBudgetResponseDto } from '../../_interfaces/response/UserBudgetResponseDto.model';
 
 
 @Injectable({
@@ -20,10 +21,14 @@ export class AuthenticationService {
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
 
-  constructor(private http: HttpClient, private envUrl: EnvironmentUrlService, @Inject(DOCUMENT) private document: Document) { }
+  constructor(
+    private http: HttpClient,
+    private envUrl: EnvironmentUrlService,
+    @Inject(DOCUMENT) private document: Document,
+  ) { }
 
   public registerUser = (route: string, body: UserForRegistrationDto) => {
-    return this.http.post<RegistrationResponseDto> (this.createCompleteRoute(route, this.envUrl.urlAddress), body);
+    return this.http.post<RegistrationResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), body);
   }
   public loginUser = (route: string, body: UserForAuthenticationDto) => {
     return this.http.post<AuthResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), body);
@@ -31,11 +36,14 @@ export class AuthenticationService {
   public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
     this.authChangeSub.next(isAuthenticated);
   }
-  public saveBudget = (route:string, body: BudgetToSaveDto) => {
-    return this.http.post<BudgetToSaveDto> (this.createCompleteRoute(route, this.envUrl.urlAddress), body);
+  public saveBudget = (route: string, body: BudgetToSaveDto) => {
+    return this.http.post<BudgetToSaveDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), body);
   }
-  public resetPassword = (route:string, body: UserPasswordResetDto) => {
-    return this.http.post<UserPasswordResetDto> (this.createCompleteRoute(route, this.envUrl.urlAddress), body);
+  public resetPassword = (route: string, body: UserPasswordResetDto) => {
+    return this.http.post<UserPasswordResetDto>(this.createCompleteRoute(route, this.envUrl.urlAddress), body);
+  }
+  public getBudget = (route: string) => {
+    return this.http.get<UserBudgetResponseDto>(this.createCompleteRoute(route, this.envUrl.urlAddress))
   }
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
@@ -48,15 +56,15 @@ export class AuthenticationService {
 
   public isUserAuthenticated = (): boolean => {
     const token = localStorage.getItem("token");
-    if(token){
+    if (token) {
       return true
     }
     return false;
   }
 
-  public getUserEmail = (): string =>{
+  public getUserEmail = (): string => {
     const token = localStorage.getItem("email");
-    if(token){
+    if (token) {
       return token
     }
     return "";

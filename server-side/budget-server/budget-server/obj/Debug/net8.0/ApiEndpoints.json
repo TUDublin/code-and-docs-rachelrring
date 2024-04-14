@@ -2,6 +2,32 @@
   {
     "ContainingType": "budget_server.Controllers.AccountsController",
     "Method": "GetBudget",
+    "RelativePath": "api/Accounts/Budget/{userEmail}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userEmail",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "budget_server.UserBudgetResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "budget_server.Controllers.AccountsController",
+    "Method": "GetBudgets",
     "RelativePath": "api/Accounts/Budgets",
     "HttpMethod": "GET",
     "IsController": true,

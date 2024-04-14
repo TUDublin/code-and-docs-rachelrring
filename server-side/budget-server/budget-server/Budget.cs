@@ -22,7 +22,7 @@ namespace budget_server
     public class Budget
     {
         [Key]
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
         public double IncomePay { get; set; }
         public double IncomeBenefits { get; set; }
         public double IncomePension { get; set; }

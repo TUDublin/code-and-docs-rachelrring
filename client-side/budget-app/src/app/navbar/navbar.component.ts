@@ -9,30 +9,40 @@ import { AuthenticationService } from './../shared/services/authentication.servi
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatToolbarModule, MatIconModule, MatMenuModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit {
 
   public isUserAuthenticated: boolean = false;
-  public auth:boolean = false;
+  public auth: boolean = false;
 
-  constructor(private authService: AuthenticationService, private router: Router,  @Inject(DOCUMENT) private document: Document) {
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document,
+  ) {
     this.authService.authChanged.subscribe(res => {
       this.isUserAuthenticated = res;
-    })
+    });
     const localStorage = document.defaultView?.localStorage;
-    if (localStorage){
+    if (localStorage) {
       this.auth = true;
     }
   }
 
   ngOnInit(): void {
-    if(this.auth){
+    if (this.auth) {
       this.authService.authChanged.subscribe(res => {
         this.isUserAuthenticated = res;
-    });
+      });
     }
   }
 

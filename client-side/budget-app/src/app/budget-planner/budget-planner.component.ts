@@ -7,32 +7,27 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators'
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
-
-interface Budget {
-  email: string;
-  income: number;
-  expenses: number;
-}
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-budget-planner',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatSelectModule,
     HttpClientModule,
+    RouterModule,
   ],
   templateUrl: './budget-planner.component.html',
   styleUrl: './budget-planner.component.css'
 })
-export class BudgetPlannerComponent implements OnInit{
+export class BudgetPlannerComponent implements OnInit {
 
   myForm: FormGroup;
   chart: any;
@@ -41,7 +36,7 @@ export class BudgetPlannerComponent implements OnInit{
   totalYearlySurplus: number = 0;
 
   public isUserAuthenticated: boolean = false;
-  public auth:boolean = false;
+  public auth: boolean = false;
 
   fields: string[] = [
     'incomePay',
@@ -95,14 +90,15 @@ export class BudgetPlannerComponent implements OnInit{
     'paymentStreamingServices',
     'paymentHolidays',
     'paymentOther',
-  ]  
+  ]
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private http: HttpClient,
     private authService: AuthenticationService,
     @Inject(DOCUMENT) private document: Document,
-    ) {
+    private router: Router,
+  ) {
     this.myForm = this.fb.group({
       incomePay: [0.00, [
         Validators.required, Validators.min(0),
@@ -319,37 +315,37 @@ export class BudgetPlannerComponent implements OnInit{
       paymentOtherFrequency: ['weekly', Validators.required],
     });
     const localStorage = document.defaultView?.localStorage;
-    if (localStorage){
+    if (localStorage) {
       this.auth = true;
     }
-   }
+  }
 
-   ngOnInit(): void {
-    if(this.auth){
+  ngOnInit(): void {
+    if (this.auth) {
       this.isUserAuthenticated = this.authService.isUserAuthenticated();
     }
   }
 
-   onSubmit() {
+  onSubmit() {
     if (this.myForm.valid) {
       let chartData: number[] = [];
       const formData = this.myForm.value;
-      for (let i = 0; i < this.fields.length; i++){
+      for (let i = 0; i < this.fields.length; i++) {
         chartData.push(this.getYearlyValues(this.fields[i]));
       }
-      this.totalYearlyIncome = chartData.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-      this.totalYearlyExpenses = chartData.slice(4,chartData.length).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      this.totalYearlyIncome = chartData.slice(0, 4).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      this.totalYearlyExpenses = chartData.slice(4, chartData.length).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
       this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
       chartData.shift()
       const chartLabels = [
-        "Household Bills", 
-        "Household Utilities", 
-        "Living Costs", 
-        "Friends and Family", 
-        "Pets", 
-        "Insurance", 
+        "Household Bills",
+        "Household Utilities",
+        "Living Costs",
+        "Friends and Family",
+        "Pets",
+        "Insurance",
         "Banking and Investments",
-        "Travel and Leisure", 
+        "Travel and Leisure",
         "Other",
       ];
       this.updateDoughnutChart(chartLabels, chartData);
@@ -398,16 +394,16 @@ export class BudgetPlannerComponent implements OnInit{
     }
   }
 
-  getChartData(cd: number[]): number[]{
-    let chartData:number[] = [];
+  getChartData(cd: number[]): number[] {
+    let chartData: number[] = [];
     // add income to chartData
-    chartData.push(cd.slice(0,4).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
+    chartData.push(cd.slice(0, 4).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
     // add HouseholdBills to chartData
-    chartData.push(cd.slice(4,7).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
+    chartData.push(cd.slice(4, 7).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
     // add Household utilities to chartData
     chartData.push(cd.slice(7, 16).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
     // add living costs to chartData
-    chartData.push(cd.slice(16,26).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
+    chartData.push(cd.slice(16, 26).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
     // add friends and family to chartData
     chartData.push(cd.slice(26, 30).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
     // add pets to chartData
@@ -423,12 +419,12 @@ export class BudgetPlannerComponent implements OnInit{
     return chartData;
   }
 
-  getYearlyValues(controlField: string): number{
+  getYearlyValues(controlField: string): number {
     let frequencyField = this.myForm.get(controlField.concat('Frequency'));
     let controlValue: number = this.myForm.get(controlField)?.value;
-    if (frequencyField?.value == 'weekly'){
+    if (frequencyField?.value == 'weekly') {
       return controlValue * 52;
-    } else if (frequencyField?.value == 'monthly'){
+    } else if (frequencyField?.value == 'monthly') {
       return controlValue * 12;
     }
     return controlValue;
@@ -493,16 +489,17 @@ export class BudgetPlannerComponent implements OnInit{
       paymentOther: this.myForm.get('paymentOther')?.value,
       incomeTotal: this.totalYearlyIncome,
       paymentTotal: this.totalYearlyExpenses
-  };
-  this.authService.saveBudget("api/accounts/newbudget", budgettosave)
-  .subscribe({
-    next: (_) => {
-      console.log("It Worked!")
-    } ,
-    error: (err: HttpErrorResponse) => {
-      console.log(err)
-    }
-      
-  })
+    };
+    this.authService.saveBudget("api/accounts/newbudget", budgettosave)
+      .subscribe({
+        next: (_) => {
+          console.log("It Worked!")
+          this.router.navigate(["/budget"])
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err)
+        }
+
+      });
   }
 }

@@ -63,8 +63,12 @@ export class UserBudgetComponent implements OnInit {
               }
               return total;
             }, 0);
-            const paymentEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('payment') && key !== 'paymentTotal');
-            const incomeEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('income') && key !== 'incomeTotal');
+            const paymentEntries = Object.entries(this.budget).filter(([key, _]) =>
+              key.startsWith('payment') && key !== 'paymentTotal').map(([key, value]) =>
+                [key.substring('payment'.length), value]);
+            const incomeEntries = Object.entries(this.budget).filter(([key, _]) =>
+              key.startsWith('income') && key !== 'incomeTotal').map(([key, value]) =>
+                [key.substring('income'.length), value]);
             this.expensesDataSource = new MatTableDataSource<any>(
               paymentEntries.map(([key, value]) => ({ key: key, value: value }))
             );

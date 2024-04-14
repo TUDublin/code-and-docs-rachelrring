@@ -25,6 +25,8 @@ export class UserBudgetComponent implements OnInit {
   public expensesDataSource!: MatTableDataSource<any>;
   public incomeDataSource!: MatTableDataSource<any>;
   displayedColumns = ['attribute', 'value'];
+  public totalExp: number = 0;
+  public totalIncome: number = 0;
 
   constructor(
     private authService: AuthenticationService,
@@ -49,8 +51,20 @@ export class UserBudgetComponent implements OnInit {
             console.log(res);
             this.hasBudget = true;
             this.budget = res;
-            const paymentEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('payment'));
-            const incomeEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('income'));
+            this.totalExp = Object.entries(this.budget).reduce((total, [key, value]) => {
+              if (key === 'paymentTotal') {
+                return value;
+              }
+              return total;
+            }, 0);
+            this.totalIncome = Object.entries(this.budget).reduce((total, [key, value]) => {
+              if (key === 'incomeTotal') {
+                return value;
+              }
+              return total;
+            }, 0);
+            const paymentEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('payment') && key !== 'paymentTotal');
+            const incomeEntries = Object.entries(this.budget).filter(([key, _]) => key.startsWith('income') && key !== 'incomeTotal');
             this.expensesDataSource = new MatTableDataSource<any>(
               paymentEntries.map(([key, value]) => ({ key: key, value: value }))
             );

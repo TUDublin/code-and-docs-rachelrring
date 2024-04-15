@@ -10,7 +10,8 @@ import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
 import { Router, RouterModule } from '@angular/router';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BudgetFields, BudgetFieldsCategories } from './budgetFormFields';
 
 @Component({
   selector: 'app-budget-planner',
@@ -40,59 +41,72 @@ export class BudgetPlannerComponent implements OnInit {
   public isUserAuthenticated: boolean = false;
   public auth: boolean = false;
 
-  fields: string[] = [
-    'incomePay',
-    'incomeBenefits',
-    'incomePension',
-    'incomeOther',
-    'paymentMortgage',
-    'paymentRent',
-    'paymentHomeInsurance',
-    'paymentHouseTax',
-    'paymentHouseGas',
-    'paymentElectricity',
-    'paymentWater',
-    'paymentHomePhone',
-    'paymentMobilePhone',
-    'paymentBroadband',
-    'paymentTvLicense',
-    'paymentHomeMaintenance',
-    'paymentGroceries',
-    'paymentTakeaways',
-    'paymentCigarettes',
-    'paymentEatingOut',
-    'paymentClothing',
-    'paymentChildcare',
-    'paymentHealthandBeauty',
-    'paymentEyeCare',
-    'paymentDentalCare',
-    'paymentMedicine',
-    'paymentActivities',
-    'paymentPocketMoney',
-    'paymentChildSupport',
-    'paymentSchoolFees',
-    'paymentPetFood',
-    'paymentVetBills',
-    'paymentLifeInsurance',
-    'paymentHealthInsurance',
-    'paymentDentalInsurance',
-    'paymentPetInsurance',
-    'paymentCarInsurance',
-    'paymentBankFees',
-    'paymentLoan',
-    'paymentCreditCard',
-    'paymentHirePurchases',
-    'paymentInvestments',
-    'paymentPension',
-    'paymentCarFuel',
-    'paymentCarTax',
-    'paymentCarMaintenance',
-    'paymentPublicTransport',
-    'paymentGym',
-    'paymentStreamingServices',
-    'paymentHolidays',
-    'paymentOther',
-  ]
+  private budgetFields: BudgetFields = {
+    incomePay: 0,
+    incomeBenefits: 0,
+    incomePension: 0,
+    incomeOther: 0,
+    paymentMortgage: 0,
+    paymentRent: 0,
+    paymentHomeInsurance: 0,
+    paymentHouseTax: 0,
+    paymentHouseGas: 0,
+    paymentElectricity: 0,
+    paymentWater: 0,
+    paymentHomePhone: 0,
+    paymentMobilePhone: 0,
+    paymentBroadband: 0,
+    paymentTvLicense: 0,
+    paymentHomeMaintenance: 0,
+    paymentGroceries: 0,
+    paymentTakeaways: 0,
+    paymentCigarettes: 0,
+    paymentEatingOut: 0,
+    paymentClothing: 0,
+    paymentChildcare: 0,
+    paymentHealthandBeauty: 0,
+    paymentEyeCare: 0,
+    paymentDentalCare: 0,
+    paymentMedicine: 0,
+    paymentActivities: 0,
+    paymentPocketMoney: 0,
+    paymentChildSupport: 0,
+    paymentSchoolFees: 0,
+    paymentPetFood: 0,
+    paymentVetBills: 0,
+    paymentLifeInsurance: 0,
+    paymentHealthInsurance: 0,
+    paymentDentalInsurance: 0,
+    paymentPetInsurance: 0,
+    paymentCarInsurance: 0,
+    paymentBankFees: 0,
+    paymentLoan: 0,
+    paymentCreditCard: 0,
+    paymentHirePurchases: 0,
+    paymentInvestments: 0,
+    paymentPension: 0,
+    paymentCarFuel: 0,
+    paymentCarTax: 0,
+    paymentCarMaintenance: 0,
+    paymentPublicTransport: 0,
+    paymentGym: 0,
+    paymentStreamingServices: 0,
+    paymentHolidays: 0,
+    paymentOther: 0
+  };
+
+  private budgetFieldCategories: BudgetFieldsCategories = {
+    income: 0,
+    householdBills: 0,
+    householdUtilities: 0,
+    livingCosts: 0,
+    friendsAndFamily: 0,
+    pets: 0,
+    insurance: 0,
+    bankingAndInvestments: 0,
+    travelAndLeisure: 0,
+    otherExpenses: 0
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -330,43 +344,144 @@ export class BudgetPlannerComponent implements OnInit {
 
   onSubmit() {
     if (this.myForm.valid) {
-      let chartData: number[] = [];
-      const formData = this.myForm.value;
-      for (let i = 0; i < this.fields.length; i++) {
-        chartData.push(this.getYearlyValues(this.fields[i]));
-      }
-      this.totalYearlyIncome = chartData.slice(0, 4).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-      this.totalYearlyExpenses = chartData.slice(4, chartData.length).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      this.fillInBudgetFields();
+      this.calculateYearlyExpensesandIncome();
       this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
-      chartData.shift()
-      const chartLabels = [
-        "Household Bills",
-        "Household Utilities",
-        "Living Costs",
-        "Friends and Family",
-        "Pets",
-        "Insurance",
-        "Banking and Investments",
-        "Travel and Leisure",
-        "Other",
-      ];
-      this.updateDoughnutChart(chartLabels, chartData);
+      this.updateDoughnutChart(this.budgetFieldCategories);
     }
   }
 
-  updateDoughnutChart(labels: string[], data: number[]) {
+  fillInBudgetFields() {
+    this.budgetFields.incomePay = this.getYearlyValues('incomePay');
+    this.budgetFields.incomeBenefits = this.getYearlyValues('incomeBenefits');
+    this.budgetFields.incomePension = this.getYearlyValues('incomePension');
+    this.budgetFields.incomeOther = this.getYearlyValues('incomeOther');
+    this.budgetFields.paymentMortgage = this.getYearlyValues('paymentMortgage');
+    this.budgetFields.paymentRent = this.getYearlyValues('paymentRent');
+    this.budgetFields.paymentHomeInsurance = this.getYearlyValues('paymentHomeInsurance');
+    this.budgetFields.paymentHouseTax = this.getYearlyValues('paymentHouseTax');
+    this.budgetFields.paymentHouseGas = this.getYearlyValues('paymentHouseGas');
+    this.budgetFields.paymentElectricity = this.getYearlyValues('paymentElectricity');
+    this.budgetFields.paymentWater = this.getYearlyValues('paymentWater');
+    this.budgetFields.paymentHomePhone = this.getYearlyValues('paymentHomePhone');
+    this.budgetFields.paymentMobilePhone = this.getYearlyValues('paymentMobilePhone');
+    this.budgetFields.paymentBroadband = this.getYearlyValues('paymentBroadband');
+    this.budgetFields.paymentTvLicense = this.getYearlyValues('paymentTvLicense');
+    this.budgetFields.paymentHomeMaintenance = this.getYearlyValues('paymentHomeMaintenance');
+    this.budgetFields.paymentGroceries = this.getYearlyValues('paymentGroceries');
+    this.budgetFields.paymentTakeaways = this.getYearlyValues('paymentTakeaways');
+    this.budgetFields.paymentCigarettes = this.getYearlyValues('paymentCigarettes');
+    this.budgetFields.paymentEatingOut = this.getYearlyValues('paymentEatingOut');
+    this.budgetFields.paymentClothing = this.getYearlyValues('paymentClothing');
+    this.budgetFields.paymentChildcare = this.getYearlyValues('paymentChildcare');
+    this.budgetFields.paymentHealthandBeauty = this.getYearlyValues('paymentHealthandBeauty');
+    this.budgetFields.paymentEyeCare = this.getYearlyValues('paymentEyeCare');
+    this.budgetFields.paymentDentalCare = this.getYearlyValues('paymentDentalCare');
+    this.budgetFields.paymentMedicine = this.getYearlyValues('paymentMedicine');
+    this.budgetFields.paymentActivities = this.getYearlyValues('paymentActivities');
+    this.budgetFields.paymentPocketMoney = this.getYearlyValues('paymentPocketMoney');
+    this.budgetFields.paymentChildSupport = this.getYearlyValues('paymentChildSupport');
+    this.budgetFields.paymentSchoolFees = this.getYearlyValues('paymentSchoolFees');
+    this.budgetFields.paymentPetFood = this.getYearlyValues('paymentPetFood');
+    this.budgetFields.paymentVetBills = this.getYearlyValues('paymentVetBills');
+    this.budgetFields.paymentLifeInsurance = this.getYearlyValues('paymentLifeInsurance');
+    this.budgetFields.paymentHealthInsurance = this.getYearlyValues('paymentHealthInsurance');
+    this.budgetFields.paymentDentalInsurance = this.getYearlyValues('paymentDentalInsurance');
+    this.budgetFields.paymentPetInsurance = this.getYearlyValues('paymentPetInsurance');
+    this.budgetFields.paymentCarInsurance = this.getYearlyValues('paymentCarInsurance');
+    this.budgetFields.paymentBankFees = this.getYearlyValues('paymentBankFees');
+    this.budgetFields.paymentLoan = this.getYearlyValues('paymentLoan');
+    this.budgetFields.paymentCreditCard = this.getYearlyValues('paymentCreditCard');
+    this.budgetFields.paymentHirePurchases = this.getYearlyValues('paymentHirePurchases');
+    this.budgetFields.paymentInvestments = this.getYearlyValues('paymentInvestments');
+    this.budgetFields.paymentPension = this.getYearlyValues('paymentPension');
+    this.budgetFields.paymentCarFuel = this.getYearlyValues('paymentCarFuel');
+    this.budgetFields.paymentCarTax = this.getYearlyValues('paymentCarTax');
+    this.budgetFields.paymentCarMaintenance = this.getYearlyValues('paymentCarMaintenance');
+    this.budgetFields.paymentPublicTransport = this.getYearlyValues('paymentPublicTransport');
+    this.budgetFields.paymentGym = this.getYearlyValues('paymentGym');
+    this.budgetFields.paymentStreamingServices = this.getYearlyValues('paymentStreamingServices');
+    this.budgetFields.paymentHolidays = this.getYearlyValues('paymentHolidays');
+    this.budgetFields.paymentOther = this.getYearlyValues('paymentOther');
+    this.fillInBudgetFieldCategories();
+  }
+
+  fillInBudgetFieldCategories() {
+    this.budgetFieldCategories.income = this.budgetFields.incomePay
+      + this.budgetFields.incomeBenefits
+      + this.budgetFields.incomePension
+      + this.budgetFields.incomeOther;
+    this.budgetFieldCategories.householdBills = this.budgetFields.paymentMortgage
+      + this.budgetFields.paymentRent
+      + this.budgetFields.paymentHomeInsurance;
+    this.budgetFieldCategories.householdUtilities = this.budgetFields.paymentHouseTax
+      + this.budgetFields.paymentHouseGas
+      + this.budgetFields.paymentElectricity
+      + this.budgetFields.paymentWater
+      + this.budgetFields.paymentHomePhone
+      + this.budgetFields.paymentMobilePhone
+      + this.budgetFields.paymentBroadband
+      + this.budgetFields.paymentTvLicense
+      + this.budgetFields.paymentHomeMaintenance;
+    this.budgetFieldCategories.livingCosts = this.budgetFields.paymentGroceries +
+      this.budgetFields.paymentTakeaways +
+      this.budgetFields.paymentCigarettes +
+      this.budgetFields.paymentEatingOut +
+      this.budgetFields.paymentClothing +
+      this.budgetFields.paymentChildcare +
+      this.budgetFields.paymentHealthandBeauty +
+      this.budgetFields.paymentEyeCare +
+      this.budgetFields.paymentDentalCare +
+      this.budgetFields.paymentMedicine;
+    this.budgetFieldCategories.friendsAndFamily = this.budgetFields.paymentActivities +
+      this.budgetFields.paymentPocketMoney +
+      this.budgetFields.paymentChildSupport +
+      this.budgetFields.paymentSchoolFees;
+    this.budgetFieldCategories.pets = this.budgetFields.paymentPetFood + this.budgetFields.paymentVetBills;
+    this.budgetFieldCategories.insurance = this.budgetFields.paymentLifeInsurance +
+      this.budgetFields.paymentHealthInsurance +
+      this.budgetFields.paymentDentalInsurance +
+      this.budgetFields.paymentPetInsurance +
+      this.budgetFields.paymentCarInsurance;
+    this.budgetFieldCategories.bankingAndInvestments = this.budgetFields.paymentBankFees +
+      this.budgetFields.paymentLoan +
+      this.budgetFields.paymentCreditCard +
+      this.budgetFields.paymentHirePurchases +
+      this.budgetFields.paymentInvestments +
+      this.budgetFields.paymentPension;
+    this.budgetFieldCategories.travelAndLeisure = this.budgetFields.paymentCarFuel +
+      this.budgetFields.paymentCarTax +
+      this.budgetFields.paymentCarMaintenance +
+      this.budgetFields.paymentPublicTransport +
+      this.budgetFields.paymentGym +
+      this.budgetFields.paymentStreamingServices +
+      this.budgetFields.paymentHolidays;
+    this.budgetFieldCategories.otherExpenses = this.budgetFields.paymentOther;
+  }
+
+  calculateYearlyExpensesandIncome(){
+    this.totalYearlyIncome = this.budgetFieldCategories.income;
+    Object.values(this.budgetFieldCategories).forEach(value => {
+        this.totalYearlyExpenses += value;
+    });
+    this.totalYearlyExpenses = this.totalYearlyExpenses - this.totalYearlyIncome;
+  }
+
+  updateDoughnutChart(b: BudgetFieldsCategories) {
+    const keys: string[] = Object.keys(b)
+    const values: number[] = Object.values(b);
     if (this.chart) {
-      this.chart.data.labels = labels;
-      this.chart.data.datasets[0].data = data;
+      this.chart.data.labels = keys;
+      this.chart.data.datasets[0].data = values;
       this.chart.update();
     } else {
       this.chart = new Chart('doughnutChart', {
         type: 'doughnut',
         data: {
-          labels: labels,
+          labels: keys,
           datasets: [{
             label: '€ spent',
-            data: data,
+            data: values,
             backgroundColor: [
               'rgba(0, 255, 255, 1)',
               'rgba(255, 0, 255, 1)',
@@ -396,31 +511,6 @@ export class BudgetPlannerComponent implements OnInit {
     }
   }
 
-  getChartData(cd: number[]): number[] {
-    let chartData: number[] = [];
-    // add income to chartData
-    chartData.push(cd.slice(0, 4).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add HouseholdBills to chartData
-    chartData.push(cd.slice(4, 7).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add Household utilities to chartData
-    chartData.push(cd.slice(7, 16).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add living costs to chartData
-    chartData.push(cd.slice(16, 26).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add friends and family to chartData
-    chartData.push(cd.slice(26, 30).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add pets to chartData
-    chartData.push(cd.slice(30, 32).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add insurance to chartData
-    chartData.push(cd.slice(32, 37).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add banking investments to chartData
-    chartData.push(cd.slice(37, 43).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add travel and leisure to chartData
-    chartData.push(cd.slice(43, 50).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    // add other to chartData
-    chartData.push(cd.slice(50).reduce((accumulator, currentValue) => accumulator + currentValue, 0));
-    return chartData;
-  }
-
   getYearlyValues(controlField: string): number {
     let frequencyField = this.myForm.get(controlField.concat('Frequency'));
     let controlValue: number = this.myForm.get(controlField)?.value;
@@ -429,7 +519,7 @@ export class BudgetPlannerComponent implements OnInit {
     } else if (frequencyField?.value == 'monthly') {
       return controlValue * 12;
     }
-    return controlValue;
+    return controlValue * 1;
   }
 
   saveBudget() {
@@ -438,57 +528,57 @@ export class BudgetPlannerComponent implements OnInit {
 
     var budgettosave: BudgetToSaveDto = {
       userEmail: userEmail,
-      incomePay: this.myForm.get('incomePay')?.value,
-      incomeBenefits: this.myForm.get('incomeBenefits')?.value,
-      incomePension: this.myForm.get('incomePension')?.value,
-      incomeOther: this.myForm.get('incomeOther')?.value,
-      paymentMortgage: this.myForm.get('paymentMortgage')?.value,
-      paymentRent: this.myForm.get('paymentRent')?.value,
-      paymentHomeInsurance: this.myForm.get('paymentHomeInsurance')?.value,
-      paymentHouseTax: this.myForm.get('paymentHouseTax')?.value,
-      paymentHouseGas: this.myForm.get('paymentHouseGas')?.value,
-      paymentElectricity: this.myForm.get('paymentElectricity')?.value,
-      paymentWater: this.myForm.get('paymentWater')?.value,
-      paymentHomePhone: this.myForm.get('paymentHomePhone')?.value,
-      paymentMobilePhone: this.myForm.get('paymentMobilePhone')?.value,
-      paymentBroadband: this.myForm.get('paymentBroadband')?.value,
-      paymentTvLicense: this.myForm.get('paymentTvLicense')?.value,
-      paymentHomeMaintenance: this.myForm.get('paymentHomeMaintenance')?.value,
-      paymentGroceries: this.myForm.get('paymentGroceries')?.value,
-      paymentTakeaways: this.myForm.get('paymentTakeaways')?.value,
-      paymentCigarettes: this.myForm.get('paymentCigarettes')?.value,
-      paymentEatingOut: this.myForm.get('paymentEatingOut')?.value,
-      paymentClothing: this.myForm.get('paymentClothing')?.value,
-      paymentChildcare: this.myForm.get('paymentChildcare')?.value,
-      paymentHealthandBeauty: this.myForm.get('paymentHealthandBeauty')?.value,
-      paymentEyeCare: this.myForm.get('paymentEyeCare')?.value,
-      paymentDentalCare: this.myForm.get('paymentDentalCare')?.value,
-      paymentMedicine: this.myForm.get('paymentMedicine')?.value,
-      paymentActivities: this.myForm.get('paymentActivities')?.value,
-      paymentPocketMoney: this.myForm.get('paymentPocketMoney')?.value,
-      paymentChildSupport: this.myForm.get('paymentChildSupport')?.value,
-      paymentSchoolFees: this.myForm.get('paymentSchoolFees')?.value,
-      paymentPetFood: this.myForm.get('paymentPetFood')?.value,
-      paymentVetBills: this.myForm.get('paymentVetBills')?.value,
-      paymentLifeInsurance: this.myForm.get('paymentLifeInsurance')?.value,
-      paymentHealthInsurance: this.myForm.get('paymentHealthInsurance')?.value,
-      paymentDentalInsurance: this.myForm.get('paymentDentalInsurance')?.value,
-      paymentPetInsurance: this.myForm.get('paymentPetInsurance')?.value,
-      paymentCarInsurance: this.myForm.get('paymentCarInsurance')?.value,
-      paymentBankFees: this.myForm.get('paymentBankFees')?.value,
-      paymentLoan: this.myForm.get('paymentLoan')?.value,
-      paymentCreditCard: this.myForm.get('paymentCreditCard')?.value,
-      paymentHirePurchases: this.myForm.get('paymentHirePurchases')?.value,
-      paymentInvestments: this.myForm.get('paymentInvestments')?.value,
-      paymentPension: this.myForm.get('paymentPension')?.value,
-      paymentCarFuel: this.myForm.get('paymentCarFuel')?.value,
-      paymentCarTax: this.myForm.get('paymentCarTax')?.value,
-      paymentCarMaintenance: this.myForm.get('paymentCarMaintenance')?.value,
-      paymentPublicTransport: this.myForm.get('paymentPublicTransport')?.value,
-      paymentGym: this.myForm.get('paymentGym')?.value,
-      paymentStreamingServices: this.myForm.get('paymentStreamingServices')?.value,
-      paymentHolidays: this.myForm.get('paymentHolidays')?.value,
-      paymentOther: this.myForm.get('paymentOther')?.value,
+      incomePay: this.budgetFields.incomePay,
+      incomeBenefits: this.budgetFields.incomeBenefits,
+      incomePension: this.budgetFields.incomePension,
+      incomeOther: this.budgetFields.incomeOther,
+      paymentMortgage: this.budgetFields.paymentMortgage,
+      paymentRent: this.budgetFields.paymentRent,
+      paymentHomeInsurance: this.budgetFields.paymentHomeInsurance,
+      paymentHouseTax: this.budgetFields.paymentHouseTax,
+      paymentHouseGas: this.budgetFields.paymentHouseGas,
+      paymentElectricity: this.budgetFields.paymentElectricity,
+      paymentWater: this.budgetFields.paymentWater,
+      paymentHomePhone: this.budgetFields.paymentHomePhone,
+      paymentMobilePhone: this.budgetFields.paymentMobilePhone,
+      paymentBroadband: this.budgetFields.paymentBroadband,
+      paymentTvLicense: this.budgetFields.paymentTvLicense,
+      paymentHomeMaintenance: this.budgetFields.paymentHomeMaintenance,
+      paymentGroceries: this.budgetFields.paymentGroceries,
+      paymentTakeaways: this.budgetFields.paymentTakeaways,
+      paymentCigarettes: this.budgetFields.paymentCigarettes,
+      paymentEatingOut: this.budgetFields.paymentEatingOut,
+      paymentClothing: this.budgetFields.paymentClothing,
+      paymentChildcare: this.budgetFields.paymentChildcare,
+      paymentHealthandBeauty: this.budgetFields.paymentHealthandBeauty,
+      paymentEyeCare: this.budgetFields.paymentEyeCare,
+      paymentDentalCare: this.budgetFields.paymentDentalCare,
+      paymentMedicine: this.budgetFields.paymentMedicine,
+      paymentActivities: this.budgetFields.paymentActivities,
+      paymentPocketMoney: this.budgetFields.paymentPocketMoney,
+      paymentChildSupport: this.budgetFields.paymentChildSupport,
+      paymentSchoolFees: this.budgetFields.paymentSchoolFees,
+      paymentPetFood: this.budgetFields.paymentPetFood,
+      paymentVetBills: this.budgetFields.paymentVetBills,
+      paymentLifeInsurance: this.budgetFields.paymentLifeInsurance,
+      paymentHealthInsurance: this.budgetFields.paymentHealthInsurance,
+      paymentDentalInsurance: this.budgetFields.paymentDentalInsurance,
+      paymentPetInsurance: this.budgetFields.paymentPetInsurance,
+      paymentCarInsurance: this.budgetFields.paymentCarInsurance,
+      paymentBankFees: this.budgetFields.paymentBankFees,
+      paymentLoan: this.budgetFields.paymentLoan,
+      paymentCreditCard: this.budgetFields.paymentCreditCard,
+      paymentHirePurchases: this.budgetFields.paymentHirePurchases,
+      paymentInvestments: this.budgetFields.paymentInvestments,
+      paymentPension: this.budgetFields.paymentPension,
+      paymentCarFuel: this.budgetFields.paymentCarFuel,
+      paymentCarTax: this.budgetFields.paymentCarTax,
+      paymentCarMaintenance: this.budgetFields.paymentCarMaintenance,
+      paymentPublicTransport: this.budgetFields.paymentPublicTransport,
+      paymentGym: this.budgetFields.paymentGym,
+      paymentStreamingServices: this.budgetFields.paymentStreamingServices,
+      paymentHolidays: this.budgetFields.paymentHolidays,
+      paymentOther: this.budgetFields.paymentOther,
       incomeTotal: this.totalYearlyIncome,
       paymentTotal: this.totalYearlyExpenses
     };

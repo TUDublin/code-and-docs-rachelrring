@@ -10,6 +10,7 @@ import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
 import { Router, RouterModule } from '@angular/router';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-budget-planner',
@@ -23,6 +24,7 @@ import { Router, RouterModule } from '@angular/router';
     MatSelectModule,
     HttpClientModule,
     RouterModule,
+    MatTooltipModule,
   ],
   templateUrl: './budget-planner.component.html',
   styleUrl: './budget-planner.component.css'

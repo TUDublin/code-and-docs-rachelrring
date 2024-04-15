@@ -1401,10 +1401,6 @@
     </div>
     <hr>
     <div class="row button-container">
-        <div *ngIf="isUserAuthenticated" class="col-md-3">
-            <button mat-raised-button [disabled]="!myForm.valid" color="primary" style="float: right;  padding: 10px;"
-                (click)="saveBudget()">Save My Budget</button>
-        </div>
         <div class="col-md-3">
             <button mat-raised-button [disabled]="!myForm.valid" type="submit" color="primary"
                 style="float: right;  padding: 10px;">Okay</button>
@@ -1424,5 +1420,11 @@
     </div>
     <div>
         <canvas id="doughnutChart" width="400" height="400"></canvas>
+    </div>
+</div>
+<div class="row button-container">
+    <div *ngIf="isUserAuthenticated" class="col-md-3">
+        <button mat-raised-button [disabled]="!myForm.valid || totalYearlyExpenses == 0 || totalYearlyIncome == 0" color="primary" style="float: right;  padding: 10px;"
+            (click)="saveBudget()">Save My Budget</button>
     </div>
 </div>

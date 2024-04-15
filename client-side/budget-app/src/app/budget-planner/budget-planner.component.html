@@ -1424,7 +1424,7 @@
 </div>
 <div class="row button-container">
     <div *ngIf="isUserAuthenticated" class="col-md-3">
-        <button mat-raised-button [disabled]="!myForm.valid || totalYearlyExpenses == 0 || totalYearlyIncome == 0" color="primary" style="float: right;  padding: 10px;"
-            (click)="saveBudget()">Save My Budget</button>
+        <button mat-raised-button [disabled]="!myForm.valid || totalYearlyExpenses == 0 && totalYearlyIncome == 0"
+            color="primary" style="float: right;  padding: 10px;" (click)="saveBudget()" matTooltip="After saving, you'll be rerouted to see your saved budget">Save My Budget</button>
     </div>
 </div>

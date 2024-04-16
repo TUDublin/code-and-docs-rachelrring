@@ -1,41 +1,55 @@
 <div *ngIf="isUserAuthenticated">
-    <div *ngIf="hasBudget">
-          <table matSort (matSortChange)="sortExpensesData($event)">
-            <tr>
-              <th mat-table-header>Key</th>
-              <th mat-sort-header="value">Value</th>
-            </tr>
-            @for (d of sortedExpenses; track d) {
-              <tr>
-                <td>{{d.key}}</td>
-                <td>{{d.value}}</td>
-              </tr>
-            }
-          </table>
+  <div *ngIf="hasBudget">
+    <table matSort (matSortChange)="sortExpensesData($event)">
+      <tr>
+        <th colspan="2" mat-sort-header="value">Expenses</th>
+      </tr>
+      @for (d of sortedExpenses; track d) {
+      <tr>
+        <td>{{d.key}}</td>
+        €<td>{{d.value}}</td>
+      </tr>
+      }
+      <tr>
+        <td>
+          <strong>Total</strong>
+        </td>
+        <td>
+          <strong>{{ totalExp }}</strong>€
+        </td>
+      </tr>
+    </table>
 
-          <table matSort (matSortChange)="sortIncomeData($event)">
-            <tr>
-              <th mat-table-header>Key</th>
-              <th mat-sort-header="value">Value</th>
-            </tr>
-            @for (d of sortedIncome; track d) {
-              <tr>
-                <td>{{d.key}}</td>
-                <td>{{d.value}}</td>
-              </tr>
-            }
-          </table>
+    <table matSort (matSortChange)="sortIncomeData($event)">
+      <tr>
+        <th colspan="2" mat-sort-header="value">Income</th>
+      </tr>
+      @for (d of sortedIncome; track d) {
+      <tr>
+        <td>{{d.key}}</td>
+        €<td>{{d.value}}</td>
+      </tr>
+      }
+      <tr>
+        <td>
+          <strong>Total</strong>
+        </td>
+        <td>
+          <strong>{{ totalIncome }}</strong>€
+        </td>
+      </tr>
+    </table>
 
-    </div>
-    <div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
-        You haven't added a budget yet! <br>
-        Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
-    </div>
+  </div>
+  <div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
+    You haven't added a budget yet! <br>
+    Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
+  </div>
 </div>
 
 <div *ngIf="!isUserAuthenticated" class="alert alert-danger" role="alert">
-    <p>
-        You can't see a budget!!!!!<br>
-        Please <a routerLink="/login">log in here</a> !
-    </p>
+  <p>
+    You can't see a budget!!!!!<br>
+    Please <a routerLink="/login">log in here</a> !
+  </p>
 </div>

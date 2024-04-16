@@ -4,4 +4,12 @@ tr.mat-mdc-footer-row td {
 
 .mat-sort-header-container {
     align-items: center;
-  }
+}
+
+th {
+    text-align: center;
+}
+
+table{
+    width: 100%;
+}

@@ -1,50 +1,57 @@
 <div *ngIf="isUserAuthenticated">
-    <div *ngIf="hasBudget">
-        <table mat-table [dataSource]="expensesDataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="attribute">
-              <th mat-header-cell *matHeaderCellDef> Attribute </th>
-              <td mat-cell *matCellDef="let element"> {{ element.key }} </td>
-              <td mat-footer-cell *matFooterCellDef> Total Yearly Expenses </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="value">
-              <th mat-header-cell *matHeaderCellDef> Value </th>
-              <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
-              <td mat-footer-cell *matFooterCellDef> {{ totalExp }} </td>
-            </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-          </table>
-
-          <table mat-table [dataSource]="incomeDataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="attribute">
-              <th mat-header-cell *matHeaderCellDef> Attribute </th>
-              <td mat-cell *matCellDef="let element"> {{ element.key }} </td>
-              <td mat-footer-cell *matFooterCellDef> Total Yearly Income </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="value">
-              <th mat-header-cell *matHeaderCellDef> Value </th>
-              <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
-              <td mat-footer-cell *matFooterCellDef> {{ totalIncome }} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-          </table>
+  <div *ngIf="hasBudget">
+    <div class="p-1">
+      <table matSort (matSortChange)="sortExpensesData($event)">
+        <tr style=" border: 1px solid;">
+          <th colspan="2" mat-sort-header="value">Expenses</th>
+        </tr>
+        @for (d of sortedExpenses; track d) {
+        <tr>
+          <td>{{d.key}}</td>
+          €<td>{{d.value}}</td>
+        </tr>
+        }
+        <tr style=" border: 1px solid;">
+          <td>
+            <strong>Total</strong>
+          </td>
+          <td>
+            <strong>{{ totalExp }}</strong>€
+          </td>
+        </tr>
+      </table>
     </div>
-    <div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
-        You haven't added a budget yet! <br>
-        Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
+    <div class="p1">
+      <table matSort (matSortChange)="sortIncomeData($event)">
+        <tr style=" border: 1px solid;">
+          <th colspan="2" mat-sort-header="value">Income</th>
+        </tr>
+        @for (d of sortedIncome; track d) {
+        <tr>
+          <td>{{d.key}}</td>
+          €<td>{{d.value}}</td>
+        </tr>
+        }
+        <tr style=" border: 1px solid;">
+          <td>
+            <strong>Total</strong>
+          </td>
+          <td>
+            <strong>{{ totalIncome }}</strong>€
+          </td>
+        </tr>
+      </table>
     </div>
+  </div>
+  <div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
+    You haven't added a budget yet! <br>
+    Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
+  </div>
 </div>
 
 <div *ngIf="!isUserAuthenticated" class="alert alert-danger" role="alert">
-    <p>
-        You can't see a budget!!!!!<br>
-        Please <a routerLink="/login">log in here</a> !
-    </p>
+  <p>
+    You can't see a budget!!!!!<br>
+    Please <a routerLink="/login">log in here</a> !
+  </p>
 </div>

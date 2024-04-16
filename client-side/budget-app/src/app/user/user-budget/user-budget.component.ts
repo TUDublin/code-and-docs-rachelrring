@@ -4,7 +4,13 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 import { Router, RouterModule } from '@angular/router';
 import { UserBudgetResponseDto } from '../../_interfaces/response/UserBudgetResponseDto.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { Sort, MatSortModule } from '@angular/material/sort';
+
+interface budgetData {
+  key: string;
+  value: number;
+}
 
 @Component({
   selector: 'app-user-budget',
@@ -13,6 +19,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
     CommonModule,
     RouterModule,
     MatTableModule,
+    MatSortModule,
   ],
   templateUrl: './user-budget.component.html',
   styleUrl: './user-budget.component.css'
@@ -22,11 +29,14 @@ export class UserBudgetComponent implements OnInit {
   public auth: boolean = false;
   public hasBudget: boolean = false;
   public budget!: UserBudgetResponseDto;
-  public expensesDataSource!: MatTableDataSource<any>;
-  public incomeDataSource!: MatTableDataSource<any>;
-  displayedColumns = ['attribute', 'value'];
+
   public totalExp: number = 0;
   public totalIncome: number = 0;
+
+  public expensesBudgetArray: budgetData[] = [];
+  public incomeBudgetArray: budgetData[] = [];
+  public sortedExpenses: budgetData[] = [];
+  public sortedIncome: budgetData[] = [];
 
   constructor(
     private authService: AuthenticationService,
@@ -37,6 +47,8 @@ export class UserBudgetComponent implements OnInit {
     if (localStorage) {
       this.auth = true;
     }
+    this.sortedExpenses = this.expensesBudgetArray.slice();
+    this.sortedIncome = this.incomeBudgetArray.slice();
   }
   ngOnInit(): void {
     if (this.auth) {
@@ -48,7 +60,6 @@ export class UserBudgetComponent implements OnInit {
         let address = 'api/accounts/budget/' + ue
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
-            console.log(res);
             this.hasBudget = true;
             this.budget = res;
             this.totalExp = Object.entries(this.budget).reduce((total, [key, value]) => {
@@ -66,15 +77,25 @@ export class UserBudgetComponent implements OnInit {
             const paymentEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('payment') && key !== 'paymentTotal').map(([key, value]) =>
                 [key.substring('payment'.length), value]);
+            for (let i = 0; i < paymentEntries.length; i++) {
+              let tmp: budgetData = {
+                key: paymentEntries[i][0],
+                value: paymentEntries[i][1]
+              }
+              this.expensesBudgetArray.push(tmp)
+            }
             const incomeEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('income') && key !== 'incomeTotal').map(([key, value]) =>
                 [key.substring('income'.length), value]);
-            this.expensesDataSource = new MatTableDataSource<any>(
-              paymentEntries.map(([key, value]) => ({ key: key, value: value }))
-            );
-            this.incomeDataSource = new MatTableDataSource<any>(
-              incomeEntries.map(([key, value]) => ({ key: key, value: value }))
-            );
+            for (let i = 0; i < incomeEntries.length; i++) {
+              let tmp: budgetData = {
+                key: incomeEntries[i][0],
+                value: incomeEntries[i][1]
+              }
+              this.incomeBudgetArray.push(tmp)
+            }
+            this.sortExpensesData({ active: '', direction: 'asc' });
+            this.sortIncomeData({ active: '', direction: 'asc' });
           },
           error: (err: HttpErrorResponse) => {
             console.log(err);
@@ -82,5 +103,31 @@ export class UserBudgetComponent implements OnInit {
         });
       }
     }
+  }
+
+  sortExpensesData(sort: Sort) {
+    const data = this.expensesBudgetArray.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedExpenses = data;
+      return;
+    }
+    this.sortedExpenses = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      return this.compare(a.value, b.value, isAsc);
+    });
+  }
+  sortIncomeData(sort: Sort) {
+    const data = this.incomeBudgetArray.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedIncome = data;
+      return;
+    }
+    this.sortedIncome = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      return this.compare(a.value, b.value, isAsc);
+    });
+  }
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 }

@@ -60,7 +60,6 @@ export class UserBudgetComponent implements OnInit {
         let address = 'api/accounts/budget/' + ue
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
-            console.log(res);
             this.hasBudget = true;
             this.budget = res;
             this.totalExp = Object.entries(this.budget).reduce((total, [key, value]) => {

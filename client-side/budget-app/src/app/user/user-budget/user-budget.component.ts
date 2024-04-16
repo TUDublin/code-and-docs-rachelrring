@@ -79,8 +79,6 @@ export class UserBudgetComponent implements OnInit {
               key.startsWith('payment') && key !== 'paymentTotal').map(([key, value]) =>
                 [key.substring('payment'.length), value]);
             for (let i = 0; i < paymentEntries.length; i++) {
-              console.log(paymentEntries[i][0])
-              console.log(paymentEntries[i][1])
               let tmp: budgetData = {
                 key: paymentEntries[i][0],
                 value: paymentEntries[i][1]

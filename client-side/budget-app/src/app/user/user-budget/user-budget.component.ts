@@ -4,7 +4,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 import { Router, RouterModule } from '@angular/router';
 import { UserBudgetResponseDto } from '../../_interfaces/response/UserBudgetResponseDto.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { Sort, MatSortModule } from '@angular/material/sort';
 
 interface budgetData {
@@ -29,9 +29,7 @@ export class UserBudgetComponent implements OnInit {
   public auth: boolean = false;
   public hasBudget: boolean = false;
   public budget!: UserBudgetResponseDto;
-  public expensesDataSource!: MatTableDataSource<any>;
-  public incomeDataSource!: MatTableDataSource<any>;
-  displayedColumns = ['attribute', 'value'];
+
   public totalExp: number = 0;
   public totalIncome: number = 0;
 
@@ -80,7 +78,6 @@ export class UserBudgetComponent implements OnInit {
             const paymentEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('payment') && key !== 'paymentTotal').map(([key, value]) =>
                 [key.substring('payment'.length), value]);
-
             for (let i = 0; i < paymentEntries.length; i++) {
               console.log(paymentEntries[i][0])
               console.log(paymentEntries[i][1])
@@ -93,7 +90,6 @@ export class UserBudgetComponent implements OnInit {
             const incomeEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('income') && key !== 'incomeTotal').map(([key, value]) =>
                 [key.substring('income'.length), value]);
-
             for (let i = 0; i < incomeEntries.length; i++) {
               let tmp: budgetData = {
                 key: incomeEntries[i][0],
@@ -101,13 +97,6 @@ export class UserBudgetComponent implements OnInit {
               }
               this.incomeBudgetArray.push(tmp)
             }
-
-            this.expensesDataSource = new MatTableDataSource<any>(
-              paymentEntries.map(([key, value]) => ({ key: key, value: value }))
-            );
-            this.incomeDataSource = new MatTableDataSource<any>(
-              incomeEntries.map(([key, value]) => ({ key: key, value: value }))
-            );
             this.sortExpensesData({ active: '', direction: 'asc' });
             this.sortIncomeData({ active: '', direction: 'asc' });
           },

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -269,9 +270,16 @@ type dataCSO struct {
 
 func main() {
 	router := gin.Default()
-	router.GET("/data", getCSOData)
 
-	router.Run("localhost:8080")
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	config.AllowMethods = []string{"POST", "GET", "PUT", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization", "Accept", "User-Agent", "Cache-Control", "Pragma"}
+	config.ExposeHeaders = []string{"Content-Length"}
+
+	router.Use(cors.New(config))
+	router.GET("/data", getCSOData)
+	router.Run("localhost:8070")
 }
 
 func getCSOData(c *gin.Context) {

@@ -349,7 +349,6 @@ export class BudgetPlannerComponent implements OnInit {
     if (this.myForm.valid) {
       this.fillInBudgetFields();
       this.calculateYearlyExpensesandIncome();
-      // TODO: Fix this so that it doesn't continuously subtract and compound
       this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
       this.updateDoughnutChart(this.budgetFieldCategories);
       this.updateIncomeDoughnutChart(this.budgetFields);
@@ -466,6 +465,9 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   calculateYearlyExpensesandIncome() {
+    this.totalYearlyExpenses = 0;
+    this.totalYearlyIncome = 0;
+    this.totalYearlySurplus = 0;
     this.totalYearlyIncome = this.budgetFieldCategories.income;
     Object.values(this.budgetFieldCategories).forEach(value => {
       this.totalYearlyExpenses += value;

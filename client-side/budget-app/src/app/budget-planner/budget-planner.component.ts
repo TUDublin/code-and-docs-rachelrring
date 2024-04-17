@@ -34,6 +34,7 @@ export class BudgetPlannerComponent implements OnInit {
 
   myForm: FormGroup;
   chart: any;
+  incomeChart: any;
   totalYearlyIncome: number = 0;
   totalYearlyExpenses: number = 0;
   totalYearlySurplus: number = 0;
@@ -348,6 +349,7 @@ export class BudgetPlannerComponent implements OnInit {
       this.calculateYearlyExpensesandIncome();
       this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
       this.updateDoughnutChart(this.budgetFieldCategories);
+      this.updateIncomeDoughnutChart(this.budgetFields);
     }
   }
 
@@ -459,10 +461,10 @@ export class BudgetPlannerComponent implements OnInit {
     this.budgetFieldCategories.otherExpenses = this.budgetFields.paymentOther;
   }
 
-  calculateYearlyExpensesandIncome(){
+  calculateYearlyExpensesandIncome() {
     this.totalYearlyIncome = this.budgetFieldCategories.income;
     Object.values(this.budgetFieldCategories).forEach(value => {
-        this.totalYearlyExpenses += value;
+      this.totalYearlyExpenses += value;
     });
     this.totalYearlyExpenses = this.totalYearlyExpenses - this.totalYearlyIncome;
   }
@@ -512,49 +514,53 @@ export class BudgetPlannerComponent implements OnInit {
     }
   }
 
-  // updateIncomeDoughnutChart(b: BudgetFields) {
-  //   const keys: string[] = Object.keys(b)
-  //   const values: number[] = Object.values(b);
-  //   if (this.chart) {
-  //     this.chart.data.labels = keys;
-  //     this.chart.data.datasets[0].data = values;
-  //     this.chart.update();
-  //   } else {
-  //     this.chart = new Chart('doughnutChart', {
-  //       type: 'doughnut',
-  //       data: {
-  //         labels: keys,
-  //         datasets: [{
-  //           label: '€ spent',
-  //           data: values,
-  //           backgroundColor: [
-  //             'rgba(0, 255, 255, 1)',
-  //             'rgba(255, 0, 255, 1)',
-  //             'rgba(255, 255, 0, 1)',
-  //             'rgba(129, 255, 255, 1)',
-  //             'rgba(255, 133, 255, 1)',
-  //             'rgba(255, 255, 134, 1)',
-  //             'rgba(121, 124, 255, 1)',
-  //             'rgba(121, 255, 125, 1)',
-  //             'rgba(255, 127, 128, 1)',
-  //           ],
-  //         }],
-  //       },
-  //       options: {
-  //         responsive: true,
-  //         plugins: {
-  //           legend: {
-  //             position: 'right',
-  //           },
-  //           title: {
-  //             display: true,
-  //             text: 'Income Breakdown'
-  //           }
-  //         },
-  //       }
-  //     });
-  //   }
-  // }
+  updateIncomeDoughnutChart(b: BudgetFields) {
+
+    const { incomePay, incomeBenefits, incomePension, incomeOther, ...categoriesWithoutIncome } = b;
+
+
+    const keys: string[] = ['Pay', 'Benefits', 'Pension', 'Other'];
+    const values: number[] = [incomePay, incomeBenefits, incomePension, incomeOther];
+    if (this.incomeChart) {
+      this.incomeChart.data.labels = keys;
+      this.incomeChart.data.datasets[0].data = values;
+      this.incomeChart.update();
+    } else {
+      this.incomeChart = new Chart('incomeDoughnutChart', {
+        type: 'doughnut',
+        data: {
+          labels: keys,
+          datasets: [{
+            label: '€ spent',
+            data: values,
+            backgroundColor: [
+              'rgba(0, 255, 255, 1)',
+              'rgba(255, 0, 255, 1)',
+              'rgba(255, 255, 0, 1)',
+              'rgba(129, 255, 255, 1)',
+              'rgba(255, 133, 255, 1)',
+              'rgba(255, 255, 134, 1)',
+              'rgba(121, 124, 255, 1)',
+              'rgba(121, 255, 125, 1)',
+              'rgba(255, 127, 128, 1)',
+            ],
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'right',
+            },
+            title: {
+              display: true,
+              text: 'Income Breakdown'
+            }
+          },
+        }
+      });
+    }
+  }
 
   getYearlyValues(controlField: string): number {
     let frequencyField = this.myForm.get(controlField.concat('Frequency'));

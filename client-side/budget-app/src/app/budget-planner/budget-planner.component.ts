@@ -42,6 +42,8 @@ export class BudgetPlannerComponent implements OnInit {
   public isUserAuthenticated: boolean = false;
   public auth: boolean = false;
 
+  public showCharts: boolean = false;
+
   private budgetFields: BudgetFields = {
     incomePay: 0,
     incomeBenefits: 0,
@@ -350,6 +352,7 @@ export class BudgetPlannerComponent implements OnInit {
       this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
       this.updateDoughnutChart(this.budgetFieldCategories);
       this.updateIncomeDoughnutChart(this.budgetFields);
+      this.showCharts = true;
     }
   }
 
@@ -517,7 +520,6 @@ export class BudgetPlannerComponent implements OnInit {
   updateIncomeDoughnutChart(b: BudgetFields) {
 
     const { incomePay, incomeBenefits, incomePension, incomeOther, ...categoriesWithoutIncome } = b;
-
 
     const keys: string[] = ['Pay', 'Benefits', 'Pension', 'Other'];
     const values: number[] = [incomePay, incomeBenefits, incomePension, incomeOther];

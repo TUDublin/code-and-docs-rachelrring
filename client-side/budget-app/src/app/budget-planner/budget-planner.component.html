@@ -1403,7 +1403,7 @@
     <div class="row button-container">
         <div class="col-md-3">
             <button mat-raised-button [disabled]="!myForm.valid" type="submit" color="primary"
-                style="float: right;  padding: 10px;">Okay</button>
+                style="float: right;  padding: 10px;">Show me a Breakdown</button>
         </div>
     </div>
 </form>
@@ -1418,11 +1418,13 @@
     <div>
         <h3>Total Yearly Surplus: €{{ totalYearlySurplus }}</h3>
     </div>
-    <div>
-        <canvas id="doughnutChart" width="400" height="400"></canvas>
-    </div>
-    <div>
-        <canvas id="incomeDoughnutChart" width="400" height="400"></canvas>
+    <div [hidden]="!showCharts">
+        <div>
+            <canvas id="doughnutChart" width="400" height="400"></canvas>
+        </div>
+        <div>
+            <canvas id="incomeDoughnutChart" width="400" height="400"></canvas>
+        </div>
     </div>
 </div>
 <div class="row button-container">

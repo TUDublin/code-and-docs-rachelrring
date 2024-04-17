@@ -34,12 +34,15 @@ export class BudgetPlannerComponent implements OnInit {
 
   myForm: FormGroup;
   chart: any;
+  incomeChart: any;
   totalYearlyIncome: number = 0;
   totalYearlyExpenses: number = 0;
   totalYearlySurplus: number = 0;
 
   public isUserAuthenticated: boolean = false;
   public auth: boolean = false;
+
+  public showCharts: boolean = false;
 
   private budgetFields: BudgetFields = {
     incomePay: 0,
@@ -346,8 +349,11 @@ export class BudgetPlannerComponent implements OnInit {
     if (this.myForm.valid) {
       this.fillInBudgetFields();
       this.calculateYearlyExpensesandIncome();
+      // TODO: Fix this so that it doesn't continuously subtract and compound
       this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
       this.updateDoughnutChart(this.budgetFieldCategories);
+      this.updateIncomeDoughnutChart(this.budgetFields);
+      this.showCharts = true;
     }
   }
 
@@ -459,17 +465,18 @@ export class BudgetPlannerComponent implements OnInit {
     this.budgetFieldCategories.otherExpenses = this.budgetFields.paymentOther;
   }
 
-  calculateYearlyExpensesandIncome(){
+  calculateYearlyExpensesandIncome() {
     this.totalYearlyIncome = this.budgetFieldCategories.income;
     Object.values(this.budgetFieldCategories).forEach(value => {
-        this.totalYearlyExpenses += value;
+      this.totalYearlyExpenses += value;
     });
     this.totalYearlyExpenses = this.totalYearlyExpenses - this.totalYearlyIncome;
   }
 
   updateDoughnutChart(b: BudgetFieldsCategories) {
-    const keys: string[] = Object.keys(b)
-    const values: number[] = Object.values(b);
+    const { income, ...categoriesWithoutIncome } = b;
+    const keys: string[] = Object.keys(categoriesWithoutIncome)
+    const values: number[] = Object.values(categoriesWithoutIncome);
     if (this.chart) {
       this.chart.data.labels = keys;
       this.chart.data.datasets[0].data = values;
@@ -504,6 +511,53 @@ export class BudgetPlannerComponent implements OnInit {
             title: {
               display: true,
               text: 'Expenses Breakdown'
+            }
+          },
+        }
+      });
+    }
+  }
+
+  updateIncomeDoughnutChart(b: BudgetFields) {
+
+    const { incomePay, incomeBenefits, incomePension, incomeOther, ...categoriesWithoutIncome } = b;
+
+    const keys: string[] = ['Pay', 'Benefits', 'Pension', 'Other'];
+    const values: number[] = [incomePay, incomeBenefits, incomePension, incomeOther];
+    if (this.incomeChart) {
+      this.incomeChart.data.labels = keys;
+      this.incomeChart.data.datasets[0].data = values;
+      this.incomeChart.update();
+    } else {
+      this.incomeChart = new Chart('incomeDoughnutChart', {
+        type: 'doughnut',
+        data: {
+          labels: keys,
+          datasets: [{
+            label: '€ spent',
+            data: values,
+            backgroundColor: [
+              'rgba(0, 255, 255, 1)',
+              'rgba(255, 0, 255, 1)',
+              'rgba(255, 255, 0, 1)',
+              'rgba(129, 255, 255, 1)',
+              'rgba(255, 133, 255, 1)',
+              'rgba(255, 255, 134, 1)',
+              'rgba(121, 124, 255, 1)',
+              'rgba(121, 255, 125, 1)',
+              'rgba(255, 127, 128, 1)',
+            ],
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'right',
+            },
+            title: {
+              display: true,
+              text: 'Income Breakdown'
             }
           },
         }

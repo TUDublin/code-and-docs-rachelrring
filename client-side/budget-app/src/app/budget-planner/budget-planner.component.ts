@@ -12,6 +12,7 @@ import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
 import { Router, RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BudgetFields, BudgetFieldsCategories } from './budgetFormFields';
+import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
 
 @Component({
   selector: 'app-budget-planner',
@@ -41,6 +42,11 @@ export class BudgetPlannerComponent implements OnInit {
 
   public isUserAuthenticated: boolean = false;
   public auth: boolean = false;
+  public hasBudget: boolean = false;
+  public budget!: UserBudgetResponseDto;
+
+  public totalExp: number = 0;
+  public totalIncome: number = 0;
 
   public showCharts: boolean = false;
 
@@ -342,6 +348,34 @@ export class BudgetPlannerComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth) {
       this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    }
+    if (this.isUserAuthenticated){
+      let ue = localStorage.getItem('email')?.toString()
+      if (ue) {
+        let address = 'api/accounts/budget/' + ue
+        this.authService.getBudget(address).subscribe({
+          next: (res: UserBudgetResponseDto) => {
+            this.hasBudget = true;
+            this.budget = res;
+            this.totalExp = Object.entries(this.budget).reduce((total, [key, value]) => {
+              if (key === 'paymentTotal') {
+                return value;
+              }
+              return total;
+            }, 0);
+            this.totalIncome = Object.entries(this.budget).reduce((total, [key, value]) => {
+              if (key === 'incomeTotal') {
+                return value;
+              }
+              return total;
+            }, 0);
+            console.log(res)
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+          }
+        });
+      }
     }
   }
 

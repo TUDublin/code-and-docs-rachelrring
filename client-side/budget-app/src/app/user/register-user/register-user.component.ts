@@ -82,8 +82,6 @@ export class RegisterUserComponent implements OnInit {
           }
           console.log(this.errorString);
         }
-
-      })
+      });
   }
-
 }

@@ -2,10 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import {  of } from 'rxjs';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { BehaviorSubject } from 'rxjs';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NavbarComponent', () => {
@@ -41,7 +40,7 @@ describe('NavbarComponent', () => {
     beforeEach(() => {
         router = TestBed.get(Router);
         route = TestBed.get(ActivatedRoute);
-      })
+      });
 
     it('should create', () => {
         expect(component).toBeTruthy();

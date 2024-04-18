@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BudgetPlannerComponent } from './budget-planner.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BudgetPlannerComponent', () => {
   let component: BudgetPlannerComponent;
@@ -8,7 +10,12 @@ describe('BudgetPlannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BudgetPlannerComponent, NoopAnimationsModule,]
+      imports: [
+        BudgetPlannerComponent, 
+        NoopAnimationsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+      ]
     })
     .compileComponents();
     
@@ -21,25 +28,75 @@ describe('BudgetPlannerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getChartData', () => {
-    it('should return 10 values in the list', () => {
-      let input: number [] = [];
-      for (let i = 0; i < 51; i++){
-        input.push(10);
-      }
-      let exepctedOutcome = 10;
-      let actualOutcome = component.getChartData(input);
-      expect(actualOutcome.length).toEqual(exepctedOutcome);
+  it('should initialize form fields with default values', () => {
+    expect(component.myForm.get('incomePay')?.value).toBe(0.00);
+    expect(component.myForm.get('incomePayFrequency')?.value).toBe('weekly');
+  });
+
+  it('should calculate yearly values correctly', () => {
+    component.myForm.setValue({
+      incomePay: 100, incomePayFrequency: 'weekly',
+      incomeBenefits: 200, incomeBenefitsFrequency: 'monthly',
+      incomePension: 300, incomePensionFrequency: 'weekly',
+      incomeOther: 400, incomeOtherFrequency: 'monthly',
+      paymentMortgage: 500, paymentMortgageFrequency: 'monthly',
+      paymentRent: 600, paymentRentFrequency: 'monthly',
+      paymentHomeInsurance: 700, paymentHomeInsuranceFrequency: 'yearly',
+      paymentHouseTax: 800, paymentHouseTaxFrequency: 'yearly',
+      paymentHouseGas: 900, paymentHouseGasFrequency: 'monthly',
+      paymentElectricity: 1000, paymentElectricityFrequency: 'monthly',
+      paymentWater: 1100, paymentWaterFrequency: 'quarterly',
+      paymentHomePhone: 1200, paymentHomePhoneFrequency: 'monthly',
+      paymentMobilePhone: 1300, paymentMobilePhoneFrequency: 'monthly',
+      paymentBroadband: 1400, paymentBroadbandFrequency: 'monthly',
+      paymentTvLicense: 1500, paymentTvLicenseFrequency: 'yearly',
+      paymentHomeMaintenance: 1600, paymentHomeMaintenanceFrequency: 'yearly',
+      paymentGroceries: 1700, paymentGroceriesFrequency: 'weekly',
+      paymentTakeaways: 1800, paymentTakeawaysFrequency: 'weekly',
+      paymentCigarettes: 1900, paymentCigarettesFrequency: 'weekly',
+      paymentEatingOut: 2000, paymentEatingOutFrequency: 'monthly',
+      paymentClothing: 2100, paymentClothingFrequency: 'monthly',
+      paymentChildcare: 2200, paymentChildcareFrequency: 'monthly',
+      paymentHealthandBeauty: 2300, paymentHealthandBeautyFrequency: 'monthly',
+      paymentEyeCare: 2400, paymentEyeCareFrequency: 'yearly',
+      paymentDentalCare: 2500, paymentDentalCareFrequency: 'yearly',
+      paymentMedicine: 2600, paymentMedicineFrequency: 'monthly',
+      paymentActivities: 2700, paymentActivitiesFrequency: 'monthly',
+      paymentPocketMoney: 2800, paymentPocketMoneyFrequency: 'weekly',
+      paymentChildSupport: 2900, paymentChildSupportFrequency: 'monthly',
+      paymentSchoolFees: 3000, paymentSchoolFeesFrequency: 'monthly',
+      paymentPetFood: 3100, paymentPetFoodFrequency: 'monthly',
+      paymentVetBills: 3200, paymentVetBillsFrequency: 'yearly',
+      paymentLifeInsurance: 3300, paymentLifeInsuranceFrequency: 'yearly',
+      paymentHealthInsurance: 3400, paymentHealthInsuranceFrequency: 'yearly',
+      paymentDentalInsurance: 3500, paymentDentalInsuranceFrequency: 'yearly',
+      paymentPetInsurance: 3600, paymentPetInsuranceFrequency: 'yearly',
+      paymentCarInsurance: 3700, paymentCarInsuranceFrequency: 'yearly',
+      paymentBankFees: 3800, paymentBankFeesFrequency: 'monthly',
+      paymentLoan: 3900, paymentLoanFrequency: 'monthly',
+      paymentCreditCard: 4000, paymentCreditCardFrequency: 'monthly',
+      paymentHirePurchases: 4100, paymentHirePurchasesFrequency: 'monthly',
+      paymentInvestments: 4200, paymentInvestmentsFrequency: 'monthly',
+      paymentPension: 4300, paymentPensionFrequency: 'monthly',
+      paymentCarFuel: 4400, paymentCarFuelFrequency: 'weekly',
+      paymentCarTax: 4500, paymentCarTaxFrequency: 'yearly',
+      paymentCarMaintenance: 4600, paymentCarMaintenanceFrequency: 'monthly',
+      paymentPublicTransport: 4700, paymentPublicTransportFrequency: 'monthly',
+      paymentGym: 4800, paymentGymFrequency: 'monthly',
+      paymentStreamingServices: 4900, paymentStreamingServicesFrequency: 'monthly',
+      paymentHolidays: 5000, paymentHolidaysFrequency: 'yearly',
+      paymentOther: 5100, paymentOtherFrequency: 'monthly',
     });
-    it('should return the correct values in the list', () => {
-      let input: number [] = [];
-      for (let i = 0; i < 51; i++){
-        input.push(10);
-      }
-      let exepctedOutcome: number[] = [40, 30, 90, 100, 40, 20, 50, 60, 70, 10];
-      let actualOutcome = component.getChartData(input);
-      expect(actualOutcome).toEqual(exepctedOutcome);
-    });
+    
+    const yearlyIncomePay = component.getYearlyValues('incomePay');
+    const yearlyIncomeBenefits = component.getYearlyValues('incomeBenefits');
+    const yearlyIncomePension = component.getYearlyValues('incomePension');
+    const yearlyIncomeOther = component.getYearlyValues('incomeOther');
+
+    expect(yearlyIncomePay).toBe(100 * 52);
+    expect(yearlyIncomeBenefits).toBe(200 * 12);
+    expect(yearlyIncomePension).toBe(300 * 52);
+    expect(yearlyIncomeOther).toBe(400 * 12);
   });
 
   describe('Income and Expenses Form', () => {

@@ -16,7 +16,7 @@ import { environment } from '../../environments/environment';
 export class DataVisualisationsComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
-
+  public data: any;
 
   ngOnInit(): void {
     this.http.get(environment.goUrlAddress).subscribe(
@@ -24,6 +24,7 @@ export class DataVisualisationsComponent implements OnInit {
         next: (res) => {
           console.log("It Worked!");
           console.log(res);
+          this.data = res.toString();
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);

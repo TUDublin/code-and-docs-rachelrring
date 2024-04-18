@@ -11,14 +11,14 @@ describe('BudgetPlannerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        BudgetPlannerComponent, 
+        BudgetPlannerComponent,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule,
       ]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(BudgetPlannerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -87,7 +87,7 @@ describe('BudgetPlannerComponent', () => {
       paymentHolidays: 5000, paymentHolidaysFrequency: 'yearly',
       paymentOther: 5100, paymentOtherFrequency: 'monthly',
     });
-    
+
     const yearlyIncomePay = component.getYearlyValues('incomePay');
     const yearlyIncomeBenefits = component.getYearlyValues('incomeBenefits');
     const yearlyIncomePension = component.getYearlyValues('incomePension');
@@ -122,12 +122,12 @@ describe('BudgetPlannerComponent', () => {
   describe('getYearlyValues', () => {
     it('returns the correct value when the payment is weekly', () => {
       component.myForm.get('incomePay')?.setValue(10);
-      expect(component.getYearlyValues('incomePay')).toEqual(10*52);
+      expect(component.getYearlyValues('incomePay')).toEqual(10 * 52);
     });
     it('returns the correct value when the payment is monthly', () => {
       component.myForm.get('incomePay')?.setValue(10);
       component.myForm.get('incomePayFrequency')?.setValue('monthly');
-      expect(component.getYearlyValues('incomePay')).toEqual(10*12);
+      expect(component.getYearlyValues('incomePay')).toEqual(10 * 12);
     });
     it('returns the correct value when the payment is yearly', () => {
       component.myForm.get('incomePay')?.setValue(10);
@@ -141,8 +141,8 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('incomePay')?.setValue(10);
       component.myForm.get('incomeBenefits')?.setValue(20);
       fixture.detectChanges();
-      let expectedYearlyIncome = (10*52) + (20*52);
-      
+      let expectedYearlyIncome = (10 * 52) + (20 * 52);
+
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();
       fixture.detectChanges();
@@ -159,8 +159,8 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('paymentMortgage')?.setValue(100);
       component.myForm.get('paymentOther')?.setValue(100);
       fixture.detectChanges();
-      let expectedYearlyExpenses = (100*52) + (20*52) + (100*52) + (100*52);
-      
+      let expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
+
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();
       fixture.detectChanges();
@@ -179,10 +179,10 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('incomePay')?.setValue(10);
       component.myForm.get('incomeBenefits')?.setValue(20);
       fixture.detectChanges();
-      let expectedYearlyExpenses = (100*52) + (20*52) + (100*52) + (100*52);
-      let expectedYearlyIncome = (10*52) + (20*52);
+      let expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
+      let expectedYearlyIncome = (10 * 52) + (20 * 52);
       let expectedYearlySurplus = expectedYearlyIncome - expectedYearlyExpenses;
-      
+
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();
       fixture.detectChanges();
@@ -190,6 +190,22 @@ describe('BudgetPlannerComponent', () => {
       expect(component.totalYearlyExpenses).toEqual(expectedYearlyExpenses);
       expect(component.totalYearlyIncome).toEqual(expectedYearlyIncome);
       expect(component.totalYearlySurplus).toEqual(expectedYearlySurplus);
+    });
+  });
+
+  describe('Income and Expenses Charts', () => {
+    it('should show charts onSubmit()', () => {
+      spyOn(component, 'updateDoughnutChart');
+      spyOn(component, 'updateIncomeDoughnutChart');
+      const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');
+      submitButton.click();
+      fixture.detectChanges();
+      expect(component.updateDoughnutChart).toHaveBeenCalled();
+      expect(component.updateIncomeDoughnutChart).toHaveBeenCalled();
+    });
+    it('should initialize chart and incomeChart as undefined initially', () => {
+      expect(component.chart).toBeUndefined();
+      expect(component.incomeChart).toBeUndefined();
     });
   });
 });

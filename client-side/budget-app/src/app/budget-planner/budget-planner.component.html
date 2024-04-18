@@ -1423,9 +1423,7 @@
             <canvas id="doughnutChart" width="400" height="400"></canvas>
         </div>
         <div class="chartContainer">
-            <div *ngIf="totalYearlyIncome!=0; else breakdownError">
-                <canvas id="incomeDoughnutChart" width="400" height="400"></canvas>
-            </div>
+            <canvas id="incomeDoughnutChart" width="400" height="400"></canvas>
         </div>
     </div>
 </div>
@@ -1435,9 +1433,3 @@
             color="primary" style="float: right;  padding: 10px;" (click)="saveBudget()">Save My Budget</button>
     </div>
 </div>
-
-<ng-template #breakdownError>
-    <p>
-        You need to add your income to see a breakdown!
-    </p>
-</ng-template>

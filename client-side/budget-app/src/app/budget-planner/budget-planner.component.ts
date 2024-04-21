@@ -12,6 +12,14 @@ import { BudgetToSaveDto } from '../_interfaces/user/budgetToSaveDto.model';
 import { Router, RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BudgetFields, BudgetFieldsCategories } from './budgetFormFields';
+import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
+
+
+interface budgetData {
+  key: string;
+  value: number;
+}
+
 
 @Component({
   selector: 'app-budget-planner',
@@ -41,6 +49,11 @@ export class BudgetPlannerComponent implements OnInit {
 
   public isUserAuthenticated: boolean = false;
   public auth: boolean = false;
+  public hasBudget: boolean = false;
+  public budget!: UserBudgetResponseDto;
+
+  public totalExp: number = 0;
+  public totalIncome: number = 0;
 
   public showCharts: boolean = false;
 
@@ -343,6 +356,55 @@ export class BudgetPlannerComponent implements OnInit {
     if (this.auth) {
       this.isUserAuthenticated = this.authService.isUserAuthenticated();
     }
+    if (this.isUserAuthenticated) {
+      let ue = localStorage.getItem('email')?.toString()
+      if (ue) {
+        let address = 'api/accounts/budget/' + ue
+        this.authService.getBudget(address).subscribe({
+          next: (res: UserBudgetResponseDto) => {
+            this.hasBudget = true;
+            this.budget = res;
+            this.totalExp = Object.entries(this.budget).reduce((total, [key, value]) => {
+              if (key === 'paymentTotal') {
+                return value;
+              }
+              return total;
+            }, 0);
+            this.totalIncome = Object.entries(this.budget).reduce((total, [key, value]) => {
+              if (key === 'incomeTotal') {
+                return value;
+              }
+              return total;
+            }, 0);
+            this.fillInBudgetForm(this.budget)
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+          }
+        });
+      }
+    }
+  }
+
+  fillInBudgetForm(b: UserBudgetResponseDto) {
+    const headers: budgetData[] = Object.keys(b).map(key => {
+      return { key: key, value: b[key as keyof UserBudgetResponseDto] };
+    });
+    headers.forEach(header => {
+      if (header.key != 'incomeTotal' && header.key != 'paymentTotal') {
+        if (header.value > 0) {
+          this.myForm.controls[header.key].setValue(header.value);
+          if (this.myForm.controls[header.key + 'Frequency']) {
+            this.myForm.controls[header.key + 'Frequency'].setValue('yearly');
+          } else {
+            console.error(`${header.key}Frequency control does not exist.`);
+          }
+        }
+      }
+    });
+    this.totalYearlyExpenses = b.paymentTotal;
+    this.totalYearlyIncome = b.incomeTotal;
+    this.totalYearlySurplus = this.totalYearlyIncome - this.totalYearlyExpenses;
   }
 
   onSubmit() {
@@ -353,6 +415,22 @@ export class BudgetPlannerComponent implements OnInit {
       this.updateDoughnutChart(this.budgetFieldCategories);
       this.updateIncomeDoughnutChart(this.budgetFields);
       this.showCharts = true;
+
+      if (this.auth) {
+        this.isUserAuthenticated = this.authService.isUserAuthenticated();
+      }
+      if (this.isUserAuthenticated) {
+        var budgettosave: BudgetToSaveDto = this.populatBudgetToSaveDto();
+
+        this.authService.saveBudget("api/accounts/newbudget", budgettosave)
+          .subscribe({
+            next: (_) => {
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log(err)
+            }
+          });
+      }
     }
   }
 
@@ -580,6 +658,21 @@ export class BudgetPlannerComponent implements OnInit {
 
   saveBudget() {
 
+    var budgettosave: BudgetToSaveDto = this.populatBudgetToSaveDto();
+
+    this.authService.saveBudget("api/accounts/newbudget", budgettosave)
+      .subscribe({
+        next: (_) => {
+          console.log("It Worked!")
+          this.router.navigate(["/budget"])
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err)
+        }
+      });
+  }
+
+  populatBudgetToSaveDto() {
     var userEmail = this.authService.getUserEmail();
 
     var budgettosave: BudgetToSaveDto = {
@@ -638,16 +731,7 @@ export class BudgetPlannerComponent implements OnInit {
       incomeTotal: this.totalYearlyIncome,
       paymentTotal: this.totalYearlyExpenses
     };
-    this.authService.saveBudget("api/accounts/newbudget", budgettosave)
-      .subscribe({
-        next: (_) => {
-          console.log("It Worked!")
-          this.router.navigate(["/budget"])
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log(err)
-        }
 
-      });
+    return budgettosave;
   }
 }

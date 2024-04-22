@@ -1,6 +1,11 @@
 package main
 
 import (
+	"encoding/csv"
+	"net/http"
+	"os"
+	"strconv"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +24,77 @@ func main() {
 	// router.GET("/CSOdata", getCSOData)
 	// router.GET("/averageEarnings", getNAverageEarnings2015)
 
+	router.GET("/averageEarnings", getAvgWeeklyHouseholdIncome)
+
 	router.Run("localhost:8070")
+}
+
+func getAvgWeeklyHouseholdIncome(c *gin.Context) {
+	file, err := os.Open("./CSOData/HS235_AverageWeeklyHouseholdIncome.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var avgIncome AvgEarningsResponse
+	var tmp float64
+	for _, record := range records {
+		if record[5] == "Employees-wages/salaries" {
+			tmp, err = strconv.ParseFloat(record[9], 64)
+			if err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
+			avgIncome.EmployeesWages = tmp
+			continue
+		} else if record[5] == "Self-employed income" {
+			tmp, err = strconv.ParseFloat(record[9], 64)
+			if err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
+			avgIncome.SelfEmployeed = tmp
+			continue
+		} else if record[5] == "Retirement pensions" {
+			tmp, err = strconv.ParseFloat(record[9], 64)
+			if err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
+			avgIncome.RetirementPension = tmp
+			continue
+		} else if record[5] == "Child benefit" {
+			tmp, err = strconv.ParseFloat(record[9], 64)
+			if err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
+			avgIncome.ChildBenefit = tmp
+			continue
+		} else if record[5] == "Investment income" {
+			tmp, err = strconv.ParseFloat(record[9], 64)
+			if err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
+			avgIncome.InvestmentIncome = tmp
+			continue
+		}
+	}
+
+	c.IndentedJSON(http.StatusOK, avgIncome)
 }
 
 // I had planned to request the data from CSO directly, however the documentation provided by them is not great and

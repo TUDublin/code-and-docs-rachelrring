@@ -4,8 +4,6 @@ import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common
 import { environment } from '../../environments/environment';
 import { AvgEarningsResponseDTO } from './CSOData/CSOData';
 import { Chart } from 'chart.js/auto';
-import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
-import * as CanvasJS from '@canvasjs/angular-charts';
 
 
 @Component({
@@ -14,7 +12,6 @@ import * as CanvasJS from '@canvasjs/angular-charts';
   imports: [
     CommonModule,
     HttpClientModule,
-    CanvasJSAngularChartsModule,
   ],
   templateUrl: './data-visualisations.component.html',
   styleUrl: './data-visualisations.component.css'

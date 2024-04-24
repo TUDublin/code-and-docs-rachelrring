@@ -36,32 +36,29 @@ export class DataVisualisationsComponent implements OnInit {
       }
     );
   }
-  
-  createChart(){
+
+  createChart() {
     this.chart = new Chart('barChart', {
       type: 'bar',
       data: {
-        labels:["Employees Wages", "Self Employed", "Retirement Pension", "Child Benefit", "Investment Income"],
-        datasets:[
+        labels: ["Employees Wages", "Self Employed", "Retirement Pension", "Child Benefit", "Investment Income"],
+        datasets: [
           {
+            label: 'Income €',
             data: [this.data.EmployeesWages, this.data.SelfEmployeed, this.data.RetirementPension, this.data.ChildBenefit, this.data.InvestmentIncome]
           }
-          // { label: "Employees Wages", data: this.data.EmployeesWages },
-          // { label: "Self Employed", data: this.data.SelfEmployeed },
-          // { label: "Retirement Pension", data: this.data.RetirementPension },
-          // { label: "Child Benefit", data: this.data.ChildBenefit },
-          // { label: "Investment Income", data: this.data.InvestmentIncome }
         ]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'right',
           },
           title: {
             display: true,
-            text: 'AVerage income'
+            text: 'Average Household Income'
           }
         },
       }

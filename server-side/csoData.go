@@ -8,6 +8,33 @@ type AvgEarningsResponse struct {
 	InvestmentIncome  float64
 }
 
+type HS067row struct {
+	Region     string
+	IncomeType string
+	Value      float64
+}
+
+type HS0672015 struct {
+	Rows []HS067row
+}
+
+type HS067rowRegion struct {
+	IncomeType string
+	Value      float64
+}
+
+type HS0672015Region struct {
+	State     []HS067rowRegion
+	Border    []HS067rowRegion
+	Midland   []HS067rowRegion
+	West      []HS067rowRegion
+	Dublin    []HS067rowRegion
+	MidEast   []HS067rowRegion
+	MidWest   []HS067rowRegion
+	SouthEast []HS067rowRegion
+	SouthWest []HS067rowRegion
+}
+
 // unneeded due to bug #18
 // type AverageEarnings struct {
 // 	Class     string `json:"class"`
@@ -647,7 +674,7 @@ type AvgEarningsResponse struct {
 // 				Metric []string `json:"metric"`
 // 				Time   []string `json:"time"`
 // 			} `json:"role"`
-// 			ID   []string `json:"id"`
+// 			ID   []string `jsonnumber
 // 			Size []int    `json:"size"`
 // 		} `json:"dimension"`
 // 		Label   string    `json:"label"`

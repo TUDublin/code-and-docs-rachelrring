@@ -25,6 +25,8 @@ func main() {
 	// router.GET("/averageEarnings", getNAverageEarnings2015)
 
 	router.GET("/averageEarnings", getAvgWeeklyHouseholdIncome)
+	router.GET("/hs067", getHS067)
+	router.GET("/hs067Region", getHS067Region)
 
 	router.Run("localhost:8070")
 }
@@ -95,6 +97,115 @@ func getAvgWeeklyHouseholdIncome(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, avgIncome)
+}
+
+func getHS067(c *gin.Context) {
+	file, err := os.Open("./CSOData/HS067.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS0672015
+
+	// Loop through records, skipping the first row if it's the header
+	for i, record := range records {
+		if i == 0 { // Skip header row
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the VALUE string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS067row{
+			Region:     record[3],
+			IncomeType: record[5],
+			Value:      value,
+		}
+		data.Rows = append(data.Rows, row)
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+func getHS067Region(c *gin.Context) {
+	file, err := os.Open("./CSOData/HS067.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS0672015Region
+
+	// Loop through records, skipping the first row if it's the header
+	for i, record := range records {
+		if i == 0 { // Skip header row
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the VALUE string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS067rowRegion{
+			IncomeType: record[5],
+			Value:      value,
+		}
+
+		// Check the region and append to the correct slice
+		switch record[3] { // Assuming that record[3] contains the Region
+		case "State":
+			data.State = append(data.State, row)
+		case "Border":
+			data.Border = append(data.Border, row)
+		case "Midland":
+			data.Midland = append(data.Midland, row)
+		case "West":
+			data.West = append(data.West, row)
+		case "Dublin":
+			data.Dublin = append(data.Dublin, row)
+		case "Mid-East":
+			data.MidEast = append(data.MidEast, row)
+		case "Mid-West":
+			data.MidWest = append(data.MidWest, row)
+		case "South-East":
+			data.SouthEast = append(data.SouthEast, row)
+		case "South-West":
+			data.SouthWest = append(data.SouthWest, row)
+			// Add other cases as necessary
+		}
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
 }
 
 // I had planned to request the data from CSO directly, however the documentation provided by them is not great and

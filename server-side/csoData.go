@@ -1,13 +1,5 @@
 package main
 
-type AvgEarningsResponse struct {
-	EmployeesWages    float64
-	SelfEmployeed     float64
-	RetirementPension float64
-	ChildBenefit      float64
-	InvestmentIncome  float64
-}
-
 type HS067row struct {
 	Region     string
 	IncomeType string

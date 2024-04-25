@@ -15,88 +15,19 @@ func main() {
 
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
-	config.AllowMethods = []string{"POST", "GET", "PUT", "OPTIONS"}
-	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization", "Accept", "User-Agent", "Cache-Control", "Pragma"}
-	config.ExposeHeaders = []string{"Content-Length"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"}
+	config.ExposeHeaders = []string{"Content-Length", "Content-Disposition"}
 
 	router.Use(cors.New(config))
 
 	// router.GET("/CSOdata", getCSOData)
 	// router.GET("/averageEarnings", getNAverageEarnings2015)
 
-	router.GET("/averageEarnings", getAvgWeeklyHouseholdIncome)
 	router.GET("/hs067", getHS067)
 	router.GET("/hs067Region", getHS067Region)
 
 	router.Run("localhost:8070")
-}
-
-func getAvgWeeklyHouseholdIncome(c *gin.Context) {
-	file, err := os.Open("./CSOData/HS235_AverageWeeklyHouseholdIncome.csv")
-	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
-		return
-	}
-
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	reader.Comma = ','
-	reader.LazyQuotes = true
-
-	records, err := reader.ReadAll()
-	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
-		return
-	}
-
-	var avgIncome AvgEarningsResponse
-	var tmp float64
-	for _, record := range records {
-		if record[5] == "Employees-wages/salaries" {
-			tmp, err = strconv.ParseFloat(record[9], 64)
-			if err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-			avgIncome.EmployeesWages = tmp
-			continue
-		} else if record[5] == "Self-employed income" {
-			tmp, err = strconv.ParseFloat(record[9], 64)
-			if err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-			avgIncome.SelfEmployeed = tmp
-			continue
-		} else if record[5] == "Retirement pensions" {
-			tmp, err = strconv.ParseFloat(record[9], 64)
-			if err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-			avgIncome.RetirementPension = tmp
-			continue
-		} else if record[5] == "Child benefit" {
-			tmp, err = strconv.ParseFloat(record[9], 64)
-			if err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-			avgIncome.ChildBenefit = tmp
-			continue
-		} else if record[5] == "Investment income" {
-			tmp, err = strconv.ParseFloat(record[9], 64)
-			if err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-			avgIncome.InvestmentIncome = tmp
-			continue
-		}
-	}
-
-	c.IndentedJSON(http.StatusOK, avgIncome)
 }
 
 func getHS067(c *gin.Context) {
@@ -122,13 +53,13 @@ func getHS067(c *gin.Context) {
 
 	// Loop through records, skipping the first row if it's the header
 	for i, record := range records {
-		if i == 0 { // Skip header row
+		if i == 0 {
 			continue
 		}
 		if len(record) < 10 {
 			continue
 		}
-		value, err := strconv.ParseFloat(record[9], 64) // Convert the VALUE string to a float64
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the string to a float64
 		if err != nil {
 			continue
 		}
@@ -164,7 +95,6 @@ func getHS067Region(c *gin.Context) {
 
 	var data HS0672015Region
 
-	// Loop through records, skipping the first row if it's the header
 	for i, record := range records {
 		if i == 0 { // Skip header row
 			continue
@@ -172,7 +102,7 @@ func getHS067Region(c *gin.Context) {
 		if len(record) < 10 {
 			continue
 		}
-		value, err := strconv.ParseFloat(record[9], 64) // Convert the VALUE string to a float64
+		value, err := strconv.ParseFloat(record[9], 64)
 		if err != nil {
 			continue
 		}
@@ -182,7 +112,7 @@ func getHS067Region(c *gin.Context) {
 		}
 
 		// Check the region and append to the correct slice
-		switch record[3] { // Assuming that record[3] contains the Region
+		switch record[3] {
 		case "State":
 			data.State = append(data.State, row)
 		case "Border":
@@ -201,7 +131,6 @@ func getHS067Region(c *gin.Context) {
 			data.SouthEast = append(data.SouthEast, row)
 		case "South-West":
 			data.SouthWest = append(data.SouthWest, row)
-			// Add other cases as necessary
 		}
 	}
 

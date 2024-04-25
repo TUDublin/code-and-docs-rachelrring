@@ -22,6 +22,8 @@ export class DataVisualisationsComponent implements OnInit {
 
   chart: any;
   wagesChart: any;
+  disposableIncomeChart: any;
+  deductionsChart: any;
 
 
   constructor(private http: HttpClient) { }
@@ -45,8 +47,9 @@ export class DataVisualisationsComponent implements OnInit {
           console.log(res);
           this.datahs067 = res;
           this.createChartHS067(this.datahs067);
-          this.createWagesChart(this.datahs067);
-
+          this.createGrossIncomeChart(this.datahs067);
+          this.createDisposableIncomeChart(this.datahs067);
+          this.createDeductionsChart(this.datahs067);
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
@@ -169,7 +172,6 @@ export class DataVisualisationsComponent implements OnInit {
               }
             }
           },
-          
         },
       },
     });
@@ -177,8 +179,8 @@ export class DataVisualisationsComponent implements OnInit {
     this.chart.render();
   }
 
-  createWagesChart(data: HS0672015Region) {
-    const incomeType = "Employees-wages/salaries"; // Specify the exact income type label
+  createGrossIncomeChart(data: HS0672015Region) {
+    const incomeType = "Gross income (A+B)"; // Specify the exact income type label
 
     const datasets = Object.keys(data).map(regionKey => {
       const regionData = data[regionKey as keyof HS0672015Region];
@@ -206,7 +208,7 @@ export class DataVisualisationsComponent implements OnInit {
           },
           title: {
             display: true,
-            text: "Average Employee Wages by Region",
+            text: "Average Gross Income by Region",
           },
           tooltip: {
             callbacks: {
@@ -226,9 +228,114 @@ export class DataVisualisationsComponent implements OnInit {
         },
       }
     });
-
     this.wagesChart.render();
   }
 
+  createDisposableIncomeChart(data: HS0672015Region) {
+    const incomeType = "Disposable income (A+B-C)"; // Specify the exact income type label
+  
+    const datasets = Object.keys(data).map(regionKey => {
+      const regionData = data[regionKey as keyof HS0672015Region];
+      const incomeData = regionData.find(row => row.IncomeType === incomeType);
+      const value = incomeData ? incomeData.Value : 0; // If not found, use 0 as value
+  
+      return {
+        label: regionKey,
+        data: [value],
+      };
+    });
+  
+    this.disposableIncomeChart = new Chart('disposableIncomeChart', {
+      type: 'bar',
+      data: {
+        labels: [incomeType],
+        datasets: datasets,
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+          },
+          title: {
+            display: true,
+            text: "Average Disposable Income by Region",
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || '';
+  
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += '€' + context.parsed.y.toFixed(2);
+                }
+                return label;
+              }
+            }
+          }
+        },
+      }
+    });
+  
+    this.disposableIncomeChart.render();
+  }
 
+
+
+  createDeductionsChart(data: HS0672015Region) {
+    const incomeType = "Income tax & social insurance deductions (C)"; // Specify the exact income type label
+
+    const datasets = Object.keys(data).map(regionKey => {
+      const regionData = data[regionKey as keyof HS0672015Region];
+      const incomeData = regionData.find(row => row.IncomeType === incomeType);
+      const value = incomeData ? incomeData.Value : 0; // If not found, use 0 as value
+
+      return {
+        label: regionKey,
+        data: [value],
+      };
+    });
+
+    this.wagesChart = new Chart('deductionsChart', {
+      type: 'bar',
+      data: {
+        labels: [incomeType],
+        datasets: datasets,
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+          },
+          title: {
+            display: true,
+            text: "Average Income tax & social insurance deductions by Region",
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || '';
+
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += '€' + context.parsed.y.toFixed(2);
+                }
+                return label;
+              }
+            }
+          }
+        },
+      }
+    });
+    this.deductionsChart.render();
+  }
+  
 }

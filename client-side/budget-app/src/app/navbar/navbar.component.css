@@ -1,24 +1,36 @@
 .nav {
     display: flex;
     justify-content: space-between;
-    background-color: #1976d2; /* Change background color as needed */
-    color: white; /* Text color */
+    background-color: #1976d2;
+    color: white;
 }
 
 .item {
-    margin-right: 10px; /* Adjust spacing between links */
+    margin-right: 10px;
 }
 
 .link {
-    text-decoration: none; /* Remove text decoration */
-    color: inherit; /* Inherit text color */
+    text-decoration: none;
+    color: inherit;
 }
 
 .link:hover {
-    color: lightgrey; /* Change hover text color */
+    color: lightgrey;
 }
 
 .right-links {
     display: flex;
     align-items: center;
+}
+
+.account-icon-btn {
+    background-color: transparent;
+    border-radius: 50%;
+    overflow: hidden;
+    line-height: 0;
+    padding: 10px;
+}
+
+.account-icon-btn mat-icon {
+    color: white;
 }

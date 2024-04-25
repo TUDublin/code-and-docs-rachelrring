@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { AvgEarningsResponseDTO, HS0672015Region } from './CSOData/CSOData';
+import { HS0672015Region } from './CSOData/CSOData';
 import { Chart } from 'chart.js/auto';
 
 
@@ -17,7 +17,6 @@ import { Chart } from 'chart.js/auto';
   styleUrl: './data-visualisations.component.css'
 })
 export class DataVisualisationsComponent implements OnInit {
-  public dataAvgEarnings!: AvgEarningsResponseDTO;
   public datahs067!: HS0672015Region;
 
   chart: any;
@@ -29,22 +28,10 @@ export class DataVisualisationsComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<AvgEarningsResponseDTO>(environment.goUrlAddress + '/averageEarnings').subscribe(
-      {
-        next: (res: AvgEarningsResponseDTO) => {
-          this.dataAvgEarnings = res;
-          this.createChart();
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log(err);
-        }
-      }
-    );
 
     this.http.get<HS0672015Region>(environment.goUrlAddress + '/hs067Region').subscribe(
       {
         next: (res: HS0672015Region) => {
-          console.log(res);
           this.datahs067 = res;
           this.createChartHS067(this.datahs067);
           this.createGrossIncomeChart(this.datahs067);
@@ -58,60 +45,16 @@ export class DataVisualisationsComponent implements OnInit {
     );
   }
 
-  createChart() {
-    this.chart = new Chart('barChart', {
-      type: 'bar',
-      data: {
-        labels: ["Employees Wages", "Self Employed", "Retirement Pension", "Child Benefit", "Investment Income"],
-        datasets: [
-          {
-            label: 'Income',
-            data: [
-              this.dataAvgEarnings.EmployeesWages,
-              this.dataAvgEarnings.SelfEmployeed,
-              this.dataAvgEarnings.RetirementPension,
-              this.dataAvgEarnings.ChildBenefit,
-              this.dataAvgEarnings.InvestmentIncome,
-            ]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'right',
-          },
-          title: {
-            display: true,
-            text: 'Average Household Income'
-          },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                let label = context.dataset.label || '';
-
-                if (label) {
-                  label += ': ';
-                }
-                if (context.parsed.y !== null) {
-                  label += '€' + context.parsed.y.toFixed(2);
-                }
-                return label;
-              }
-            }
-          }
-        },
-      }
-    });
-  }
 
   createChartHS067(data: HS0672015Region) {
-    // Assuming you have a predefined list of income types that matches your data
-    const excludedIncomeType = "Employees-wages/salaries";
-    const incomeTypes = ["Self-employed income", "Retirement pensions", "Investment income", "Property income", "Child benefit", "Other direct income"]; // Define all other types  
-
+    const incomeTypes = [
+      "Self-employed income",
+      "Retirement pensions",
+      "Investment income",
+      "Property income",
+      "Child benefit",
+      "Other direct income",
+    ];
 
     const datasets = Object.keys(data).map(regionKey => {
       const regionData = data[regionKey as keyof HS0672015Region];
@@ -175,8 +118,6 @@ export class DataVisualisationsComponent implements OnInit {
         },
       },
     });
-
-    this.chart.render();
   }
 
   createGrossIncomeChart(data: HS0672015Region) {
@@ -228,23 +169,22 @@ export class DataVisualisationsComponent implements OnInit {
         },
       }
     });
-    this.wagesChart.render();
   }
 
   createDisposableIncomeChart(data: HS0672015Region) {
     const incomeType = "Disposable income (A+B-C)"; // Specify the exact income type label
-  
+
     const datasets = Object.keys(data).map(regionKey => {
       const regionData = data[regionKey as keyof HS0672015Region];
       const incomeData = regionData.find(row => row.IncomeType === incomeType);
       const value = incomeData ? incomeData.Value : 0; // If not found, use 0 as value
-  
+
       return {
         label: regionKey,
         data: [value],
       };
     });
-  
+
     this.disposableIncomeChart = new Chart('disposableIncomeChart', {
       type: 'bar',
       data: {
@@ -266,7 +206,7 @@ export class DataVisualisationsComponent implements OnInit {
             callbacks: {
               label: function (context) {
                 let label = context.dataset.label || '';
-  
+
                 if (label) {
                   label += ': ';
                 }
@@ -280,8 +220,6 @@ export class DataVisualisationsComponent implements OnInit {
         },
       }
     });
-  
-    this.disposableIncomeChart.render();
   }
 
 
@@ -300,7 +238,7 @@ export class DataVisualisationsComponent implements OnInit {
       };
     });
 
-    this.wagesChart = new Chart('deductionsChart', {
+    this.deductionsChart = new Chart('deductionsChart', {
       type: 'bar',
       data: {
         labels: [incomeType],
@@ -335,7 +273,5 @@ export class DataVisualisationsComponent implements OnInit {
         },
       }
     });
-    this.deductionsChart.render();
   }
-  
 }

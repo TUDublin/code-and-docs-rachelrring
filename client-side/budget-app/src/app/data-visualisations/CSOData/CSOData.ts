@@ -1,12 +1,3 @@
-export interface AvgEarningsResponseDTO{
-    EmployeesWages: number;
-	SelfEmployeed: number; 
-	RetirementPension: number; 
-	ChildBenefit: number; 
-	InvestmentIncome: number; 
-}
-
-
 export interface HS067rowRegion {
 	IncomeType: string;
 	Value: number;

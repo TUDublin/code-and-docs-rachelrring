@@ -26,6 +26,7 @@ func main() {
 
 	router.GET("/hs067", getHS067)
 	router.GET("/hs067Region", getHS067Region)
+	router.GET("/hs208", getHS208)
 
 	router.Run("localhost:8070")
 }
@@ -134,6 +135,49 @@ func getHS067Region(c *gin.Context) {
 		case "South-West":
 			data.SouthWest = append(data.SouthWest, row)
 		}
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+func getHS208(c *gin.Context) {
+	file, err := os.Open("./CSOData/HS208.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS2082015
+
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS208row{
+			ExpenditureType: record[3],
+			HouseholdSize:   record[5],
+			Value:           value,
+		}
+		data.Rows = append(data.Rows, row)
 	}
 
 	c.IndentedJSON(http.StatusOK, data)

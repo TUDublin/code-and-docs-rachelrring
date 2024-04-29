@@ -27,6 +27,16 @@ type HS0672015Region struct {
 	SouthWest []HS067rowRegion
 }
 
+type HS208row struct {
+	ExpenditureType string
+	HouseholdSize   string
+	Value           float64
+}
+
+type HS2082015 struct {
+	Rows []HS208row
+}
+
 // unneeded due to bug #18
 // type AverageEarnings struct {
 // 	Class     string `json:"class"`

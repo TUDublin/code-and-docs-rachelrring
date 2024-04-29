@@ -60,7 +60,7 @@ export class DataVisualisationsComponent implements OnInit {
       const regionData = data[regionKey as keyof HS0672015Region];
       const dataValues = incomeTypes.map(incomeType => {
         const incomeData = regionData.find(row => row.IncomeType === incomeType);
-        return incomeData ? incomeData.Value : 0; // If not found, use 0
+        return incomeData ? incomeData.Value : 0; 
       });
 
       return {
@@ -87,7 +87,7 @@ export class DataVisualisationsComponent implements OnInit {
           y: {
             beginAtZero: true,
             title: {
-              display: true, // If you want to show the y-axis title
+              display: true,
               text: 'Amount (€)'
             }
           }
@@ -98,7 +98,7 @@ export class DataVisualisationsComponent implements OnInit {
           },
           title: {
             display: true,
-            text: 'Average Monthly Household Income by Region and Income Type',
+            text: 'Average Weekly Household Income by Region and Income Type',
           },
           tooltip: {
             callbacks: {
@@ -121,12 +121,12 @@ export class DataVisualisationsComponent implements OnInit {
   }
 
   createGrossIncomeChart(data: HS0672015Region) {
-    const incomeType = "Gross income (A+B)"; // Specify the exact income type label
+    const incomeType = "Gross income (A+B)";
 
     const datasets = Object.keys(data).map(regionKey => {
       const regionData = data[regionKey as keyof HS0672015Region];
       const incomeData = regionData.find(row => row.IncomeType === incomeType);
-      const value = incomeData ? incomeData.Value : 0; // If not found, use 0 as value
+      const value = incomeData ? incomeData.Value : 0;
 
       return {
         label: regionKey,
@@ -134,10 +134,14 @@ export class DataVisualisationsComponent implements OnInit {
       };
     });
 
+    if (this.wagesChart) {
+      this.wagesChart.destroy();
+    }
+
     this.wagesChart = new Chart('wagesChart', {
       type: 'bar',
       data: {
-        labels: [incomeType],
+        labels: [''],
         datasets: datasets,
       },
       options: {
@@ -149,13 +153,13 @@ export class DataVisualisationsComponent implements OnInit {
           },
           title: {
             display: true,
-            text: "Average Gross Income by Region",
+            text: "Average Weekly Gross Income by Region",
           },
           tooltip: {
             callbacks: {
               label: function (context) {
                 let label = context.dataset.label || '';
-
+    
                 if (label) {
                   label += ': ';
                 }
@@ -167,17 +171,26 @@ export class DataVisualisationsComponent implements OnInit {
             }
           }
         },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Amount (€)'
+            }
+          }
+        },
       }
     });
   }
 
   createDisposableIncomeChart(data: HS0672015Region) {
-    const incomeType = "Disposable income (A+B-C)"; // Specify the exact income type label
+    const incomeType = "Disposable income (A+B-C)";
 
     const datasets = Object.keys(data).map(regionKey => {
       const regionData = data[regionKey as keyof HS0672015Region];
       const incomeData = regionData.find(row => row.IncomeType === incomeType);
-      const value = incomeData ? incomeData.Value : 0; // If not found, use 0 as value
+      const value = incomeData ? incomeData.Value : 0;
 
       return {
         label: regionKey,
@@ -188,7 +201,7 @@ export class DataVisualisationsComponent implements OnInit {
     this.disposableIncomeChart = new Chart('disposableIncomeChart', {
       type: 'bar',
       data: {
-        labels: [incomeType],
+        labels: [''],
         datasets: datasets,
       },
       options: {
@@ -200,7 +213,7 @@ export class DataVisualisationsComponent implements OnInit {
           },
           title: {
             display: true,
-            text: "Average Disposable Income by Region",
+            text: "Average Weekly Disposable Income by Region",
           },
           tooltip: {
             callbacks: {
@@ -218,6 +231,15 @@ export class DataVisualisationsComponent implements OnInit {
             }
           }
         },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true, 
+              text: 'Amount (€)'
+            }
+          }
+        },
       }
     });
   }
@@ -225,12 +247,12 @@ export class DataVisualisationsComponent implements OnInit {
 
 
   createDeductionsChart(data: HS0672015Region) {
-    const incomeType = "Income tax & social insurance deductions (C)"; // Specify the exact income type label
+    const incomeType = "Income tax & social insurance deductions (C)";
 
     const datasets = Object.keys(data).map(regionKey => {
       const regionData = data[regionKey as keyof HS0672015Region];
       const incomeData = regionData.find(row => row.IncomeType === incomeType);
-      const value = incomeData ? incomeData.Value : 0; // If not found, use 0 as value
+      const value = incomeData ? incomeData.Value : 0;
 
       return {
         label: regionKey,
@@ -241,7 +263,7 @@ export class DataVisualisationsComponent implements OnInit {
     this.deductionsChart = new Chart('deductionsChart', {
       type: 'bar',
       data: {
-        labels: [incomeType],
+        labels: [''],
         datasets: datasets,
       },
       options: {
@@ -253,7 +275,7 @@ export class DataVisualisationsComponent implements OnInit {
           },
           title: {
             display: true,
-            text: "Average Income tax & social insurance deductions by Region",
+            text: "Average Weekly Income tax & social insurance deductions by Region",
           },
           tooltip: {
             callbacks: {
@@ -268,6 +290,15 @@ export class DataVisualisationsComponent implements OnInit {
                 }
                 return label;
               }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Amount (€)'
             }
           }
         },

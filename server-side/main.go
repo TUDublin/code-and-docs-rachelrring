@@ -31,6 +31,7 @@ func main() {
 }
 
 func getHS067(c *gin.Context) {
+	// Data downloaded from https://data.gov.ie/dataset/043974bb-a509-4910-a895-68c3d3ac1a95/resource/a3d0db56-dd04-43d3-ae4f-1d40cbdffd48
 	file, err := os.Open("./CSOData/HS067.csv")
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
@@ -75,6 +76,7 @@ func getHS067(c *gin.Context) {
 }
 
 func getHS067Region(c *gin.Context) {
+	// Data downloaded from https://data.gov.ie/dataset/043974bb-a509-4910-a895-68c3d3ac1a95/resource/a3d0db56-dd04-43d3-ae4f-1d40cbdffd48
 	file, err := os.Open("./CSOData/HS067.csv")
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)

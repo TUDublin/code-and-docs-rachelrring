@@ -5,6 +5,17 @@ import { environment } from '../../environments/environment';
 import { HS0672015Region, HS2082015 } from './CSOData/CSOData';
 import { Chart } from 'chart.js/auto';
 
+const barColors = [
+  'rgba(54, 162, 235, 1)',   // Light Blue (State)
+  'rgba(255, 99, 132, 1)',   // Pink (Border)
+  'rgba(255, 159, 64, 1)',   // Orange (Midland)
+  'rgba(23, 162, 184, 1)',   // Teal (West)
+  'rgba(136, 84, 208, 1)',   // Purple (Dublin)
+  'rgba(149, 165, 166, 1)',  // Gray (MidEast)
+  'rgba(189, 195, 199, 1)',  // Light Gray (MidWest)
+  'rgba(41, 128, 185, 1)',   // Soft Blue (SouthEast)
+  'rgba(236, 112, 99, 1)'    // Soft Pink (SouthWest)
+];
 
 @Component({
   selector: 'app-data-visualisations',
@@ -77,94 +88,48 @@ export class DataVisualisationsComponent implements OnInit {
     if (this.hs208Chart) {
       this.hs208Chart.destroy();
     }
-  
-    const expenditureTypes = data.Rows.filter(row => row.HouseholdSize === householdSize).map(row => row.ExpenditureType);
-    const dataValues = data.Rows.filter(row => row.HouseholdSize === householdSize).map(row => row.Value);
-  
+
+    const filteredData = data.Rows.filter(row => row.HouseholdSize === householdSize && row.ExpenditureType !== "00.00.00.00 Total average weekly household expenditure");
+
+    const expenditureTypes = filteredData.map(row => row.ExpenditureType);
+    const dataValues = filteredData.map(row => row.Value);
+
+    const totalEntry = data.Rows.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
+    const total = totalEntry ? totalEntry.Value : 0;
+
+    console.log(total);
+
     const ctx = document.getElementById('hs208Chart') as HTMLCanvasElement;
     this.hs208Chart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: expenditureTypes,
         datasets: [{
-          label: `${householdSize} Household`,
           data: dataValues,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
+          backgroundColor: barColors,
         }]
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           x: {
             title: {
               display: false,
             },
             ticks: {
-              display: false  // This hides the x-axis labels
+              display: false
             },
+            grid: {
+              display: false
+            }
           },
           y: {
-            beginAtZero: true
-          }
-        },
-        plugins: {
-          legend: {
-            display: false  // Hide legend
-          },
-          title: {
-            display: true,
-            text: 'Total Expenditure'  // Chart title
-          }
-        }
-      }
-    });
-  }
-  
-
-  updateChart(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const householdSize = selectElement.value;
-    if (this.datahs208) {
-      this.createChartHS208(this.datahs208, householdSize);
-    } else {
-      console.error("Data not loaded when changing selection");
-    }
-  }
-
-  createChartHS208OverView(data: HS2082015, householdSize: string): void {
-    if (this.hs208ChartOverView) {
-      this.hs208ChartOverView.destroy();
-    }
-  
-    const expenditureTypes = data.Rows.filter(row => row.HouseholdSize === householdSize).map(row => row.ExpenditureType);
-    const dataValues = data.Rows.filter(row => row.HouseholdSize === householdSize).map(row => row.Value);
-  
-    const ctx = document.getElementById('hs208ChartOverView') as HTMLCanvasElement;
-    this.hs208ChartOverView = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: expenditureTypes,
-        datasets: [{
-          label: `${householdSize} Household`,
-          data: dataValues,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          x: {
+            beginAtZero: true,
             title: {
-              display: false,
-            },
-            ticks: {
-              display: false  // This hides the x-axis labels
-            },
-          },
-          y: {
-            beginAtZero: true
+              display: true,
+              text: 'Amount (€)'
+            }
           }
         },
         plugins: {
@@ -173,8 +138,99 @@ export class DataVisualisationsComponent implements OnInit {
           },
           title: {
             display: true,
-            text: 'Total Expenditure'
+            text: 'Total Weekly Expenditure - Fine Grained'
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || '';
+
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += '€' + context.parsed.y.toFixed(2);
+                }
+                return label;
+              }
+            }
+          },
+        }
+      }
+    });
+  }
+
+  createChartHS208OverView(data: HS2082015, householdSize: string): void {
+    if (this.hs208ChartOverView) {
+      this.hs208ChartOverView.destroy();
+    }
+
+    const filteredData = data.Rows.filter(row => row.HouseholdSize === householdSize && row.ExpenditureType !== "00.00.00.00 Total average weekly household expenditure");
+
+    const expenditureTypes = filteredData.map(row => row.ExpenditureType);
+    const dataValues = filteredData.map(row => row.Value);
+
+    const totalEntry = data.Rows.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
+    const total = totalEntry ? totalEntry.Value : 0;
+
+    console.log(total);
+
+    const ctx = document.getElementById('hs208ChartOverView') as HTMLCanvasElement;
+    this.hs208ChartOverView = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: expenditureTypes,
+        datasets: [{
+          data: dataValues,
+          backgroundColor: barColors,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: {
+              display: false,
+            },
+            ticks: {
+              display: false
+            },
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Amount (€)'
+            }
           }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          title: {
+            display: true,
+            text: 'Total Weekly Expenditure'
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || '';
+
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += '€' + context.parsed.y.toFixed(2);
+                }
+                return label;
+              }
+            }
+          },
         }
       }
     });
@@ -185,6 +241,11 @@ export class DataVisualisationsComponent implements OnInit {
     const householdSize = selectElement.value;
     if (this.datahs208OverView) {
       this.createChartHS208OverView(this.datahs208OverView, householdSize);
+    } else {
+      console.error("Data not loaded when changing selection");
+    }
+    if (this.datahs208) {
+      this.createChartHS208(this.datahs208, householdSize);
     } else {
       console.error("Data not loaded when changing selection");
     }
@@ -266,12 +327,10 @@ export class DataVisualisationsComponent implements OnInit {
 
   createGrossIncomeChart(data: HS0672015Region) {
     const incomeType = "Gross income (A+B)";
-
     const datasets = Object.keys(data).map(regionKey => {
       const regionData = data[regionKey as keyof HS0672015Region];
       const incomeData = regionData.find(row => row.IncomeType === incomeType);
       const value = incomeData ? incomeData.Value : 0;
-
       return {
         label: regionKey,
         data: [value],

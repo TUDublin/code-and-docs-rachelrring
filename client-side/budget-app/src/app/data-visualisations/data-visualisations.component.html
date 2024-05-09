@@ -1,51 +1,65 @@
-<div class="chartContainer">
-    <canvas id="barChartHS067"></canvas>
-</div>
+<!DOCTYPE html>
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne">
+                    <h4>Income Charts</h4>
+                </button>
+            </h5>
+        </div>
 
-<div class="chartContainer">
-    <canvas id="wagesChart"></canvas>
-</div>
-
-<div class="chartContainer">
-    <canvas id="disposableIncomeChart"></canvas>
-</div>
-
-<div class="chartContainer">
-    <canvas id="deductionsChart"></canvas>
-</div>
-
-<div class="chartContainer">
-    <div class="chartHeader">
-        <select (change)="updateChart($event)">
-            <option value="All household sizes">All household sizes</option>
-            <option value="1 person">1 Person</option>
-            <option value="2 persons">2 Persons</option>
-            <option value="3 persons">3 Persons</option>
-            <option value="4 persons">4 Persons</option>
-            <option value="5 persons">5 Persons</option>
-            <option value="6 + Persons">6 + Persons</option>
-        </select>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <div class="chartContainer">
+                    <canvas id="barChartHS067"></canvas>
+                </div>
+                <div class="chartContainer">
+                    <canvas id="wagesChart"></canvas>
+                </div>
+                <div class="chartContainer">
+                    <canvas id="disposableIncomeChart"></canvas>
+                </div>
+                <div class="chartContainer">
+                    <canvas id="deductionsChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-    <canvas id="hs208Chart"></canvas>
-</div>
 
-
-    <div class="chartHeader">
-        <select (change)="updateOverViewChart($event)">
-            <option value="All household sizes">All household sizes</option>
-            <option value="1 person">1 Person</option>
-            <option value="2 persons">2 Persons</option>
-            <option value="3 persons">3 Persons</option>
-            <option value="4 persons">4 Persons</option>
-            <option value="5 persons">5 Persons</option>
-            <option value="6 + Persons">6 + Persons</option>
-        </select>
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                    <h4>Expenditure Charts</h4>
+                </button>
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                <div class="chartContainer">
+                    <div class="chartHeader">
+                        <select (change)="updateOverViewChart($event)">
+                            <option value="All household sizes">All household sizes</option>
+                            <option value="1 person">1 Person</option>
+                            <option value="2 persons">2 Persons</option>
+                            <option value="3 persons">3 Persons</option>
+                            <option value="4 persons">4 Persons</option>
+                            <option value="5 persons">5 Persons</option>
+                            <option value="6 + Persons">6 + Persons</option>
+                        </select>
+                    </div>
+                    <canvas id="hs208ChartOverView"></canvas>
+                </div>
+                <div class="chartContainer">
+                    <canvas id="hs208Chart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-<div class="chartContainer">
-    <canvas id="hs208ChartOverView"></canvas>
 </div>
-
-
 <div class="card-footer text-muted">
     Sources
     <ul>

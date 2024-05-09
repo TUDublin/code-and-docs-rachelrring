@@ -28,6 +28,7 @@ func main() {
 	router.GET("/hs067", getHS067)
 	router.GET("/hs067Region", getHS067Region)
 	router.GET("/hs208", getHS208)
+	router.GET("/hs208OverView", getHS208OverView)
 
 	router.Run("localhost:8070")
 }
@@ -142,6 +143,7 @@ func getHS067Region(c *gin.Context) {
 }
 
 func getHS208(c *gin.Context) {
+
 	file, err := os.Open("./CSOData/HS208.csv")
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
@@ -163,6 +165,8 @@ func getHS208(c *gin.Context) {
 	var data HS2082015
 
 	allowedExpenditureTypes := []string{
+		"00.00.00.00 Total average weekly household expenditure",
+
 		"01 Total food",
 		"01.01.16 Takeaway food brought/delivered to home",
 		"01.02 Meals away from home  (incl. takeout tea/coffee)",
@@ -216,6 +220,65 @@ func getHS208(c *gin.Context) {
 		"09.14 Hairdressing and personal grooming",
 		"09.17.03 Childcare",
 		"09.18.01 Maintenance or separation allowance",
+	}
+
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		if !slices.Contains(allowedExpenditureTypes, record[3]) {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS208row{
+			ExpenditureType: record[3],
+			HouseholdSize:   record[5],
+			Value:           value,
+		}
+		data.Rows = append(data.Rows, row)
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+func getHS208OverView(c *gin.Context) {
+	file, err := os.Open("./CSOData/HS208.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS2082015
+
+	allowedExpenditureTypes := []string{
+		"00.00.00.00 Total average weekly household expenditure",
+		"01 Total food",
+		"02 Total drink and tobacco",
+		"03 Total clothing and footwear",
+		"04 Total fuel and light",
+		"05 Total housing",
+		"06 Total household non-durable goods",
+		"07 Total household durable goods",
+		"08 Total transport",
+		"09 Total miscellaneous goods, services and other expenditure",
 	}
 
 	for i, record := range records {

@@ -14,11 +14,47 @@
     <canvas id="deductionsChart"></canvas>
 </div>
 
+<div class="chartContainer">
+    <div class="chartHeader">
+        <select (change)="updateChart($event)">
+            <option value="All household sizes">All household sizes</option>
+            <option value="1 person">1 Person</option>
+            <option value="2 persons">2 Persons</option>
+            <option value="3 persons">3 Persons</option>
+            <option value="4 persons">4 Persons</option>
+            <option value="5 persons">5 Persons</option>
+            <option value="6 + Persons">6 + Persons</option>
+        </select>
+    </div>
+    <canvas id="hs208Chart"></canvas>
+</div>
+
+
+    <div class="chartHeader">
+        <select (change)="updateOverViewChart($event)">
+            <option value="All household sizes">All household sizes</option>
+            <option value="1 person">1 Person</option>
+            <option value="2 persons">2 Persons</option>
+            <option value="3 persons">3 Persons</option>
+            <option value="4 persons">4 Persons</option>
+            <option value="5 persons">5 Persons</option>
+            <option value="6 + Persons">6 + Persons</option>
+        </select>
+    </div>
+<div class="chartContainer">
+    <canvas id="hs208ChartOverView"></canvas>
+</div>
+
+
 <div class="card-footer text-muted">
     Sources
     <ul>
         <li>
-            <a href="https://data.gov.ie/dataset/043974bb-a509-4910-a895-68c3d3ac1a95/resource/a3d0db56-dd04-43d3-ae4f-1d40cbdffd48">HS067</a>
+            <a
+                href="https://data.gov.ie/dataset/043974bb-a509-4910-a895-68c3d3ac1a95/resource/a3d0db56-dd04-43d3-ae4f-1d40cbdffd48">HS067</a>
+        </li>
+        <li>
+            <a href="https://data.gov.ie/dataset/hs208-average-weekly-household-expenditure">HS208</a>
         </li>
     </ul>
 </div>

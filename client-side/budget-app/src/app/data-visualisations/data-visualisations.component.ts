@@ -31,6 +31,8 @@ export class DataVisualisationsComponent implements OnInit {
   public datahs067!: HS0672015Region;
   public datahs208!: HS2082015;
   public datahs208OverView!: HS2082015;
+  public expenseTotal = 0;
+  public householdNumber = "All household sizes";
 
   chart: any;
   wagesChart: any;
@@ -95,9 +97,7 @@ export class DataVisualisationsComponent implements OnInit {
     const dataValues = filteredData.map(row => row.Value);
 
     const totalEntry = data.Rows.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
-    const total = totalEntry ? totalEntry.Value : 0;
-
-    console.log(total);
+    this.expenseTotal = totalEntry ? totalEntry.Value : 0;
 
     const ctx = document.getElementById('hs208Chart') as HTMLCanvasElement;
     this.hs208Chart = new Chart(ctx, {
@@ -170,11 +170,6 @@ export class DataVisualisationsComponent implements OnInit {
     const expenditureTypes = filteredData.map(row => row.ExpenditureType);
     const dataValues = filteredData.map(row => row.Value);
 
-    const totalEntry = data.Rows.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
-    const total = totalEntry ? totalEntry.Value : 0;
-
-    console.log(total);
-
     const ctx = document.getElementById('hs208ChartOverView') as HTMLCanvasElement;
     this.hs208ChartOverView = new Chart(ctx, {
       type: 'bar',
@@ -239,6 +234,7 @@ export class DataVisualisationsComponent implements OnInit {
   updateOverViewChart(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const householdSize = selectElement.value;
+    this.householdNumber = householdSize;
     if (this.datahs208OverView) {
       this.createChartHS208OverView(this.datahs208OverView, householdSize);
     } else {

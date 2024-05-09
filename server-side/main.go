@@ -167,56 +167,30 @@ func getHS208(c *gin.Context) {
 	allowedExpenditureTypes := []string{
 		"00.00.00.00 Total average weekly household expenditure",
 
-		"01 Total food",
 		"01.01.16 Takeaway food brought/delivered to home",
 		"01.02 Meals away from home  (incl. takeout tea/coffee)",
 
 		"02.03 Tobacco",
 		"02.03.01 Cigarettes and cigarette papers",
 
-		"03 Total clothing and footwear",
-
-		"04 Total fuel and light",
 		"04.01 Electricity",
 		"04.02 Gas",
 
-		"05 Total housing",
-		"05.01 Rent paid for primary dwelling",
-		"05.04 Mortgage payment (primary dwelling)",
-		"05.08 Primary dwelling insurance",
 		"05.09 Local property tax",
 		"05.10 Water charges",
 
 		"06.09 Cosmetics and related accessories",
 
-		"07.35 Downloads, streaming, apps and other internet services n.e.c",
-
-		"08 Total transport",
 		"08.02 Motor Fuel",
-		"08.02.01 Petrol",
-		"08.02.02 Diesel",
 		"08.03.01 Vehicle insurance",
-		"08.04 Vehicle maintenance and other costs",
 		"08.05 Bus, Luas, rail and taxi",
 
 		"09.01 Medical expenses/services and therapeutic equipment",
-		"09.01.01 Prescription medication",
-		"09.01.02 Over the counter (OTC) medicines",
-		"09.01.05 Dentist",
 		"09.02 Telephone, mobile and car phone",
 		"09.03 Television, internet and bundle subscriptions",
 		"09.04 Admission and subscription charges - sports and leisure",
 		"09.05 Betting and lotteries",
-		"09.06 Reading materials",
-		"09.07.01 Montessori/primary school fees",
-		"09.07.07 College/university fees",
 		"09.09 Holiday expenditure",
-		"09.10.01 Life Insurance",
-		"09.10.02 Mortgage protection policy (main dwelling)",
-		"09.10.03 Medical/dental insurance",
-		"09.10.06 Pension contributions",
-		"09.11.01 Pet food",
-		"09.11.04 Veterinary and other pet services",
 		"09.14 Hairdressing and personal grooming",
 		"09.17.03 Childcare",
 		"09.18.01 Maintenance or separation allowance",

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { HS0672015Region } from './CSOData/CSOData';
+import { HS0672015Region, HS2082015 } from './CSOData/CSOData';
 import { Chart } from 'chart.js/auto';
 
 
@@ -37,6 +37,17 @@ export class DataVisualisationsComponent implements OnInit {
           this.createGrossIncomeChart(this.datahs067);
           this.createDisposableIncomeChart(this.datahs067);
           this.createDeductionsChart(this.datahs067);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        }
+      }
+    );
+
+    this.http.get<HS2082015>(environment.goUrlAddress + '/hs208').subscribe(
+      {
+        next: (res: HS2082015) => {
+          console.log(res);
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);

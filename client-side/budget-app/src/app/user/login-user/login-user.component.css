@@ -16,3 +16,8 @@ em{
 button {
     background-color: purple;
 }
+
+.right-align {
+    display: flex;
+    justify-content: flex-end; /* This aligns the child element to the right */
+}

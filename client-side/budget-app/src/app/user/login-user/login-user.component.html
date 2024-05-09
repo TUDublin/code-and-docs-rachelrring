@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <h1 class="card-title">Login</h1>
-  
+
         <div *ngIf="showError" class="alert alert-danger" role="alert">
             <p>
                 You are unable to log in at this time.<br>
@@ -28,10 +28,9 @@
                     <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
                 </div>
             </div>
-            <br>
-            <div class="mb-3 row">
+            <div class="mb-3 row right-align">
                 <div class="col-md-1">
-                    <button type="submit" class="btn btn-info" [disabled]="!loginForm.valid">Login</button>
+                    <button type="submit" class="btn btn-info" [disabled]="!loginForm.valid" style="background-color: purple;">Login</button>
                 </div>
             </div>
         </form>
@@ -41,4 +40,4 @@
             </p>
         </div>
     </div>
-  </div>
+</div>

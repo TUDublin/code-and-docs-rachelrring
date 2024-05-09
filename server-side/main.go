@@ -1,306 +1,352 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
+	"encoding/csv"
 	"net/http"
-	"time"
+	"os"
+	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/exp/slices"
 )
-
-type dataCSO struct {
-	Class     string `json:"class"`
-	Dimension struct {
-		STATISTIC struct {
-			Category struct {
-				Index []string `json:"index"`
-				Label struct {
-					EHQ04C01 string `json:"EHQ04C01"`
-					EHQ04C02 string `json:"EHQ04C02"`
-					EHQ04C03 string `json:"EHQ04C03"`
-					EHQ04C04 string `json:"EHQ04C04"`
-					EHQ04C05 string `json:"EHQ04C05"`
-					EHQ04C06 string `json:"EHQ04C06"`
-					EHQ04C07 string `json:"EHQ04C07"`
-					EHQ04S1  string `json:"EHQ04S1"`
-					EHQ04S2  string `json:"EHQ04S2"`
-					EHQ04S3  string `json:"EHQ04S3"`
-					EHQ04S4  string `json:"EHQ04S4"`
-					EHQ04S5  string `json:"EHQ04S5"`
-					EHQ04S6  string `json:"EHQ04S6"`
-					EHQ04S7  string `json:"EHQ04S7"`
-				} `json:"label"`
-				Unit struct {
-					EHQ04C01 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04C01"`
-					EHQ04C02 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04C02"`
-					EHQ04C03 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04C03"`
-					EHQ04C04 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04C04"`
-					EHQ04C05 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04C05"`
-					EHQ04C06 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04C06"`
-					EHQ04C07 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04C07"`
-					EHQ04S1 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04S1"`
-					EHQ04S2 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04S2"`
-					EHQ04S3 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04S3"`
-					EHQ04S4 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04S4"`
-					EHQ04S5 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04S5"`
-					EHQ04S6 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04S6"`
-					EHQ04S7 struct {
-						Decimals int    `json:"decimals"`
-						Label    string `json:"label"`
-						Position string `json:"position"`
-					} `json:"EHQ04S7"`
-				} `json:"unit"`
-			} `json:"category"`
-			Label string `json:"label"`
-		} `json:"STATISTIC"`
-		TLISTQ1 struct {
-			Category struct {
-				Index []string `json:"index"`
-				Label struct {
-					Num20081 string `json:"20081"`
-					Num20082 string `json:"20082"`
-					Num20083 string `json:"20083"`
-					Num20084 string `json:"20084"`
-					Num20091 string `json:"20091"`
-					Num20092 string `json:"20092"`
-					Num20093 string `json:"20093"`
-					Num20094 string `json:"20094"`
-					Num20101 string `json:"20101"`
-					Num20102 string `json:"20102"`
-					Num20103 string `json:"20103"`
-					Num20104 string `json:"20104"`
-					Num20111 string `json:"20111"`
-					Num20112 string `json:"20112"`
-					Num20113 string `json:"20113"`
-					Num20114 string `json:"20114"`
-					Num20121 string `json:"20121"`
-					Num20122 string `json:"20122"`
-					Num20123 string `json:"20123"`
-					Num20124 string `json:"20124"`
-					Num20131 string `json:"20131"`
-					Num20132 string `json:"20132"`
-					Num20133 string `json:"20133"`
-					Num20134 string `json:"20134"`
-					Num20141 string `json:"20141"`
-					Num20142 string `json:"20142"`
-					Num20143 string `json:"20143"`
-					Num20144 string `json:"20144"`
-					Num20151 string `json:"20151"`
-					Num20152 string `json:"20152"`
-					Num20153 string `json:"20153"`
-					Num20154 string `json:"20154"`
-					Num20161 string `json:"20161"`
-					Num20162 string `json:"20162"`
-					Num20163 string `json:"20163"`
-					Num20164 string `json:"20164"`
-					Num20171 string `json:"20171"`
-					Num20172 string `json:"20172"`
-					Num20173 string `json:"20173"`
-					Num20174 string `json:"20174"`
-					Num20181 string `json:"20181"`
-					Num20182 string `json:"20182"`
-					Num20183 string `json:"20183"`
-					Num20184 string `json:"20184"`
-					Num20191 string `json:"20191"`
-					Num20192 string `json:"20192"`
-					Num20193 string `json:"20193"`
-					Num20194 string `json:"20194"`
-					Num20201 string `json:"20201"`
-					Num20202 string `json:"20202"`
-					Num20203 string `json:"20203"`
-					Num20204 string `json:"20204"`
-					Num20211 string `json:"20211"`
-					Num20212 string `json:"20212"`
-					Num20213 string `json:"20213"`
-					Num20214 string `json:"20214"`
-					Num20221 string `json:"20221"`
-					Num20222 string `json:"20222"`
-					Num20223 string `json:"20223"`
-					Num20224 string `json:"20224"`
-					Num20231 string `json:"20231"`
-					Num20232 string `json:"20232"`
-					Num20233 string `json:"20233"`
-				} `json:"label"`
-			} `json:"category"`
-			Label string `json:"label"`
-		} `json:"TLIST(Q1)"`
-		C02398V02889 struct {
-			Category struct {
-				Index []string `json:"index"`
-				Label struct {
-					Num299 string `json:"299"`
-					Num321 string `json:"321"`
-					Num441 string `json:"441"`
-				} `json:"label"`
-			} `json:"category"`
-			Label string `json:"label"`
-		} `json:"C02398V02889"`
-		C02665V03225 struct {
-			Category struct {
-				Index []string `json:"index"`
-				Label struct {
-					NAMING_FAILED string `json:"-"`
-					F             string `json:"F"`
-					G             string `json:"G"`
-					H             string `json:"H"`
-					I             string `json:"I"`
-					J             string `json:"J"`
-					M             string `json:"M"`
-					N             string `json:"N"`
-					O             string `json:"O"`
-					P             string `json:"P"`
-					Q             string `json:"Q"`
-					Y0900         string `json:"Y0900"`
-					Y3500         string `json:"Y3500"`
-					Y7500         string `json:"Y7500"`
-				} `json:"label"`
-			} `json:"category"`
-			Label string `json:"label"`
-		} `json:"C02665V03225"`
-	} `json:"dimension"`
-	Extension struct {
-		Matrix   string   `json:"matrix"`
-		Reasons  []string `json:"reasons"`
-		Language struct {
-			Code string `json:"code"`
-			Name string `json:"name"`
-		} `json:"language"`
-		Elimination struct {
-			C02398V02889 interface{} `json:"C02398V02889"`
-			C02665V03225 string      `json:"C02665V03225"`
-		} `json:"elimination"`
-		Contact struct {
-			Name  string `json:"name"`
-			Email string `json:"email"`
-			Phone string `json:"phone"`
-		} `json:"contact"`
-		Subject struct {
-			Code  int    `json:"code"`
-			Value string `json:"value"`
-		} `json:"subject"`
-		Product struct {
-			Code  string `json:"code"`
-			Value string `json:"value"`
-		} `json:"product"`
-		Official  bool `json:"official"`
-		Copyright struct {
-			Name string `json:"name"`
-			Code string `json:"code"`
-			Href string `json:"href"`
-		} `json:"copyright"`
-		Exceptional  bool `json:"exceptional"`
-		Reservation  bool `json:"reservation"`
-		Archive      bool `json:"archive"`
-		Experimental bool `json:"experimental"`
-		Analytical   bool `json:"analytical"`
-	} `json:"extension"`
-	Href  string   `json:"href"`
-	ID    []string `json:"id"`
-	Label string   `json:"label"`
-	Link  struct {
-		Alternate []struct {
-			Type string `json:"type"`
-			Href string `json:"href"`
-		} `json:"alternate"`
-	} `json:"link"`
-	Note []string `json:"note"`
-	Role struct {
-		Metric []string `json:"metric"`
-		Time   []string `json:"time"`
-	} `json:"role"`
-	Size    []int         `json:"size"`
-	Updated time.Time     `json:"updated"`
-	Value   []interface{} `json:"value"`
-	Version string        `json:"version"`
-}
 
 func main() {
 	router := gin.Default()
 
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
-	config.AllowMethods = []string{"POST", "GET", "PUT", "OPTIONS"}
-	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization", "Accept", "User-Agent", "Cache-Control", "Pragma"}
-	config.ExposeHeaders = []string{"Content-Length"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"}
+	config.ExposeHeaders = []string{"Content-Length", "Content-Disposition"}
 
 	router.Use(cors.New(config))
-	router.GET("/data", getCSOData)
+
+	// router.GET("/CSOdata", getCSOData)
+	// router.GET("/averageEarnings", getNAverageEarnings2015)
+
+	router.GET("/hs067", getHS067)
+	router.GET("/hs067Region", getHS067Region)
+	router.GET("/hs208", getHS208)
+	router.GET("/hs208OverView", getHS208OverView)
+
 	router.Run("localhost:8070")
 }
 
-func getCSOData(c *gin.Context) {
-	url := "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EHQ04/JSON-stat/2.0/en"
-	req, err := http.NewRequest("GET", url, nil)
+func getHS067(c *gin.Context) {
+	// Data downloaded from https://data.gov.ie/dataset/043974bb-a509-4910-a895-68c3d3ac1a95/resource/a3d0db56-dd04-43d3-ae4f-1d40cbdffd48
+	file, err := os.Open("./CSOData/HS067.csv")
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
+		return
 	}
-	res, err := http.DefaultClient.Do(req)
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
+		return
 	}
-	defer res.Body.Close()
-	body, readErr := ioutil.ReadAll(res.Body)
-	if readErr != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+
+	var data HS0672015
+
+	// Loop through records, skipping the first row if it's the header
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS067row{
+			Region:     record[3],
+			IncomeType: record[5],
+			Value:      value,
+		}
+		data.Rows = append(data.Rows, row)
 	}
-	var d dataCSO
-	err = json.Unmarshal(body, &d)
-	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
-	}
-	c.IndentedJSON(http.StatusOK, d)
+
+	c.IndentedJSON(http.StatusOK, data)
 }
+
+func getHS067Region(c *gin.Context) {
+	// Data downloaded from https://data.gov.ie/dataset/043974bb-a509-4910-a895-68c3d3ac1a95/resource/a3d0db56-dd04-43d3-ae4f-1d40cbdffd48
+	file, err := os.Open("./CSOData/HS067.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS0672015Region
+
+	for i, record := range records {
+		if i == 0 { // Skip header row
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64)
+		if err != nil {
+			continue
+		}
+		row := HS067rowRegion{
+			IncomeType: record[5],
+			Value:      value,
+		}
+
+		// Check the region and append to the correct slice
+		switch record[3] {
+		case "State":
+			data.State = append(data.State, row)
+		case "Border":
+			data.Border = append(data.Border, row)
+		case "Midland":
+			data.Midland = append(data.Midland, row)
+		case "West":
+			data.West = append(data.West, row)
+		case "Dublin":
+			data.Dublin = append(data.Dublin, row)
+		case "Mid-East":
+			data.MidEast = append(data.MidEast, row)
+		case "Mid-West":
+			data.MidWest = append(data.MidWest, row)
+		case "South-East":
+			data.SouthEast = append(data.SouthEast, row)
+		case "South-West":
+			data.SouthWest = append(data.SouthWest, row)
+		}
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+func getHS208(c *gin.Context) {
+
+	file, err := os.Open("./CSOData/HS208.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS2082015
+
+	allowedExpenditureTypes := []string{
+		"00.00.00.00 Total average weekly household expenditure",
+
+		"01.01.16 Takeaway food brought/delivered to home",
+		"01.02 Meals away from home  (incl. takeout tea/coffee)",
+
+		"02.03 Tobacco",
+		"02.03.01 Cigarettes and cigarette papers",
+
+		"04.01 Electricity",
+		"04.02 Gas",
+
+		"05.09 Local property tax",
+		"05.10 Water charges",
+
+		"06.09 Cosmetics and related accessories",
+
+		"08.02 Motor Fuel",
+		"08.03.01 Vehicle insurance",
+		"08.05 Bus, Luas, rail and taxi",
+
+		"09.01 Medical expenses/services and therapeutic equipment",
+		"09.02 Telephone, mobile and car phone",
+		"09.03 Television, internet and bundle subscriptions",
+		"09.04 Admission and subscription charges - sports and leisure",
+		"09.05 Betting and lotteries",
+		"09.09 Holiday expenditure",
+		"09.14 Hairdressing and personal grooming",
+		"09.17.03 Childcare",
+		"09.18.01 Maintenance or separation allowance",
+	}
+
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		if !slices.Contains(allowedExpenditureTypes, record[3]) {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS208row{
+			ExpenditureType: record[3],
+			HouseholdSize:   record[5],
+			Value:           value,
+		}
+		data.Rows = append(data.Rows, row)
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+func getHS208OverView(c *gin.Context) {
+	file, err := os.Open("./CSOData/HS208.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS2082015
+
+	allowedExpenditureTypes := []string{
+		"00.00.00.00 Total average weekly household expenditure",
+		"01 Total food",
+		"02 Total drink and tobacco",
+		"03 Total clothing and footwear",
+		"04 Total fuel and light",
+		"05 Total housing",
+		"06 Total household non-durable goods",
+		"07 Total household durable goods",
+		"08 Total transport",
+		"09 Total miscellaneous goods, services and other expenditure",
+	}
+
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		if !slices.Contains(allowedExpenditureTypes, record[3]) {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS208row{
+			ExpenditureType: record[3],
+			HouseholdSize:   record[5],
+			Value:           value,
+		}
+		data.Rows = append(data.Rows, row)
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+// I had planned to request the data from CSO directly, however the documentation provided by them is not great and
+//  I can't get a struct that the response will correctly unmarshall in to.
+
+// I am leaving these two endpoint functions here to show that I had put a substantial amount of work in to trying to figure it out.
+
+// func getCSOData(c *gin.Context) {
+// 	url := "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EHQ04/JSON-stat/2.0/en"
+// 	req, err := http.NewRequest("GET", url, nil)
+// 	if err != nil {
+// 		c.AbortWithError(http.StatusBadRequest, err)
+// 	}
+// 	res, err := http.DefaultClient.Do(req)
+// 	if err != nil {
+// 		c.AbortWithError(http.StatusBadRequest, err)
+// 	}
+// 	defer res.Body.Close()
+// 	body, readErr := ioutil.ReadAll(res.Body)
+// 	if readErr != nil {
+// 		c.AbortWithError(http.StatusBadRequest, err)
+// 	}
+// 	var d dataCSO
+// 	err = json.Unmarshal(body, &d)
+// 	if err != nil {
+// 		c.AbortWithError(http.StatusBadRequest, err)
+// 	}
+// 	c.IndentedJSON(http.StatusOK, d)
+// }
+
+// func getNAverageEarnings2015(c *gin.Context) {
+// 	url := "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HS067/JSON-stat/1.0/en"
+
+// 	resp, err := http.Get(url)
+// 	if err != nil {
+// 		c.AbortWithError(http.StatusBadRequest, err)
+// 		return
+// 	}
+
+// 	defer resp.Body.Close()
+
+// 	body, err := ioutil.ReadAll(resp.Body)
+// 	if err != nil {
+// 		c.AbortWithError(http.StatusInternalServerError, err)
+// 		return
+// 	}
+
+// 	var data Data
+// 	err = json.Unmarshal(body, &data)
+// 	if err != nil {
+// 		c.AbortWithError(http.StatusInternalServerError, err)
+// 		return
+// 	}
+// 	sum := 0.0
+// 	count := 0
+// 	for _, value := range data.Dataset.Value {
+// 		sum += value
+// 		count++
+// 	}
+// 	var average float64
+// 	if count > 0 {
+// 		average = sum / float64(count)
+// 	}
+
+// 	r := AvgResponse{
+// 		Message:      "Success",
+// 		DataReturned: data,
+// 		AvgEarnings:  average,
+// 	}
+
+// 	c.IndentedJSON(http.StatusOK, r)
+// }

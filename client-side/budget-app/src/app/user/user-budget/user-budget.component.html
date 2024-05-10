@@ -10,13 +10,15 @@
         <div class="card-body">
           <table matSort (matSortChange)="sortIncomeData($event)">
             <tr style=" border: 1px solid;">
-              <th colspan="2" mat-sort-header="value">Income</th>
+              <th colspan="2" mat-sort-header="value">Yearly Income</th>
             </tr>
             @for (d of sortedIncome; track d) {
+            @if (d.value != 0) {
             <tr>
               <td>{{d.key}}</td>
               €<td>{{d.value}}</td>
             </tr>
+            }
             }
             <tr style=" border: 1px solid;">
               <td>
@@ -36,157 +38,69 @@
         <h4 style="color: purple;">Expenditure Charts</h4>
       </div>
       <div>
-        <div class="card-body">
-          <table matSort (matSortChange)="sortExpensesData($event)">
-            <tr style=" border: 1px solid;">
-              <th colspan="2" mat-sort-header="value">Expenses</th>
-            </tr>
-            @for (d of sortedExpenses; track d) {
-            <tr>
-              <td>{{d.key}}</td>
-              €<td>{{d.value}}</td>
-            </tr>
-            }
-            <tr style=" border: 1px solid;">
-              <td>
-                <strong>Total</strong>
-              </td>
-              <td>
-                <strong>{{ totalExp }}</strong>€
-              </td>
-            </tr>
-          </table>
-          <div class="accordion" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                  aria-controls="panelsStayOpen-collapseOne">
-                  Household Bills
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                aria-labelledby="panelsStayOpen-headingOne">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Household Bills'" [categoryData]="householdBills"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseTwo">
-                  Household Utilities
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingTwo">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Household Utilities'" [categoryData]="householdUtilities"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseThree">
-                  Living Costs
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingThree">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Living Costs'" [categoryData]="livingCosts"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingFour">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseFour">
-                  Pets
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingFour">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Pets'" [categoryData]="pets"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingFive">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseFive">
-                  Insurance
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingFive">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Insurance'" [categoryData]="insurance"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingSix">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseSix">
-                  Banking and Investments
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingSix">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Banking and Investments'" [categoryData]="bankingAndInvestments"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseSeven">
-                  Travel and Leisure
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingSeven">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Travel and Leisure'" [categoryData]="travelAndLeisure"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingEight">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseEight">
-                  Friends and Family
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingEight">
-                <div class="accordion-body">
-                  <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Friends and Family'" [categoryData]="friendsAndFamily"></app-expense-graph>
-                </div>
-              </div>
-            </div>
-          </div>
+        <table matSort (matSortChange)="sortExpensesData($event)">
+          <tr style=" border: 1px solid;">
+            <th colspan="2" mat-sort-header="value">Yearly Expenses</th>
+          </tr>
+          @for (d of sortedExpenses; track d) {
+          @if (d.value != 0) {
+          <tr>
+            <td>{{d.key}}</td>
+            €<td>{{d.value}}</td>
+          </tr>
+          }
+          }
+          <tr style=" border: 1px solid;">
+            <td>
+              <strong>Total</strong>
+            </td>
+            <td>
+              <strong>{{ totalExp }}</strong>€
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="pt-3">
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Household Bills'"
+            [categoryData]="householdBills"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Household Utilities'"
+            [categoryData]="householdUtilities"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Living Costs'"
+            [categoryData]="livingCosts"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Pets'"
+            [categoryData]="pets"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Insurance'"
+            [categoryData]="insurance"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Banking and Investments'"
+            [categoryData]="bankingAndInvestments"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Travel and Leisure'"
+            [categoryData]="travelAndLeisure"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Friends and Family'"
+            [categoryData]="friendsAndFamily"></app-expense-graph>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
-    You haven't added a budget yet! <br>
-    Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
-  </div>
+<div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
+  You haven't added a budget yet! <br>
+  Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
 </div>
 
 <div *ngIf="!isUserAuthenticated" class="alert alert-danger" role="alert">

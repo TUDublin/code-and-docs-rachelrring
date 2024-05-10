@@ -19,7 +19,11 @@ export class ExpenseGraphComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryTotal = this.categoryData.reduce((acc, item) => acc + item.value, 0);
-    this.percentageOfTotalExpenses = Math.round((this.categoryTotal/this.expenseTotal)*100);
+    if (this.expenseTotal == 0) {
+      this.percentageOfTotalExpenses = 0;
+    } else {
+      this.percentageOfTotalExpenses = Math.round((this.categoryTotal / this.expenseTotal) * 100);
+    }
   }
 
 }

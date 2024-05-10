@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<h4>{{categoryName}}</h4>
+<p>{{expenseTotal}}</p>
+
+<ul>
+    <li *ngFor="let item of categoryData">
+        {{ item.key }}: €{{ item.value }}
+    </li>
+</ul>
+
+<p>{{categoryTotal}}</p>
+<p>{{percentageOfTotalExpenses}}%</p>

@@ -6,8 +6,10 @@ import { UserBudgetResponseDto } from '../../_interfaces/response/UserBudgetResp
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { Sort, MatSortModule } from '@angular/material/sort';
+import { ExpenseGraphComponent } from './expense-graph/expense-graph.component';
+import * as dk from './expenseDataKeys';
 
-interface budgetData {
+export interface budgetData {
   key: string;
   value: number;
 }
@@ -20,6 +22,7 @@ interface budgetData {
     RouterModule,
     MatTableModule,
     MatSortModule,
+    ExpenseGraphComponent,
   ],
   templateUrl: './user-budget.component.html',
   styleUrl: './user-budget.component.css'
@@ -37,6 +40,15 @@ export class UserBudgetComponent implements OnInit {
   public incomeBudgetArray: budgetData[] = [];
   public sortedExpenses: budgetData[] = [];
   public sortedIncome: budgetData[] = [];
+
+  public householdBills: budgetData[] = [];
+  public householdUtilities: budgetData[] = [];
+  public livingCosts: budgetData[] = [];
+  public pets: budgetData[] = [];
+  public insurance: budgetData[] = [];
+  public bankingAndInvestments: budgetData[] = [];
+  public travelAndLeisure: budgetData[] = [];
+  public friendsAndFamily: budgetData[] = [];
 
   constructor(
     private authService: AuthenticationService,
@@ -74,6 +86,7 @@ export class UserBudgetComponent implements OnInit {
               }
               return total;
             }, 0);
+
             const paymentEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('payment') && key !== 'paymentTotal').map(([key, value]) =>
                 [key.substring('payment'.length), value]);
@@ -82,8 +95,9 @@ export class UserBudgetComponent implements OnInit {
                 key: paymentEntries[i][0],
                 value: paymentEntries[i][1]
               }
-              this.expensesBudgetArray.push(tmp)
+              this.expensesBudgetArray.push(tmp);
             }
+
             const incomeEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('income') && key !== 'incomeTotal').map(([key, value]) =>
                 [key.substring('income'.length), value]);
@@ -92,10 +106,20 @@ export class UserBudgetComponent implements OnInit {
                 key: incomeEntries[i][0],
                 value: incomeEntries[i][1]
               }
-              this.incomeBudgetArray.push(tmp)
+              this.incomeBudgetArray.push(tmp);
             }
+
             this.sortExpensesData({ active: '', direction: 'asc' });
             this.sortIncomeData({ active: '', direction: 'asc' });
+            
+            this.groupExpenseData(dk.BankingandInvestments, this.bankingAndInvestments);
+            this.groupExpenseData(dk.FriendsAndFamily, this.friendsAndFamily);
+            this.groupExpenseData(dk.HouseholdBillsKeys, this.householdBills);
+            this.groupExpenseData(dk.HouseholdUtilities, this.householdUtilities);
+            this.groupExpenseData(dk.Insurance, this.insurance);
+            this.groupExpenseData(dk.LivingCosts, this.livingCosts);
+            this.groupExpenseData(dk.Pets, this.pets);
+            this.groupExpenseData(dk.TravelandLeisure, this.travelAndLeisure);
           },
           error: (err: HttpErrorResponse) => {
             console.log(err);
@@ -105,6 +129,16 @@ export class UserBudgetComponent implements OnInit {
     }
   }
 
+  groupExpenseData(categoryKeys: string[], d: budgetData[]){
+    Object.entries(this.budget).forEach(([key, value]) => {
+      if (categoryKeys.includes(key)) {
+        d.push({
+          key: key.substring('payment'.length),
+          value
+        });
+      }
+    });
+  }
   sortExpensesData(sort: Sort) {
     const data = this.expensesBudgetArray.slice();
     if (!sort.active || sort.direction === '') {

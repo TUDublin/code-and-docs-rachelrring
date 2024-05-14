@@ -16,15 +16,6 @@ table{
     border: 1px solid;
 }
 
-.accordion-button:focus, .accordion-button:not(.collapsed) {
-    background-color: #f4d8fa;
-    color: purple;
-}
-
-.accordion-button:focus {
-    box-shadow: none;
-}
-
-.accordion-button:not(.collapsed) {
-    border-color: #ddd;
+.background-purple {
+    background-color: rgb(250, 236, 250);
 }

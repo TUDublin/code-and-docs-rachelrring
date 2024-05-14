@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { budgetData } from '../user-budget.component';
-import { Chart } from 'chart.js/auto';
 
 @Component({
   selector: 'app-expense-graph',
@@ -17,8 +16,6 @@ export class ExpenseGraphComponent implements OnInit {
 
   public categoryTotal = 0;
   public percentageOfTotalExpenses = 0;
-
-  chart: any;
 
   ngOnInit(): void {
     this.categoryTotal = this.categoryData.reduce((acc, item) => acc + item.value, 0);

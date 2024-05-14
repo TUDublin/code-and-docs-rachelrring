@@ -6,7 +6,7 @@
         <h4 style="color: purple;">Income Charts</h4>
       </div>
 
-      <div>
+      <div class="background-purple p-4">
         <div class="card-body">
           <table matSort (matSortChange)="sortIncomeData($event)">
             <tr style=" border: 1px solid;">
@@ -36,29 +36,6 @@
     <div class="card">
       <div class="card-header">
         <h4 style="color: purple;">Expenditure Charts</h4>
-      </div>
-      <div>
-        <table matSort (matSortChange)="sortExpensesData($event)">
-          <tr style=" border: 1px solid;">
-            <th colspan="2" mat-sort-header="value">Yearly Expenses</th>
-          </tr>
-          @for (d of sortedExpenses; track d) {
-          @if (d.value != 0) {
-          <tr>
-            <td>{{d.key}}</td>
-            €<td>{{d.value}}</td>
-          </tr>
-          }
-          }
-          <tr style=" border: 1px solid;">
-            <td>
-              <strong>Total</strong>
-            </td>
-            <td>
-              <strong>{{ totalExp }}</strong>€
-            </td>
-          </tr>
-        </table>
       </div>
       <div class="pt-3">
         <div class="p-1">
@@ -93,6 +70,29 @@
           <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Friends and Family'"
             [categoryData]="friendsAndFamily"></app-expense-graph>
         </div>
+      </div>
+      <div class="p-4 background-purple">
+        <table matSort (matSortChange)="sortExpensesData($event)">
+          <tr style=" border: 1px solid;">
+            <th colspan="2" mat-sort-header="value">Yearly Expenses</th>
+          </tr>
+          @for (d of sortedExpenses; track d) {
+          @if (d.value != 0) {
+          <tr>
+            <td>{{d.key}}</td>
+            €<td>{{d.value}}</td>
+          </tr>
+          }
+          }
+          <tr style=" border: 1px solid;">
+            <td>
+              <strong>Total</strong>
+            </td>
+            <td>
+              <strong>{{ totalExp }}</strong>€
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>

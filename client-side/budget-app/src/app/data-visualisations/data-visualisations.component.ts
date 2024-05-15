@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { HS0672015Region, HS2082015 } from './CSOData/CSOData';
 import { Chart } from 'chart.js/auto';
+import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
+import { AuthenticationService } from '../shared/services/authentication.service';
+
 
 const barColors = [
-  'rgba(54, 162, 235, 1)',   // Light Blue (State)
-  'rgba(255, 99, 132, 1)',   // Pink (Border)
-  'rgba(255, 159, 64, 1)',   // Orange (Midland)
-  'rgba(23, 162, 184, 1)',   // Teal (West)
-  'rgba(136, 84, 208, 1)',   // Purple (Dublin)
-  'rgba(149, 165, 166, 1)',  // Gray (MidEast)
-  'rgba(189, 195, 199, 1)',  // Light Gray (MidWest)
-  'rgba(41, 128, 185, 1)',   // Soft Blue (SouthEast)
-  'rgba(236, 112, 99, 1)'    // Soft Pink (SouthWest)
+  'rgba(54, 162, 235, 1)',
+  'rgba(255, 99, 132, 1)',
+  'rgba(255, 159, 64, 1)',
+  'rgba(23, 162, 184, 1)',
+  'rgba(136, 84, 208, 1)',
+  'rgba(149, 165, 166, 1)',
+  'rgba(189, 195, 199, 1)',
+  'rgba(41, 128, 185, 1)',
+  'rgba(236, 112, 99, 1)'
 ];
 
 @Component({
@@ -34,6 +37,11 @@ export class DataVisualisationsComponent implements OnInit {
   public expenseTotal = 0;
   public householdNumber = "All household sizes";
 
+  public isUserAuthenticated: boolean = false;
+  public auth: boolean = false;
+  public hasBudget: boolean = false;
+  public budget!: UserBudgetResponseDto;
+
   chart: any;
   wagesChart: any;
   disposableIncomeChart: any;
@@ -42,10 +50,18 @@ export class DataVisualisationsComponent implements OnInit {
   hs208ChartOverView: any;
 
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthenticationService,
+    @Inject(DOCUMENT) private document: Document,
+  ) {
+    const localStorage = document.defaultView?.localStorage;
+    if (localStorage) {
+      this.auth = true;
+    }
+  }
 
   ngOnInit(): void {
-
     this.http.get<HS0672015Region>(environment.goUrlAddress + '/hs067Region').subscribe(
       {
         next: (res: HS0672015Region) => {
@@ -84,6 +100,25 @@ export class DataVisualisationsComponent implements OnInit {
         }
       }
     );
+
+    if (this.auth) {
+      this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    }
+    if (this.isUserAuthenticated) {
+      let ue = localStorage.getItem('email')?.toString()
+      if (ue) {
+        let address = 'api/accounts/budget/' + ue
+        this.authService.getBudget(address).subscribe({
+          next: (res: UserBudgetResponseDto) => {
+            this.hasBudget = true;
+            this.budget = res;
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+          }
+        });
+      }
+    }
   }
 
   createChartHS208(data: HS2082015, householdSize: string): void {

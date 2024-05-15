@@ -5,7 +5,7 @@
             <h5 class="mb-0">
                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
                     aria-controls="collapseOne">
-                    <h4>Income Charts</h4>
+                    <h4>Income</h4>
                 </button>
             </h5>
         </div>
@@ -33,13 +33,14 @@
             <h5 class="mb-0">
                 <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="false" aria-controls="collapseTwo">
-                    <h4>Expenditure Charts</h4>
+                    <h4>Expenditure</h4>
                 </button>
             </h5>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
-                <h2>Average Total Expenditure for {{householdNumber}}: <span style="color: purple;">€{{expenseTotal}}</span></h2>
+                <h2>Average Total Expenditure for {{householdNumber}}: <span
+                        style="color: purple;">€{{expenseTotal}}</span></h2>
                 <div class="chartContainer">
                     <div class="chartHeader">
                         <select (change)="updateOverViewChart($event)">
@@ -56,6 +57,41 @@
                 </div>
                 <div class="chartContainer">
                     <canvas id="hs208Chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne">
+                    <h4>Recommendations</h4>
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                <div *ngIf="isUserAuthenticated && hasBudget">
+                    lucky you!
+                </div>
+                <div *ngIf="!isUserAuthenticated" class="alert alert-danger" role="alert">
+                    <p>
+                        To see your personalised recommendations, please log in or register, fill out the budget
+                        planner, and save your budget.<br>
+                    </p>
+                    <div style="text-align: center;" class="pb-3 not-logged-in">
+                        <a routerLink="/login">Log in here</a>
+                        <br>
+                        <strong>OR</strong>
+                        <br>
+                        <a routerLink="/register">Register here</a>
+                    </div>
+                </div>
+                <div *ngIf="!hasBudget && isUserAuthenticated" class="alert alert-danger" role="alert">
+                    You haven't added a budget yet! <br>
+                    Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it.
                 </div>
             </div>
         </div>

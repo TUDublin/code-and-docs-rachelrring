@@ -29,6 +29,7 @@ func main() {
 	router.GET("/hs067Region", getHS067Region)
 	router.GET("/hs208", getHS208)
 	router.GET("/hs208OverView", getHS208OverView)
+	router.GET("/hs208Recommendations", getHS208Recommendations)
 
 	router.Run("localhost:8070")
 }
@@ -253,6 +254,74 @@ func getHS208OverView(c *gin.Context) {
 		"07 Total household durable goods",
 		"08 Total transport",
 		"09 Total miscellaneous goods, services and other expenditure",
+	}
+
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+		if len(record) < 10 {
+			continue
+		}
+		if !slices.Contains(allowedExpenditureTypes, record[3]) {
+			continue
+		}
+		value, err := strconv.ParseFloat(record[9], 64) // Convert the string to a float64
+		if err != nil {
+			continue
+		}
+		row := HS208row{
+			ExpenditureType: record[3],
+			HouseholdSize:   record[5],
+			Value:           value,
+		}
+		data.Rows = append(data.Rows, row)
+	}
+
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+func getHS208Recommendations(c *gin.Context) {
+
+	file, err := os.Open("./CSOData/HS208.csv")
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.Comma = ','
+	reader.LazyQuotes = true
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var data HS2082015
+
+	allowedExpenditureTypes := []string{
+		"00.00.00.00 Total average weekly household expenditure",
+		"05.04 Mortgage payment (primary dwelling)",
+		"05.01 Rent paid for primary dwelling",
+		"05.09 Local property tax",
+		"04.02 Gas",
+		"04.01 Electricity",
+		"05.10 Water charges",
+		"09.02 Telephone, mobile and car phone",
+		"09.03 Television, internet and bundle subscriptions",
+		"01.01 Total food consumed at home",
+		"01.01.16 Takeaway food brought/delivered to home",
+		"01.02 Meals away from home  (incl. takeout tea/coffee)",
+		"02.03 Tobacco",
+		"03 Total clothing and footwear",
+		"09.17 Care, domestic and household services",
+		"08.03.03 Vehicle Tax",
+		"08.02 Motor Fuel",
+		"08.05 Bus, Luas, rail and taxi",
 	}
 
 	for i, record := range records {

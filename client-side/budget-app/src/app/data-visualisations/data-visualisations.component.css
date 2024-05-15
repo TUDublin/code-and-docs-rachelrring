@@ -43,3 +43,7 @@ a {
     text-decoration: none;
     color: purple;
 }
+
+.background-purple {
+    background-color: rgb(250, 236, 250);
+}

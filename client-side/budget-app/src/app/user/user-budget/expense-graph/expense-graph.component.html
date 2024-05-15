@@ -6,13 +6,15 @@
         <h5>€{{categoryTotal}}</h5>
     </div>
 
-    <ul>
-        <li *ngFor="let item of categoryData">
-            {{ item.key }}: €{{ item.value }}
-        </li>
-    </ul>
+    <div class="content-container">
+        <ul>
+            <li *ngFor="let item of categoryData">
+                {{ item.key }}: €{{ item.value }}
+            </li>
+        </ul>
+    </div>
     <hr>
-    <p>
+    <p style="text-align: center;">
         {{categoryName}} accounts for <strong>{{percentageOfTotalExpenses}}%</strong> of your total yearly expenses.
     </p>
 </div>

@@ -6,3 +6,13 @@
 .background-purple {
     background-color: rgb(250, 236, 250);
 }
+
+.content-container {
+    padding-left: 10em;
+}
+
+@media (max-width: 600px) {
+    .content-container {
+        padding-left: 4em;
+    }
+}

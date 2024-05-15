@@ -12,7 +12,22 @@
 }
 
 .chartContainer {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10px;
+}
+
+.charts-flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 600px) {
+    .charts-flex-container {
+        flex-direction: column;
+    }
 }

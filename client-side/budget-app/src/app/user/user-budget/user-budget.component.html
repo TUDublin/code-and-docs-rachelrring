@@ -1,52 +1,115 @@
+<!DOCTYPE html>
 <div *ngIf="isUserAuthenticated">
   <div *ngIf="hasBudget">
-    <div class="p-1">
-      <table matSort (matSortChange)="sortExpensesData($event)">
-        <tr style=" border: 1px solid;">
-          <th colspan="2" mat-sort-header="value">Expenses</th>
-        </tr>
-        @for (d of sortedExpenses; track d) {
-        <tr>
-          <td>{{d.key}}</td>
-          €<td>{{d.value}}</td>
-        </tr>
-        }
-        <tr style=" border: 1px solid;">
-          <td>
-            <strong>Total</strong>
-          </td>
-          <td>
-            <strong>{{ totalExp }}</strong>€
-          </td>
-        </tr>
-      </table>
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h4 style="color: purple;">Income Charts</h4>
+      </div>
+
+      <div class="background-purple p-4">
+        <div class="card-body">
+          <table matSort (matSortChange)="sortIncomeData($event)">
+            <tr style=" border: 1px solid;">
+              <th colspan="2" mat-sort-header="value">Yearly Income</th>
+            </tr>
+            @for (d of sortedIncome; track d) {
+            @if (d.value != 0) {
+            <tr>
+              <td>{{d.key}}</td>
+              €<td>{{d.value}}</td>
+            </tr>
+            }
+            }
+            <tr style=" border: 1px solid;">
+              <td>
+                <strong>Total</strong>
+              </td>
+              <td>
+                <strong>{{ totalIncome }}</strong>€
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="p1">
-      <table matSort (matSortChange)="sortIncomeData($event)">
-        <tr style=" border: 1px solid;">
-          <th colspan="2" mat-sort-header="value">Income</th>
-        </tr>
-        @for (d of sortedIncome; track d) {
-        <tr>
-          <td>{{d.key}}</td>
-          €<td>{{d.value}}</td>
-        </tr>
-        }
-        <tr style=" border: 1px solid;">
-          <td>
-            <strong>Total</strong>
-          </td>
-          <td>
-            <strong>{{ totalIncome }}</strong>€
-          </td>
-        </tr>
-      </table>
+    <div class="row button-container">
+      <div class="col-md-3">
+        <button (click)="editBudget()" class="btn btn-info right-purple-btn">Edit Budget</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 style="color: purple;">Expenditure Charts</h4>
+      </div>
+      <div class="pt-3">
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Household Bills'"
+            [categoryData]="householdBills"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Household Utilities'"
+            [categoryData]="householdUtilities"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Living Costs'"
+            [categoryData]="livingCosts"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Pets'"
+            [categoryData]="pets"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Insurance'"
+            [categoryData]="insurance"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Banking and Investments'"
+            [categoryData]="bankingAndInvestments"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Travel and Leisure'"
+            [categoryData]="travelAndLeisure"></app-expense-graph>
+        </div>
+        <div class="p-1">
+          <app-expense-graph [expenseTotal]="totalExp" [categoryName]="'Friends and Family'"
+            [categoryData]="friendsAndFamily"></app-expense-graph>
+        </div>
+      </div>
+      <div class="p-4 background-purple">
+        <table matSort (matSortChange)="sortExpensesData($event)">
+          <tr style=" border: 1px solid;">
+            <th colspan="2" mat-sort-header="value">Yearly Expenses</th>
+          </tr>
+          @for (d of sortedExpenses; track d) {
+          @if (d.value != 0) {
+          <tr>
+            <td>{{d.key}}</td>
+            €<td>{{d.value}}</td>
+          </tr>
+          }
+          }
+          <tr style=" border: 1px solid;">
+            <td>
+              <strong>Total</strong>
+            </td>
+            <td>
+              <strong>{{ totalExp }}</strong>€
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row button-container">
+      <div class="col-md-3">
+        <button (click)="editBudget()" class="btn btn-info right-purple-btn">Edit Budget</button>
+      </div>
     </div>
   </div>
-  <div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
-    You haven't added a budget yet! <br>
-    Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
-  </div>
+</div>
+
+<div *ngIf="!hasBudget" class="alert alert-danger" role="alert">
+  You haven't added a budget yet! <br>
+  Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it!
 </div>
 
 <div *ngIf="!isUserAuthenticated" class="alert alert-danger" role="alert">

@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <!-- TODO: explain how to use this -->
-<p>We're going to explain how to use the budget planner when it's done!</p>
+<p>
+    Hey {{userEmail}}!
+    <br>
+    <br>
+    Welcome to your budget planner. If you have filled out a budget previously, then it will be loaded into this
+    page
+    using the yearly values.
+</p>
+<p>
+    There are multiple sections to fill out.
+    <br>
+    Make sure to enter the correct amount and select how often the expense/income is (weekly, monthly, or yearly).
+    <br>
+    After filling out all your information, you can view a small breakdown of your income and expenses.
+
+</p>
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="container">
     <hr>
     <h3 class="text-center">Income</h3>
@@ -1418,7 +1433,7 @@
     <div>
         <h3>Total Yearly Surplus: €{{ totalYearlySurplus }}</h3>
     </div>
-    <div [hidden]="!showCharts">
+    <div [hidden]="!showCharts" class="charts-flex-container">
         <div class="chartContainer">
             <canvas id="doughnutChart" width="400" height="400"></canvas>
         </div>
@@ -1427,9 +1442,11 @@
         </div>
     </div>
 </div>
+
 <div class="row button-container">
     <div *ngIf="isUserAuthenticated" class="col-md-3" matTooltip="Budget can be saved when data is entered">
         <button mat-raised-button [disabled]="!myForm.valid || totalYearlyExpenses == 0 && totalYearlyIncome == 0"
-            color="primary" style="float: right;  padding: 10px; background-color: purple;" (click)="saveBudget()">Save My Budget</button>
+            color="primary" style="float: right;  padding: 10px; background-color: purple;" (click)="saveBudget()">Save
+            My Budget</button>
     </div>
 </div>

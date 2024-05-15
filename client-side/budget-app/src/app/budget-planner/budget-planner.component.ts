@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from '../shared/services/authentication.service';
@@ -56,6 +56,8 @@ export class BudgetPlannerComponent implements OnInit {
   public totalIncome: number = 0;
 
   public showCharts: boolean = false;
+
+  public userEmail: string = '';
 
   private budgetFields: BudgetFields = {
     incomePay: 0,
@@ -360,6 +362,8 @@ export class BudgetPlannerComponent implements OnInit {
       let ue = localStorage.getItem('email')?.toString()
       if (ue) {
         let address = 'api/accounts/budget/' + ue
+        let res = ue.split('@');
+        this.userEmail = res[0];
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
             this.hasBudget = true;
@@ -567,7 +571,7 @@ export class BudgetPlannerComponent implements OnInit {
         data: {
           labels: keys,
           datasets: [{
-            label: '€ spent',
+            label: '€',
             data: values,
             backgroundColor: [
               'rgba(0, 255, 255, 1)',
@@ -614,7 +618,7 @@ export class BudgetPlannerComponent implements OnInit {
         data: {
           labels: keys,
           datasets: [{
-            label: '€ spent',
+            label: '€',
             data: values,
             backgroundColor: [
               'rgba(0, 255, 255, 1)',

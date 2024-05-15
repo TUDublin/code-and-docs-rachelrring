@@ -6,14 +6,28 @@
 
 .button-container {
     align-self: end;
-    /* Align the button container to the end of the grid */
     display: flex;
     justify-content: flex-end;
     padding: 1em;
 }
 
 .chartContainer {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10px;
+}
+
+.charts-flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 600px) {
+    .charts-flex-container {
+        flex-direction: column;
+    }
 }

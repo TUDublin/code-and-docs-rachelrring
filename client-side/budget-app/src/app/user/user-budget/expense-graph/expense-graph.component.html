@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<div class="p-3 background-purple">
+    <div class="header-container">
+        <h5>{{categoryName}}</h5>
+        <hr>
+        <h5>€{{categoryTotal}}</h5>
+    </div>
+
+    <ul>
+        <li *ngFor="let item of categoryData">
+            {{ item.key }}: €{{ item.value }}
+        </li>
+    </ul>
+    <hr>
+    <p>
+        {{categoryName}} accounts for <strong>{{percentageOfTotalExpenses}}%</strong> of your total yearly expenses.
+    </p>
+</div>

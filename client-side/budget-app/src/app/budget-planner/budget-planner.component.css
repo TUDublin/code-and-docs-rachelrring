@@ -26,6 +26,14 @@
     justify-content: center;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: purple;
+}
+
 @media (max-width: 600px) {
     .charts-flex-container {
         flex-direction: column;

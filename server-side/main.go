@@ -312,7 +312,7 @@ func getHS208Recommendations(c *gin.Context) {
 		"04.01 Electricity",
 		"05.10 Water charges",
 		"09.02 Telephone, mobile and car phone",
-		"09.03 Television, internet and bundle subscriptions",
+		"09.03.01 Internet subscription fees (not bundled)",
 		"01.01 Total food consumed at home",
 		"01.01.16 Takeaway food brought/delivered to home",
 		"01.02 Meals away from home  (incl. takeout tea/coffee)",

@@ -3,6 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BudgetPlannerComponent } from './budget-planner.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 describe('BudgetPlannerComponent', () => {
   let component: BudgetPlannerComponent;
@@ -21,6 +22,7 @@ describe('BudgetPlannerComponent', () => {
 
     fixture = TestBed.createComponent(BudgetPlannerComponent);
     component = fixture.componentInstance;
+    component.isUserAuthenticated = true;
     fixture.detectChanges();
   });
 
@@ -116,10 +118,17 @@ describe('BudgetPlannerComponent', () => {
       expect(component.myForm.valid).toBeFalse();
     });
     it('disables the submit button when any of the fields are invalid', () => {
+      component.isUserAuthenticated = true;
+      fixture.detectChanges();
       component.myForm.get('incomePay')?.setValue(-2);
       fixture.detectChanges();
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       expect(submitButton.disabled).toBeTrue();
+    });
+    it('should display the budget form only when user is authenticated', () => {
+      component.isUserAuthenticated = false;
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('.not-logged-in').textContent).toContain('Log in')
     });
   });
 
@@ -142,6 +151,8 @@ describe('BudgetPlannerComponent', () => {
 
   describe('Yearly Income', () => {
     it('is calculated correctly', () => {
+      component.isUserAuthenticated = true;
+      fixture.detectChanges();
       component.myForm.get('incomePay')?.setValue(10);
       component.myForm.get('incomeBenefits')?.setValue(20);
       fixture.detectChanges();
@@ -158,6 +169,8 @@ describe('BudgetPlannerComponent', () => {
 
   describe('Yearly Expenses', () => {
     it('is calculated correctly', () => {
+      component.isUserAuthenticated = true;
+      fixture.detectChanges();
       component.myForm.get('paymentRent')?.setValue(100);
       component.myForm.get('paymentTvLicense')?.setValue(20);
       component.myForm.get('paymentMortgage')?.setValue(100);
@@ -176,6 +189,8 @@ describe('BudgetPlannerComponent', () => {
 
   describe('Yearly Surplus', () => {
     it('is calculated correctly', () => {
+      component.isUserAuthenticated = true;
+      fixture.detectChanges();
       component.myForm.get('paymentRent')?.setValue(100);
       component.myForm.get('paymentTvLicense')?.setValue(20);
       component.myForm.get('paymentMortgage')?.setValue(100);
@@ -196,6 +211,8 @@ describe('BudgetPlannerComponent', () => {
       expect(component.totalYearlySurplus).toEqual(expectedYearlySurplus);
     });
     it('is calculated correctly when expenses exceed income', () => {
+      component.isUserAuthenticated = true;
+      fixture.detectChanges();
       component.myForm.get('paymentRent')?.setValue(100);
       component.myForm.get('paymentTvLicense')?.setValue(20);
       component.myForm.get('paymentMortgage')?.setValue(100);
@@ -203,15 +220,15 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('incomePay')?.setValue(10);
       component.myForm.get('incomeBenefits')?.setValue(20);
       fixture.detectChanges();
-      
+
       let expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
       let expectedYearlyIncome = (10 * 52) + (20 * 52);
       let expectedYearlySurplus = expectedYearlyIncome - expectedYearlyExpenses;
-  
+
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();
       fixture.detectChanges();
-  
+
       expect(component.totalYearlyExpenses).toEqual(expectedYearlyExpenses);
       expect(component.totalYearlyIncome).toEqual(expectedYearlyIncome);
       expect(component.totalYearlySurplus).toEqual(expectedYearlySurplus); // Adjusted expectation
@@ -220,6 +237,8 @@ describe('BudgetPlannerComponent', () => {
 
   describe('Income and Expenses Charts', () => {
     it('should show charts onSubmit()', () => {
+      component.isUserAuthenticated = true;
+      fixture.detectChanges();
       spyOn(component, 'updateDoughnutChart');
       spyOn(component, 'updateIncomeDoughnutChart');
       const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');

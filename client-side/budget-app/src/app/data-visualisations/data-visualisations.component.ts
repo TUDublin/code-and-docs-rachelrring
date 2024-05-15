@@ -6,7 +6,7 @@ import { HS0672015Region, HS2082015 } from './CSOData/CSOData';
 import { Chart } from 'chart.js/auto';
 import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
 import { AuthenticationService } from '../shared/services/authentication.service';
-
+import { RouterLink, Router } from '@angular/router';
 
 const barColors = [
   'rgba(54, 162, 235, 1)',
@@ -26,6 +26,7 @@ const barColors = [
   imports: [
     CommonModule,
     HttpClientModule,
+    RouterLink,
   ],
   templateUrl: './data-visualisations.component.html',
   styleUrl: './data-visualisations.component.css'
@@ -54,6 +55,7 @@ export class DataVisualisationsComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthenticationService,
     @Inject(DOCUMENT) private document: Document,
+    private router: Router,
   ) {
     const localStorage = document.defaultView?.localStorage;
     if (localStorage) {
@@ -478,8 +480,6 @@ export class DataVisualisationsComponent implements OnInit {
     });
   }
 
-
-
   createDeductionsChart(data: HS0672015Region) {
     const incomeType = "Income tax & social insurance deductions (C)";
 
@@ -538,5 +538,12 @@ export class DataVisualisationsComponent implements OnInit {
         },
       }
     });
+  }
+
+  updateRecommendations(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const householdSize = selectElement.value;
+    console.log(householdSize);
+    
   }
 }

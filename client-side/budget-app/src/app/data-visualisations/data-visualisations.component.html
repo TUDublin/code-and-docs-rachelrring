@@ -73,6 +73,17 @@
         <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
             <div class="card-body">
                 <div *ngIf="isUserAuthenticated && hasBudget">
+                    <div class="chartHeader logged-in-with-budget">
+                        <select (change)="updateRecommendations($event)">
+                            <option value="All household sizes">All household sizes</option>
+                            <option value="1 person">1 Person</option>
+                            <option value="2 persons">2 Persons</option>
+                            <option value="3 persons">3 Persons</option>
+                            <option value="4 persons">4 Persons</option>
+                            <option value="5 persons">5 Persons</option>
+                            <option value="6 + Persons">6 + Persons</option>
+                        </select>
+                    </div>
                     lucky you!
                 </div>
                 <div *ngIf="!isUserAuthenticated" class="alert alert-danger" role="alert">
@@ -89,8 +100,11 @@
                     </div>
                 </div>
                 <div *ngIf="!hasBudget && isUserAuthenticated" class="alert alert-danger" role="alert">
-                    You haven't added a budget yet! <br>
-                    Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save it.
+                    <p class="logged-in-no-budget">
+                        You haven't added a budget yet! <br>
+                        Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save
+                        it.
+                    </p>
                 </div>
             </div>
         </div>

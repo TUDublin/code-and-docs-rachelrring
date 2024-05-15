@@ -318,7 +318,7 @@ func getHS208Recommendations(c *gin.Context) {
 		"01.02 Meals away from home  (incl. takeout tea/coffee)",
 		"02.03 Tobacco",
 		"03 Total clothing and footwear",
-		"09.17 Care, domestic and household services",
+		"09.17.03 Childcare",
 		"08.03.03 Vehicle Tax",
 		"08.02 Motor Fuel",
 		"08.05 Bus, Luas, rail and taxi",

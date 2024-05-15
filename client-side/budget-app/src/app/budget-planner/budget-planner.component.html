@@ -1430,6 +1430,7 @@
 <div class="row button-container">
     <div *ngIf="isUserAuthenticated" class="col-md-3" matTooltip="Budget can be saved when data is entered">
         <button mat-raised-button [disabled]="!myForm.valid || totalYearlyExpenses == 0 && totalYearlyIncome == 0"
-            color="primary" style="float: right;  padding: 10px; background-color: purple;" (click)="saveBudget()">Save My Budget</button>
+            color="primary" style="float: right;  padding: 10px; background-color: purple;" (click)="saveBudget()">Save
+            My Budget</button>
     </div>
 </div>

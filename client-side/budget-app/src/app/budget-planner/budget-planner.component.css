@@ -6,7 +6,6 @@
 
 .button-container {
     align-self: end;
-    /* Align the button container to the end of the grid */
     display: flex;
     justify-content: flex-end;
     padding: 1em;

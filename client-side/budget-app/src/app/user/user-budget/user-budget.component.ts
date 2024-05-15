@@ -139,6 +139,7 @@ export class UserBudgetComponent implements OnInit {
       }
     });
   }
+
   sortExpensesData(sort: Sort) {
     const data = this.expensesBudgetArray.slice();
     if (!sort.active || sort.direction === '') {
@@ -150,6 +151,7 @@ export class UserBudgetComponent implements OnInit {
       return this.compare(a.value, b.value, isAsc);
     });
   }
+
   sortIncomeData(sort: Sort) {
     const data = this.incomeBudgetArray.slice();
     if (!sort.active || sort.direction === '') {
@@ -161,7 +163,12 @@ export class UserBudgetComponent implements OnInit {
       return this.compare(a.value, b.value, isAsc);
     });
   }
+
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  editBudget () {
+    this.router.navigate(["/budget-planner"]);
   }
 }

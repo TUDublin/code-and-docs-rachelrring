@@ -10,7 +10,7 @@ th {
     text-align: center;
 }
 
-table{
+table {
     width: 100%;
     padding: 1em;
     border: 1px solid;
@@ -18,4 +18,24 @@ table{
 
 .background-purple {
     background-color: rgb(250, 236, 250);
+}
+
+.row {
+    background-color: rgba(0, 0, 0, 0.04);
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.button-container {
+    align-self: end;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+}
+
+.right-purple-btn {
+    float: right;
+    padding: 10px;
+    background-color: purple;
+    color: white;
 }

@@ -7,6 +7,7 @@ import { Chart } from 'chart.js/auto';
 import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { RouterLink, Router } from '@angular/router';
+import { ExpenseRecommendationComponent } from './expense-recommendation/expense-recommendation.component';
 
 const barColors = [
   'rgba(54, 162, 235, 1)',
@@ -27,6 +28,7 @@ const barColors = [
     CommonModule,
     HttpClientModule,
     RouterLink,
+    ExpenseRecommendationComponent,
   ],
   templateUrl: './data-visualisations.component.html',
   styleUrl: './data-visualisations.component.css'
@@ -38,6 +40,7 @@ export class DataVisualisationsComponent implements OnInit {
   public datahs208Recommendations!: HS2082015;
   public expenseTotal = 0;
   public householdNumber = "All household sizes";
+  public householdNumberRecommendations = "All household sizes";
 
   public isUserAuthenticated: boolean = false;
   public auth: boolean = false;
@@ -146,6 +149,9 @@ export class DataVisualisationsComponent implements OnInit {
       {
         next: (res: HS2082015) => {
           this.datahs208Recommendations = res;
+          let t = this.datahs208Recommendations.Rows.find(row => row.HouseholdSize === "All household sizes" && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
+          this.totalExpWeeklyCSO = t ? t.Value : 0;
+          this.updateHouseholdSize("All household sizes");
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
@@ -165,7 +171,7 @@ export class DataVisualisationsComponent implements OnInit {
             this.hasBudget = true;
             this.budget = res;
             this.getUserRecommendationValues();
-            this.updateHouseholdSize('All household sizes');
+            this.updateHouseholdSize("All household sizes");
           },
           error: (err: HttpErrorResponse) => {
             console.log(err);
@@ -598,166 +604,166 @@ export class DataVisualisationsComponent implements OnInit {
     if (this.datahs208Recommendations) {
       this.updateHouseholdSize(householdSize)
     }
-
   }
 
   updateHouseholdSize(householdSize: string) {
+    this.householdNumberRecommendations = householdSize;
     const d = this.datahs208Recommendations.Rows;
     let t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
-    this.totalExpWeeklyCSO = t ? t.Value : 0;
+    this.totalExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.04 Mortgage payment (primary dwelling)");
-    this.mortageExpWeeklyCSO = t ? t.Value : 0;
+    this.mortageExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.01 Rent paid for primary dwelling");
-    this.rentExpeWeeklyCSO = t ? t.Value : 0;
+    this.rentExpeWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.09 Local property tax");
-    this.councilTaxExpWeeklyCSO = t ? t.Value : 0;
+    this.councilTaxExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "04.02 Gas");
-    this.gasExpWeeklyCSO = t ? t.Value : 0;
+    this.gasExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "04.01 Electricity");
-    this.electricityExpWeeklyCSO = t ? t.Value : 0;
+    this.electricityExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.10 Water charges");
-    this.waterExpWeeklyCSO = t ? t.Value : 0;
+    this.waterExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "09.02 Telephone, mobile and car phone");
-    this.phoneExpWeeklyCSO = t ? t.Value : 0;
+    this.phoneExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "09.03.01 Internet subscription fees (not bundled)");
-    this.broadbandExpWeeklyCSO = t ? t.Value : 0;
+    this.broadbandExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "01.01 Total food consumed at home");
-    this.groceriesExpWeeklyCSO = t ? t.Value : 0;
+    this.groceriesExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "01.01.16 Takeaway food brought/delivered to home");
-    this.takeawayExpWeeklyCSO = t ? t.Value : 0;
+    this.takeawayExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "01.02 Meals away from home  (incl. takeout tea/coffee)");
-    this.diningOutExpWeeklyCSO = t ? t.Value : 0;
+    this.diningOutExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "02.03 Tobacco");
-    this.cigarettesExpWeeklCSO = t ? t.Value : 0;
+    this.cigarettesExpWeeklCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "03 Total clothing and footwear");
-    this.clothesExpWeeklyCSO = t ? t.Value : 0;
+    this.clothesExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "09.17.03 Childcare");
-    this.childcareExpWeeklyCSO = t ? t.Value : 0;
+    this.childcareExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "08.03.03 Vehicle Tax");
-    this.carTaxExpWeeklyCSO = t ? t.Value : 0;
+    this.carTaxExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "08.02 Motor Fuel");
-    this.carFuelExpWeeklyCSO = t ? t.Value : 0;
+    this.carFuelExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
     t = undefined;
     t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "08.05 Bus, Luas, rail and taxi");
-    this.publicTransportExpWeeklyCSO = t ? t.Value : 0;
+    this.publicTransportExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
   }
 
   getUserRecommendationValues() {
-    this.totalExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+    this.totalExpWeeklyUser = parseFloat(Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentTotal') {
         return value / 52;
       }
       return total;
-    }, 0);
+    }, 0).toFixed(2))
     this.mortageExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentMortgage') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.councilTaxExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentHouseTax') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.gasExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentHouseGas') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.electricityExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentElectricity') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.waterExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentWater') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.phoneExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentMobilePhone') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.broadbandExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentBroadband') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.groceriesExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentMortgage') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.takeawayExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentGroceries') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.diningOutExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentEatingOut') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.cigarettesExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentCigarettes') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.clothesExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentClothing') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.childcareExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentChildcare') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.carTaxExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentCarTax') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.carFuelExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentCarFuel') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);
     this.publicTransportExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
       if (key === 'paymentPublicTransport') {
-        return value / 52;
+        return parseFloat((value/52).toFixed(2));
       }
       return total;
     }, 0);

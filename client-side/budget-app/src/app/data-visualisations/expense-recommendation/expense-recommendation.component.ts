@@ -25,15 +25,19 @@ export class ExpenseRecommendationComponent implements OnChanges {
   public over = Status.OnTarget;
   public difference = 0;
   public householdText = '';
+  public spending = '';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.userExpense > this.csoExpense) {
       this.over = Status.Over;
+      this.spending = "Overspending";
     } else if (this.userExpense < this.csoExpense) {
       this.over = Status.Under;
+      this.spending = "Underspending";
     }
     else {
       this.over = Status.OnTarget;
+      this.spending = "Spending";
     }
     this.getBackgroundColor()
     this.getDifference();

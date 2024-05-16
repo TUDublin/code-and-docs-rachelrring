@@ -3,7 +3,7 @@
     <h5 class="py-2">{{expenseName}}</h5>
     <hr>
     <div class="row px-2">
-        <div class="col-5">
+        <div class="col">
             Your Expense:
         </div>
         <div class="col">
@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="row px-2">
-        <div class="col-5">
+        <div class="col">
             National Average:
         </div>
         <div class="col">
@@ -19,35 +19,22 @@
         </div>
     </div>
     <hr>
-    <div *ngIf="over == status.Over">
-        <div class="row px-2">
-            <div class="col-5">
-                Overspending:
-            </div>
-            <div class="col">
-                € <strong>{{difference}}</strong>
-            </div>
+    <div class="row px-2">
+        <div class="col">
+            {{spending}}:
         </div>
-        <hr>
-        <div class="px-2">
-            For {{householdSize}}, you are <strong>overspending</strong> by €{{difference}} weekly.
-        </div>
-        <hr>
-        <app-recommendation-list [expenseName]="expenseName"></app-recommendation-list>
-    </div>
-    <div *ngIf="over == status.Under">
-        <div class="row px-2">
-            <div class="col-5">
-                Underspending:
-            </div>
-            <div class="col">
-                € <strong>{{difference}}</strong>
-            </div>
-        </div>
-        <hr>
-        <div class="px-2">
-            For {{householdSize}}, you are <strong>underspending</strong> by €{{difference}} weekly.
+        <div class="col">
+            € <strong>{{difference}}</strong>
         </div>
     </div>
     <hr>
+    <div class="row px-2">
+        <div class="col">
+            For {{householdSize}}, you are <strong>{{spending}}</strong> by €{{difference}} weekly.
+        </div>
+    </div>
+    <ng-container *ngIf="this.over==status.Over">
+        <hr>
+        <app-recommendation-list [expenseName]="expenseName"></app-recommendation-list>
+    </ng-container>
 </div>

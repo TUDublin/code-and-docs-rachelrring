@@ -3,27 +3,30 @@
     <div class="left-links">
         <span class="item"><a routerLink="#" class="link">Home</a></span>
         <span class="item"><a routerLink="/budget-planner" class="link">Budget Planner</a></span>
+        <ng-container *ngIf="isUserAuthenticated">
+            <span class="item"><a routerLink="/budget" class="link">My Budget</a></span>
+        </ng-container>
     </div>
     <div class="right-links">
         <mat-menu #accountMenu="matMenu">
             <span *ngIf="!isUserAuthenticated">
-                <button mat-menu-item>
-                    <a routerLink="/register" class="link">Register</a>
-                </button>
-                <button mat-menu-item>
-                    <a routerLink="/login" class="link">Login</a>
-                </button>
+                <a routerLink="/register" class="link">
+                    <button mat-menu-item>Register</button>
+                </a>
+                <a routerLink="/login" class="link">
+                    <button mat-menu-item>Login</button>
+                </a>
             </span>
             <span *ngIf="isUserAuthenticated">
                 <button mat-menu-item (click)="logout()">
                     Logout
                 </button>
-                <button mat-menu-item>
-                    <a routerLink="/reset-password" class="link">Reset Password</a>
-                </button>
-                <button mat-menu-item>
-                    <a routerLink="/budget" class="link">View Budget</a>
-                </button>
+                <a routerLink="/reset-password" class="link">
+                    <button mat-menu-item>Reset Password</button>
+                </a>
+                <a routerLink="/budget" class="link">
+                    <button mat-menu-item>My Budget</button>
+                </a>
             </span>
         </mat-menu>
         <button mat-icon-button [matMenuTriggerFor]="accountMenu" class="account-icon-btn">

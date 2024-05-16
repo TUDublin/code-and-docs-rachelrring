@@ -424,7 +424,7 @@ export class BudgetPlannerComponent implements OnInit {
         this.isUserAuthenticated = this.authService.isUserAuthenticated();
       }
       if (this.isUserAuthenticated) {
-        var budgettosave: BudgetToSaveDto = this.populatBudgetToSaveDto();
+        var budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
 
         this.authService.saveBudget("api/accounts/newbudget", budgettosave)
           .subscribe({
@@ -661,22 +661,24 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   saveBudget() {
-
-    var budgettosave: BudgetToSaveDto = this.populatBudgetToSaveDto();
-
-    this.authService.saveBudget("api/accounts/newbudget", budgettosave)
-      .subscribe({
-        next: (_) => {
-          console.log("It Worked!")
-          this.router.navigate(["/budget"])
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log(err)
-        }
-      });
+    var budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
+    if (budgettosave.incomeTotal == 0 && budgettosave.paymentTotal == 0) {
+      console.log("Can't save the budget if everything is 0")
+    } else {
+      this.authService.saveBudget("api/accounts/newbudget", budgettosave)
+        .subscribe({
+          next: (_) => {
+            console.log("It Worked!")
+            this.router.navigate(["/budget"])
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err)
+          }
+        });
+    }
   }
 
-  populatBudgetToSaveDto() {
+  populateBudgetToSaveDto() {
     var userEmail = this.authService.getUserEmail();
 
     var budgettosave: BudgetToSaveDto = {

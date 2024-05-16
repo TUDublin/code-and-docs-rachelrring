@@ -11,7 +11,8 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatInputHarness } from '@angular/material/input/testing';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
 describe('LoginUserComponent', () => {
     let component: LoginUserComponent;
     let fixture: ComponentFixture<LoginUserComponent>;
@@ -84,33 +85,39 @@ describe('LoginUserComponent', () => {
         };
 
         authServiceSpy.loginUser.and.returnValue(of(authResponse));
-
         expect(router.url).toBe('/');
     });
 
-    // it('should store the users access token', () => {
-    //     const localStorageSpy = spyOn(localStorage, 'setItem').and.callThrough();
-    //     const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
-    //     const inputFieldUsername = fixture.debugElement.nativeElement.querySelector('#username');
-    //     const passwordInput = fixture.debugElement.nativeElement.querySelector('#password');
+    it('should display an error message when login fails', () => {
+        const loginErrorResponse = new HttpErrorResponse({
+            error: 'Login failed',
+            status: 401
+        });
+        authServiceSpy.loginUser.and.returnValue(throwError(() => loginErrorResponse));
+        component.loginUser(component.loginForm.value);
+        fixture.detectChanges();
+        expect(component.showError).toBeTrue();
+        const errorAlert = fixture.debugElement.nativeElement.querySelector('.alert-danger');
+        expect(errorAlert.textContent).toContain('You are unable to log in at this time.');
+    });
 
-    //     inputFieldUsername.value = 'testUser@email.com';
-    //     passwordInput.value = 'Password1!';
+    it('should navigate to default route when no returnUrl is provided', () => {
+        route.snapshot.queryParams['returnUrl'] = undefined;
+        spyOn(router, 'navigate');
+        authServiceSpy.loginUser.and.returnValue(of({
+            accessToken: 'fakeAccessToken',
+            tokenType: '',
+            expiresIn: 0,
+            refreshToken: ''
+        }));
+        component.loginUser(component.loginForm.value);
+        expect(router.navigate).toHaveBeenCalledWith(['/login']);
+    });
 
-    //     submitButton.click();
-
-    //     const authResponse: AuthResponseDto = {
-    //         accessToken: 'fakeAccessToken',
-    //         tokenType: '',
-    //         expiresIn: 0,
-    //         refreshToken: ''
-    //     };
-
-    //     authServiceSpy.loginUser.and.returnValue(of(authResponse));
-
-    //     expect(localStorageSpy).toHaveBeenCalledWith('token', 'token');
-    //     expect(localStorageSpy).toHaveBeenCalledWith('email', 'testUser@email.com');
-
-    // });
-
+    it('should validate password field correctly for empty input', () => {
+        const passwordInput = component.loginForm.controls['password'];
+        passwordInput.setValue('');
+        expect(passwordInput.valid).toBeFalse();
+        expect(passwordInput.errors?.['required']).toBeTruthy();
+    });
 });

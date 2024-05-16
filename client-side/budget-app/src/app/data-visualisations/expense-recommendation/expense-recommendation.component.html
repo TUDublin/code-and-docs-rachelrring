@@ -29,9 +29,11 @@
             </div>
         </div>
         <hr>
-        <div>
+        <div class="px-2">
             For {{householdSize}}, you are <strong>overspending</strong> by €{{difference}} weekly.
         </div>
+        <hr>
+        <app-recommendation-list [expenseName]="expenseName"></app-recommendation-list>
     </div>
     <div *ngIf="over == status.Under">
         <div class="row px-2">
@@ -43,7 +45,7 @@
             </div>
         </div>
         <hr>
-        <div>
+        <div class="px-2">
             For {{householdSize}}, you are <strong>underspending</strong> by €{{difference}} weekly.
         </div>
     </div>

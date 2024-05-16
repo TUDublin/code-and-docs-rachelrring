@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RecommendationListComponent } from '../recommendation-list/recommendation-list.component';
 export enum Status {
   Over, Under, OnTarget
 }
@@ -7,7 +8,10 @@ export enum Status {
   selector: 'app-expense-recommendation',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule, 
+    RecommendationListComponent,
+  ],
   templateUrl: './expense-recommendation.component.html',
   styleUrl: './expense-recommendation.component.css'
 })

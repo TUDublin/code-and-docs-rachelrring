@@ -8,6 +8,7 @@ import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetRespons
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { RouterLink, Router } from '@angular/router';
 import { ExpenseRecommendationComponent } from './expense-recommendation/expense-recommendation.component';
+import { BudgetLinks } from './budgeting-links';
 
 const barColors = [
   'rgba(54, 162, 235, 1)',
@@ -92,6 +93,8 @@ export class DataVisualisationsComponent implements OnInit {
   public carTaxExpWeeklyCSO = 0;
   public carFuelExpWeeklyCSO = 0;
   public publicTransportExpWeeklyCSO = 0;
+
+  public blinks = BudgetLinks;
 
   constructor(
     private http: HttpClient,

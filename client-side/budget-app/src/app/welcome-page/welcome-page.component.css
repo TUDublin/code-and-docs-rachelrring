@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+}
+
+.welcome-section,
+.overview-section,
+.budget-planner-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.text-section,
+.image-section {
+    flex: 1 0 48%;
+}
+
+.image-section img {
+    width: 100%;
+    height: auto;
+}
+
+.overview-section .image-section {
+    order: -1;
+}
+
+h3 {
+    color: purple;
+    padding-bottom: 1em;
+}
+
+.purple-text {
+    color: purple;
+}
+
+a {
+    text-decoration: none;
+}
+
+@media (max-width: 700px) {
+
+    .text-section,
+    .image-section {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .overview-section .image-section {
+        order: 1;
+    }
+
+    .welcome-section .image-section,
+    .overview-section .image-section,
+    .budget-planner-section .image-section {
+        margin-top: 20px;
+    }
+
+    h3 {
+        text-align: center;
+    }
+}

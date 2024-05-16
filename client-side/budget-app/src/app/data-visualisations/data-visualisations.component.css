@@ -34,11 +34,16 @@ select {
     border-top: 1px solid #ccc;
 }
 
-a{
+a {
     color: purple;
+    text-decoration: none;
 }
 
 .card-header .btn-link {
     text-decoration: none;
     color: purple;
+}
+
+.background-purple {
+    background-color: rgb(250, 236, 250);
 }

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<p>
+    Tips and Tricks to help you:
+</p>
+<ng-container *ngFor="let l of links">
+    <div class="row">
+        <div class="col">
+            <a href="{{l.link}}" target="_blank">{{l.title}}</a>
+        </div>
+    </div>
+</ng-container>

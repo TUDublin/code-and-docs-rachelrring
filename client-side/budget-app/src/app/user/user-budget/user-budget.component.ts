@@ -171,4 +171,8 @@ export class UserBudgetComponent implements OnInit {
   editBudget () {
     this.router.navigate(["/budget-planner"]);
   }
+
+  viewRecommendations(){
+    this.router.navigate(["/"]);
+  }
 }

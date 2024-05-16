@@ -5,7 +5,7 @@
             <h5 class="mb-0">
                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
                     aria-controls="collapseOne">
-                    <h4>Income Charts</h4>
+                    <h4>Income</h4>
                 </button>
             </h5>
         </div>
@@ -33,13 +33,14 @@
             <h5 class="mb-0">
                 <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="false" aria-controls="collapseTwo">
-                    <h4>Expenditure Charts</h4>
+                    <h4>Expenditure</h4>
                 </button>
             </h5>
         </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
-                <h2>Average Total Expenditure for {{householdNumber}}: <span style="color: purple;">€{{expenseTotal}}</span></h2>
+                <h2>Average Total Expenditure for {{householdNumber}}: <span
+                        style="color: purple;">€{{expenseTotal}}</span></h2>
                 <div class="chartContainer">
                     <div class="chartHeader">
                         <select (change)="updateOverViewChart($event)">
@@ -58,6 +59,161 @@
                     <canvas id="hs208Chart"></canvas>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+                    aria-controls="collapseThree">
+                    <h4>Recommendations</h4>
+                </button>
+            </h5>
+        </div>
+        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                <div *ngIf="isUserAuthenticated && hasBudget">
+                    <div class="chartHeader logged-in-with-budget">
+                        <select (change)="updateRecommendations($event)">
+                            <option value="All household sizes">All household sizes</option>
+                            <option value="1 person">1 Person</option>
+                            <option value="2 persons">2 Persons</option>
+                            <option value="3 persons">3 Persons</option>
+                            <option value="4 persons">4 Persons</option>
+                            <option value="5 persons">5 Persons</option>
+                            <option value="6 + Persons">6 + Persons</option>
+                        </select>
+                    </div>
+                    <div *ngIf="totalExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="totalExpWeeklyUser" [csoExpense]="totalExpWeeklyCSO"
+                            expenseName="Weekly Expenditure"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="mortageExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="mortageExpWeeklyUser" [csoExpense]="mortageExpWeeklyCSO"
+                            expenseName="Weekly Mortgage Payments"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="rentExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="rentExpWeeklyUser" [csoExpense]="rentExpeWeeklyCSO"
+                            expenseName="Weekly Rent Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="councilTaxExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="councilTaxExpWeeklyUser" [csoExpense]="councilTaxExpWeeklyCSO"
+                            expenseName="Weekly Property Tax Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="gasExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="gasExpWeeklyUser" [csoExpense]="gasExpWeeklyCSO"
+                            expenseName="Weekly Gas Payments"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="electricityExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="electricityExpWeeklyUser" [csoExpense]="electricityExpWeeklyCSO"
+                            expenseName="Weekly Electricity Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="waterExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="waterExpWeeklyUser" [csoExpense]="waterExpWeeklyCSO"
+                            expenseName="Weekly Water Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="phoneExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="phoneExpWeeklyUser" [csoExpense]="phoneExpWeeklyCSO"
+                            expenseName="Weekly Mobile Phone Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="broadbandExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="broadbandExpWeeklyUser" [csoExpense]="broadbandExpWeeklyCSO"
+                            expenseName="Weekly Broadband Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="groceriesExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="groceriesExpWeeklyUser" [csoExpense]="groceriesExpWeeklyCSO"
+                            expenseName="Weekly Grocery Expenditure"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="takeawayExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="takeawayExpWeeklyUser" [csoExpense]="takeawayExpWeeklyCSO"
+                            expenseName="Weekly Takeaway Expenditure"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="diningOutExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="diningOutExpWeeklyUser" [csoExpense]="diningOutExpWeeklyCSO"
+                            expenseName="Weekly Eating out Expenditure"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="cigarettesExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="cigarettesExpWeeklyUser" [csoExpense]="cigarettesExpWeeklCSO"
+                            expenseName="Weekly Cigarette Expenditure"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="clothesExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="clothesExpWeeklyUser" [csoExpense]="clothesExpWeeklyCSO"
+                            expenseName="Weekly Clothing Expenditure"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="childcareExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="childcareExpWeeklyUser" [csoExpense]="childcareExpWeeklyCSO"
+                            expenseName="Weekly Childcare Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="carTaxExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="carTaxExpWeeklyUser" [csoExpense]="carTaxExpWeeklyCSO"
+                            expenseName="Weekly Car Tax Payment"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="carFuelExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="carFuelExpWeeklyUser" [csoExpense]="carFuelExpWeeklyCSO"
+                            expenseName="Weekly Car Fuel Expenditure"></app-expense-recommendation>
+                    </div>
+                    <div *ngIf="publicTransportExpWeeklyUser != 0" class="p-1">
+                        <app-expense-recommendation [householdSize]="householdNumberRecommendations"
+                            [userExpense]="publicTransportExpWeeklyUser" [csoExpense]="publicTransportExpWeeklyCSO"
+                            expenseName="Weekly Public Transport Expenditure"></app-expense-recommendation>
+                    </div>
+                </div>
+                <div *ngIf="!isUserAuthenticated" class="alert alert-danger" role="alert">
+                    <p>
+                        To see your personalised recommendations, please log in or register, fill out the budget
+                        planner, and save your budget.<br>
+                    </p>
+                    <div style="text-align: center;" class="pb-3 not-logged-in">
+                        <a routerLink="/login">Log in here</a>
+                        <br>
+                        <strong>OR</strong>
+                        <br>
+                        <a routerLink="/register">Register here</a>
+                    </div>
+                </div>
+                <div *ngIf="!hasBudget && isUserAuthenticated" class="alert alert-danger" role="alert">
+                    <p class="logged-in-no-budget">
+                        You haven't added a budget yet! <br>
+                        Please fill out your <a routerLink="/budget-planner">budget planner</a> and make sure to save
+                        it.
+                    </p>
+                </div>
+            </div>
+            <div class="p-3">
+                <div class="p-1 background-purple">
+                    <ng-container *ngFor="let item of blinks; let i = index">
+                        <div class="row px-1 py-2">
+                            <div class="col">
+                                {{item[0]}}
+                            </div>
+                            <div class="col">
+                                {{item[1]}}
+                            </div>
+                            <div class="col">
+                                <a href="{{item[2]}}" target="_blank">visit here</a>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

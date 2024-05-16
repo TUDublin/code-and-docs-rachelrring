@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<div class="py-3 px-5" [ngStyle]="{'background-color': getBackgroundColor()}">
+    <h5 class="py-2">{{expenseName}}</h5>
+    <hr>
+    <div class="row px-2">
+        <div class="col">
+            Your Expense:
+        </div>
+        <div class="col">
+            € {{userExpense}}
+        </div>
+    </div>
+    <div class="row px-2">
+        <div class="col">
+            National Average:
+        </div>
+        <div class="col">
+            € {{csoExpense}}
+        </div>
+    </div>
+    <hr>
+    <div class="row px-2">
+        <div class="col">
+            {{spending}}:
+        </div>
+        <div class="col">
+            € <strong>{{difference}}</strong>
+        </div>
+    </div>
+    <hr>
+    <div class="row px-2">
+        <div class="col">
+            For {{householdSize}}, you are <strong>{{spending}}</strong> by €{{difference}} weekly.
+        </div>
+    </div>
+    <ng-container *ngIf="this.over==status.Over">
+        <hr>
+        <app-recommendation-list [expenseName]="expenseName"></app-recommendation-list>
+    </ng-container>
+</div>

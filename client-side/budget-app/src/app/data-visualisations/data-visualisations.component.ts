@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { HS0672015Region, HS2082015 } from './CSOData/CSOData';
 import { Chart } from 'chart.js/auto';
+import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
+import { AuthenticationService } from '../shared/services/authentication.service';
+import { RouterLink, Router } from '@angular/router';
+import { ExpenseRecommendationComponent } from './expense-recommendation/expense-recommendation.component';
+import { BudgetLinks } from './budgeting-links';
 
 const barColors = [
-  'rgba(54, 162, 235, 1)',   // Light Blue (State)
-  'rgba(255, 99, 132, 1)',   // Pink (Border)
-  'rgba(255, 159, 64, 1)',   // Orange (Midland)
-  'rgba(23, 162, 184, 1)',   // Teal (West)
-  'rgba(136, 84, 208, 1)',   // Purple (Dublin)
-  'rgba(149, 165, 166, 1)',  // Gray (MidEast)
-  'rgba(189, 195, 199, 1)',  // Light Gray (MidWest)
-  'rgba(41, 128, 185, 1)',   // Soft Blue (SouthEast)
-  'rgba(236, 112, 99, 1)'    // Soft Pink (SouthWest)
+  'rgba(54, 162, 235, 1)',
+  'rgba(255, 99, 132, 1)',
+  'rgba(255, 159, 64, 1)',
+  'rgba(23, 162, 184, 1)',
+  'rgba(136, 84, 208, 1)',
+  'rgba(149, 165, 166, 1)',
+  'rgba(189, 195, 199, 1)',
+  'rgba(41, 128, 185, 1)',
+  'rgba(236, 112, 99, 1)'
 ];
 
 @Component({
@@ -23,6 +28,8 @@ const barColors = [
   imports: [
     CommonModule,
     HttpClientModule,
+    RouterLink,
+    ExpenseRecommendationComponent,
   ],
   templateUrl: './data-visualisations.component.html',
   styleUrl: './data-visualisations.component.css'
@@ -31,8 +38,15 @@ export class DataVisualisationsComponent implements OnInit {
   public datahs067!: HS0672015Region;
   public datahs208!: HS2082015;
   public datahs208OverView!: HS2082015;
+  public datahs208Recommendations!: HS2082015;
   public expenseTotal = 0;
   public householdNumber = "All household sizes";
+  public householdNumberRecommendations = "All household sizes";
+
+  public isUserAuthenticated: boolean = false;
+  public auth: boolean = false;
+  public hasBudget: boolean = false;
+  public budget!: UserBudgetResponseDto;
 
   chart: any;
   wagesChart: any;
@@ -41,11 +55,60 @@ export class DataVisualisationsComponent implements OnInit {
   hs208Chart: any;
   hs208ChartOverView: any;
 
+  // user data for recommendations
+  public totalExpWeeklyUser = 0;
+  public mortageExpWeeklyUser = 0;
+  public rentExpWeeklyUser = 0;
+  public councilTaxExpWeeklyUser = 0;
+  public gasExpWeeklyUser = 0;
+  public electricityExpWeeklyUser = 0;
+  public waterExpWeeklyUser = 0;
+  public phoneExpWeeklyUser = 0;
+  public broadbandExpWeeklyUser = 0;
+  public groceriesExpWeeklyUser = 0;
+  public takeawayExpWeeklyUser = 0;
+  public diningOutExpWeeklyUser = 0;
+  public cigarettesExpWeeklyUser = 0;
+  public clothesExpWeeklyUser = 0;
+  public childcareExpWeeklyUser = 0;
+  public carTaxExpWeeklyUser = 0;
+  public carFuelExpWeeklyUser = 0;
+  public publicTransportExpWeeklyUser = 0;
+  // CSO data for recomendations
+  public totalExpWeeklyCSO = 0;
+  public mortageExpWeeklyCSO = 0;
+  public rentExpeWeeklyCSO = 0;
+  public councilTaxExpWeeklyCSO = 0;
+  public gasExpWeeklyCSO = 0;
+  public electricityExpWeeklyCSO = 0;
+  public waterExpWeeklyCSO = 0;
+  public phoneExpWeeklyCSO = 0;
+  public broadbandExpWeeklyCSO = 0;
+  public groceriesExpWeeklyCSO = 0;
+  public takeawayExpWeeklyCSO = 0;
+  public diningOutExpWeeklyCSO = 0;
+  public cigarettesExpWeeklCSO = 0;
+  public clothesExpWeeklyCSO = 0;
+  public childcareExpWeeklyCSO = 0;
+  public carTaxExpWeeklyCSO = 0;
+  public carFuelExpWeeklyCSO = 0;
+  public publicTransportExpWeeklyCSO = 0;
 
-  constructor(private http: HttpClient) { }
+  public blinks = BudgetLinks;
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthenticationService,
+    @Inject(DOCUMENT) private document: Document,
+    private router: Router,
+  ) {
+    const localStorage = document.defaultView?.localStorage;
+    if (localStorage) {
+      this.auth = true;
+    }
+  }
 
   ngOnInit(): void {
-
     this.http.get<HS0672015Region>(environment.goUrlAddress + '/hs067Region').subscribe(
       {
         next: (res: HS0672015Region) => {
@@ -84,6 +147,41 @@ export class DataVisualisationsComponent implements OnInit {
         }
       }
     );
+
+    this.http.get<HS2082015>(environment.goUrlAddress + '/hs208Recommendations').subscribe(
+      {
+        next: (res: HS2082015) => {
+          this.datahs208Recommendations = res;
+          let t = this.datahs208Recommendations.Rows.find(row => row.HouseholdSize === "All household sizes" && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
+          this.totalExpWeeklyCSO = t ? t.Value : 0;
+          this.updateHouseholdSize("All household sizes");
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        }
+      }
+    );
+
+    if (this.auth) {
+      this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    }
+    if (this.isUserAuthenticated) {
+      let ue = localStorage.getItem('email')?.toString()
+      if (ue) {
+        let address = 'api/accounts/budget/' + ue
+        this.authService.getBudget(address).subscribe({
+          next: (res: UserBudgetResponseDto) => {
+            this.hasBudget = true;
+            this.budget = res;
+            this.getUserRecommendationValues();
+            this.updateHouseholdSize("All household sizes");
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+          }
+        });
+      }
+    }
   }
 
   createChartHS208(data: HS2082015, householdSize: string): void {
@@ -443,8 +541,6 @@ export class DataVisualisationsComponent implements OnInit {
     });
   }
 
-
-
   createDeductionsChart(data: HS0672015Region) {
     const incomeType = "Income tax & social insurance deductions (C)";
 
@@ -503,5 +599,176 @@ export class DataVisualisationsComponent implements OnInit {
         },
       }
     });
+  }
+
+  updateRecommendations(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const householdSize = selectElement.value;
+    if (this.datahs208Recommendations) {
+      this.updateHouseholdSize(householdSize)
+    }
+  }
+
+  updateHouseholdSize(householdSize: string) {
+    this.householdNumberRecommendations = householdSize;
+    const d = this.datahs208Recommendations.Rows;
+    let t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
+    this.totalExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.04 Mortgage payment (primary dwelling)");
+    this.mortageExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.01 Rent paid for primary dwelling");
+    this.rentExpeWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.09 Local property tax");
+    this.councilTaxExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "04.02 Gas");
+    this.gasExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "04.01 Electricity");
+    this.electricityExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "05.10 Water charges");
+    this.waterExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "09.02 Telephone, mobile and car phone");
+    this.phoneExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "09.03.01 Internet subscription fees (not bundled)");
+    this.broadbandExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "01.01 Total food consumed at home");
+    this.groceriesExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "01.01.16 Takeaway food brought/delivered to home");
+    this.takeawayExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "01.02 Meals away from home  (incl. takeout tea/coffee)");
+    this.diningOutExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "02.03 Tobacco");
+    this.cigarettesExpWeeklCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "03 Total clothing and footwear");
+    this.clothesExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "09.17.03 Childcare");
+    this.childcareExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "08.03.03 Vehicle Tax");
+    this.carTaxExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "08.02 Motor Fuel");
+    this.carFuelExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+    t = undefined;
+    t = d.find(row => row.HouseholdSize === householdSize && row.ExpenditureType === "08.05 Bus, Luas, rail and taxi");
+    this.publicTransportExpWeeklyCSO = t ? parseFloat(t.Value.toFixed(2)) : 0;
+  }
+
+  getUserRecommendationValues() {
+    this.totalExpWeeklyUser = parseFloat(Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentTotal') {
+        return value / 52;
+      }
+      return total;
+    }, 0).toFixed(2))
+    this.mortageExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentMortgage') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.councilTaxExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentHouseTax') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.gasExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentHouseGas') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.electricityExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentElectricity') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.waterExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentWater') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.phoneExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentMobilePhone') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.broadbandExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentBroadband') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.groceriesExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentMortgage') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.takeawayExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentGroceries') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.diningOutExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentEatingOut') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.cigarettesExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentCigarettes') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.clothesExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentClothing') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.childcareExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentChildcare') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.carTaxExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentCarTax') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.carFuelExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentCarFuel') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
+    this.publicTransportExpWeeklyUser = Object.entries(this.budget).reduce((total, [key, value]) => {
+      if (key === 'paymentPublicTransport') {
+        return parseFloat((value/52).toFixed(2));
+      }
+      return total;
+    }, 0);
   }
 }

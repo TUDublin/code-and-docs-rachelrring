@@ -8,7 +8,7 @@
                 Please check and make sure your password and username are correct.
             </p>
         </div>
-        
+
         <form [formGroup]="loginForm" autocomplete="off" novalidate (ngSubmit)="loginUser(loginForm.value)">
             <div class="mb-3 row">
                 <label for="username" class="col-form-label col-sm-2">Username:</label>
@@ -16,7 +16,8 @@
                     <input type="text" id="username" formControlName="username" class="form-control" />
                 </div>
                 <div class="col-md-5">
-                    <em *ngIf="validateControl('username') && hasError('username', 'required')">Username is required</em>
+                    <em *ngIf="validateControl('username') && hasError('username', 'required')">Username is
+                        required</em>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -25,12 +26,14 @@
                     <input type="password" id="password" formControlName="password" class="form-control" />
                 </div>
                 <div class="col-md-5">
-                    <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
+                    <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is
+                        required</em>
                 </div>
             </div>
-            <div class="mb-3 row right-align">
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-info" [disabled]="!loginForm.valid" style="background-color: purple;">Login</button>
+            <div class="row button-container">
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-info" [disabled]="!loginForm.valid"
+                        style="background-color: purple; color: white;">Login</button>
                 </div>
             </div>
         </form>

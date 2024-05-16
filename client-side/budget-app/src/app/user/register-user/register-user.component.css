@@ -13,6 +13,16 @@ em{
     box-shadow: 1px 1px 1px #cabcbc;
 }
 
-button {
+.right-purple-btn {
+    float: right;
+    padding: 10px;
     background-color: purple;
+    color: white;
+}
+
+.button-container {
+    align-self: end;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
 }

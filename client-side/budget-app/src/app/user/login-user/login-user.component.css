@@ -18,7 +18,16 @@ button {
     color: white;
 }
 
-.right-align {
+.right-purple-btn {
+    float: right;
+    padding: 10px;
+    background-color: purple;
+    color: white;
+}
+
+.button-container {
+    align-self: end;
     display: flex;
-    justify-content: flex-end; /* This aligns the child element to the right */
+    justify-content: flex-end;
+    padding: 1em;
 }

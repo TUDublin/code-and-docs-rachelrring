@@ -44,9 +44,9 @@
                 </div>
             </div>
             <br>
-            <div class="mb-3 row">
-                <div class="col-md-1">          
-                    <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid" style="background-color: purple;">Register</button>
+            <div class="row button-container">
+                <div class="col-md-3">          
+                    <button type="submit" class="btn btn-info right-purple-btn" [disabled]="!registerForm.valid" style="background-color: purple;">Register</button>
                 </div>
             </div>
             <div *ngIf="errorString.length != 0">

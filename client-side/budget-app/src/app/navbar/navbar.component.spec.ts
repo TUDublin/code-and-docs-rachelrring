@@ -1,60 +1,87 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar.component';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { BehaviorSubject } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 describe('NavbarComponent', () => {
     let component: NavbarComponent;
     let fixture: ComponentFixture<NavbarComponent>;
-    let authServiceStub: Partial<AuthenticationService>;
+    let authServiceStub: jasmine.SpyObj<AuthenticationService>;
     let router: Router;
-    let route: ActivatedRoute;
 
     beforeEach(async () => {
-        authServiceStub = {
-            authChanged: new BehaviorSubject<boolean>(false),
-            logout: jasmine.createSpy('logout')
-        };
+        authServiceStub = jasmine.createSpyObj('AuthenticationService', ['logout'], {
+            authChanged: new BehaviorSubject<boolean>(false)
+        });
+
         await TestBed.configureTestingModule({
             imports: [
-                NavbarComponent,
                 NoopAnimationsModule,
-                RouterLink,
                 RouterTestingModule.withRoutes([]),
+                MatMenuModule,
+                MatButtonModule,
+                MatIconModule,
+                NavbarComponent // Import the standalone component here
             ],
             providers: [
-                { provide: ActivatedRoute, useValue: of() },
-                { provide: AuthenticationService, useValue: authServiceStub },
+                { provide: AuthenticationService, useValue: authServiceStub }
             ]
-        })
-            .compileComponents();
+        }).compileComponents();
 
         fixture = TestBed.createComponent(NavbarComponent);
         component = fixture.componentInstance;
+        router = TestBed.inject(Router);
+        spyOn(router, 'navigate');
         fixture.detectChanges();
-    });
-    beforeEach(() => {
-        router = TestBed.get(Router);
-        route = TestBed.get(ActivatedRoute);
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
-    it('should logout user', () => {
+
+    it('should logout user and navigate to homepage', () => {
         component.logout();
         expect(authServiceStub.logout).toHaveBeenCalled();
-        fixture.detectChanges();
-        expect(router.url).toBe('/');
+        expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
 
     it('should set isUserAuthenticated to true when authentication status changes', () => {
         expect(component.isUserAuthenticated).toBeFalse();
         (authServiceStub.authChanged as BehaviorSubject<boolean>).next(true);
         expect(component.isUserAuthenticated).toBeTrue();
+    });
+
+    it('should display appropriate links when user is authenticated', () => {
+        (authServiceStub.authChanged as BehaviorSubject<boolean>).next(true);
+        fixture.detectChanges();
+        const myBudgetLink = fixture.nativeElement.querySelector('a[routerLink="/budget"]');
+        expect(myBudgetLink).not.toBeNull();
+    });
+
+    it('should hide registration and login links when user is authenticated', () => {
+        (authServiceStub.authChanged as BehaviorSubject<boolean>).next(true);
+        fixture.detectChanges();
+        const loginLink = fixture.nativeElement.querySelector('a[routerLink="/login"]');
+        const registerLink = fixture.nativeElement.querySelector('a[routerLink="/register"]');
+        expect(loginLink).toBeNull();
+        expect(registerLink).toBeNull();
+    });
+
+    it('should only show the "My Budget" link when the user is authenticated', () => {
+        (authServiceStub.authChanged as BehaviorSubject<boolean>).next(false);
+        fixture.detectChanges();
+        let myBudgetLink = fixture.nativeElement.querySelector('a[routerLink="/budget"]');
+        expect(myBudgetLink).toBeNull();
+
+        (authServiceStub.authChanged as BehaviorSubject<boolean>).next(true);
+        fixture.detectChanges();
+        myBudgetLink = fixture.nativeElement.querySelector('a[routerLink="/budget"]');
+        expect(myBudgetLink).not.toBeNull();
     });
 });

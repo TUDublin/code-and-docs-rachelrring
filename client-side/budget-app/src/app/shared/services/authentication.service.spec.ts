@@ -8,6 +8,8 @@ import { BudgetToSaveDto } from '../../_interfaces/user/budgetToSaveDto.model';
 import { UserPasswordResetDto } from '../../_interfaces/user/userPasswordReset.model';
 import { UserBudgetResponseDto } from '../../_interfaces/response/UserBudgetResponseDto.model';
 import { UserForRegistrationDto } from '../../_interfaces/user/userForRegistrationDto.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 describe('AuthenticationService', () => {
   let service: AuthenticationService;
@@ -216,3 +218,63 @@ describe('AuthenticationService', () => {
     req.flush(mockResponse);
   });
 });
+
+describe('Additional AuthenticationService Tests', () => {
+  let service: AuthenticationService;
+  let httpMock: HttpTestingController;
+  let routerSpy: jasmine.SpyObj<Router>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        AuthenticationService,
+        EnvironmentUrlService,
+        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) }
+      ]
+    });
+    service = TestBed.inject(AuthenticationService);
+    httpMock = TestBed.inject(HttpTestingController);
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should handle login error', () => {
+    const errorMessage = 'Invalid credentials';
+    service.loginUser('login', { email: 'wrong@example.com', password: 'wrong' }).subscribe(
+      () => fail('should have failed with the 401 error'),
+      (error: HttpErrorResponse) => {
+        expect(error.status).toBe(401);
+      }
+    );
+    const req = httpMock.expectOne('https://localhost:7176/login');
+    req.flush({ message: errorMessage }, { status: 401, statusText: 'Unauthorized' });
+  });
+
+  it('should handle registration error', () => {
+    const mockUser: UserForRegistrationDto = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'John@fail.com',
+      password: 'Password1!',
+      confirmPassword: 'Password1!'
+    };
+    service.registerUser('api/accounts/registration', mockUser).subscribe(
+      () => fail('should have failed with the 400 error'),
+      (error: HttpErrorResponse) => {
+        expect(error.status).toBe(400);
+      }
+    );
+    const req = httpMock.expectOne('https://localhost:7176/api/accounts/registration');
+    req.flush({ message: 'Registration failed' }, { status: 400, statusText: 'Bad Request' });
+  });
+
+  it('should return false for isUserAuthenticated if no token', () => {
+    spyOn(localStorage, 'getItem').and.returnValue(null);
+    expect(service.isUserAuthenticated()).toBeFalse();
+  });
+});
+

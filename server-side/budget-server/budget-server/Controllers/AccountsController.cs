@@ -44,21 +44,7 @@ namespace budget_server.Controllers
 
             return StatusCode(201);
         }
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
-        {
-            var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
-                return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
-
-            var signingCredentials = _jwtHandler.GetSigningCredentials();
-            var claims = _jwtHandler.GetClaims(user);
-            var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
-            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-            return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
-        }
         // POST: /api/Accounts/NewBudget
         [HttpPost("NewBudget")]
         public async Task<ActionResult> PostBudget([FromBody] BudgetToSaveDto budget)
@@ -147,14 +133,6 @@ namespace budget_server.Controllers
             }
 
             return Ok();
-        }
-
-        // This endpoint will only be used for testing purposes and should be removed before production starts
-        // GET: api/Accounts/Budgets
-        [HttpGet("Budgets")]
-        public async Task<ActionResult<IEnumerable<Budget>>> GetBudgets()
-        {
-            return await _context.Budget.ToListAsync();
         }
 
         // POST: /api/Accounts/PasswordReset

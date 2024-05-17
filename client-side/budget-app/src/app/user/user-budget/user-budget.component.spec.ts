@@ -8,6 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { UserBudgetResponseDto } from '../../_interfaces/response/UserBudgetResponseDto.model';
 import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 
 describe('UserBudgetComponent', () => {
     let component: UserBudgetComponent;
@@ -29,7 +30,19 @@ describe('UserBudgetComponent', () => {
                 HttpClientTestingModule,
             ],
             providers: [
-                { provide: AuthenticationService, useValue: authServiceSpyObj },
+                {
+                    provide: AuthenticationService,
+                    useValue: {
+                        isUserAuthenticated: jasmine.createSpy().and.returnValue(of(true)),
+                        getBudget: jasmine.createSpy().and.returnValue(of({}))
+                    }
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        snapshot: { data: {} }
+                    }
+                }
             ]
         })
             .compileComponents();
@@ -49,71 +62,14 @@ describe('UserBudgetComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should display the data in a table', () => {
-        let b: UserBudgetResponseDto = {
-            incomePay: 10,
-            incomeBenefits: 0,
-            incomePension: 0,
-            incomeOther: 0,
-            paymentMortgage: 0,
-            paymentRent: 0,
-            paymentHomeInsurance: 0,
-            paymentHouseTax: 0,
-            paymentHouseGas: 0,
-            paymentElectricity: 0,
-            paymentWater: 0,
-            paymentHomePhone: 0,
-            paymentMobilePhone: 0,
-            paymentBroadband: 0,
-            paymentTvLicense: 0,
-            paymentHomeMaintenance: 0,
-            paymentGroceries: 90,
-            paymentTakeaways: 0,
-            paymentCigarettes: 0,
-            paymentEatingOut: 0,
-            paymentClothing: 0,
-            paymentChildcare: 0,
-            paymentHealthandBeauty: 0,
-            paymentEyeCare: 0,
-            paymentDentalCare: 0,
-            paymentMedicine: 0,
-            paymentActivities: 0,
-            paymentPocketMoney: 0,
-            paymentChildSupport: 0,
-            paymentSchoolFees: 0,
-            paymentPetFood: 0,
-            paymentVetBills: 0,
-            paymentLifeInsurance: 0,
-            paymentHealthInsurance: 0,
-            paymentDentalInsurance: 0,
-            paymentPetInsurance: 0,
-            paymentCarInsurance: 0,
-            paymentBankFees: 0,
-            paymentLoan: 0,
-            paymentCreditCard: 0,
-            paymentHirePurchases: 0,
-            paymentInvestments: 0,
-            paymentPension: 0,
-            paymentCarFuel: 0,
-            paymentCarTax: 0,
-            paymentCarMaintenance: 0,
-            paymentPublicTransport: 0,
-            paymentGym: 0,
-            paymentStreamingServices: 0,
-            paymentHolidays: 0,
-            paymentOther: 0,
-            incomeTotal: 0,
-            paymentTotal: 0
-        };
-        authServiceSpy.isUserAuthenticated.and.returnValue(true);
-        authServiceSpy.getBudget.and.returnValue(of(b));
-    
+    it('should initialize with default values', () => {
+        expect(component.hasBudget).toBeFalse();
+        expect(component.expensesBudgetArray.length).toEqual(0);
+        expect(component.incomeBudgetArray.length).toEqual(0);
+    });
+
+    it('should check authentication status on init', () => {
         component.ngOnInit();
-    
-        // // Simulate sorting by value in ascending order
-        // component.sortExpensesData({ active: 'value', direction: 'asc' });
-        // component.sortIncomeData({ active: 'value', direction: 'asc' });
-    
-        // fixture.detectChanges();
+        expect(authService.isUserAuthenticated).toHaveBeenCalled();
     });
 });

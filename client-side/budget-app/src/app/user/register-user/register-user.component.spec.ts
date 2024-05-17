@@ -101,5 +101,33 @@ describe('PasswordResetComponent', () => {
         });
         expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
+
+    it('should invalidate form when passwords do not match', () => {
+        component.registerForm.setValue({
+            firstName: 'Jane',
+            lastName: 'Doe',
+            email: 'jane@example.com',
+            password: '123456',
+            confirm: '654321'
+        });
+        fixture.detectChanges();
+        expect(component.registerForm.hasError('mustMatch', ['confirm'])).toBeTrue();
+    });
+
+    it('should enable registration button only when form is valid', () => {
+        const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+        expect(button.disabled).toBeTruthy();
+        
+        component.registerForm.setValue({
+            firstName: 'Test',
+            lastName: 'User',
+            email: 'test@example.com',
+            password: '123456',
+            confirm: '123456'
+        });
+        fixture.detectChanges();
+        
+        expect(button.disabled).toBeFalsy();
+    });
     
 });

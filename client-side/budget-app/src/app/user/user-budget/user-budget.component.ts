@@ -173,6 +173,6 @@ export class UserBudgetComponent implements OnInit {
   }
 
   viewRecommendations(){
-    this.router.navigate(["/"]);
+    this.router.navigate(["/visualisations"]);
   }
 }

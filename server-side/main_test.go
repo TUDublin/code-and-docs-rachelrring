@@ -30,6 +30,7 @@ func (suite *TestSuite) SetupTest() {
 	suite.router.GET("/hs067Region", getHS067Region)
 	suite.router.GET("/hs208", getHS208)
 	suite.router.GET("/hs208OverView", getHS208OverView)
+	suite.router.GET("/hs208Recommendations", getHS208Recommendations)
 }
 
 func TestMain(m *testing.M) {
@@ -129,4 +130,24 @@ func TestOnlyAllowGETHeaders(t *testing.T) {
 
 		assert.NotEqual(t, http.StatusNotFound, w.Code, "GET should be allowed for %s", path)
 	}
+}
+
+func TestHS208Recommendations(t *testing.T) {
+	suite := &TestSuite{}
+	suite.SetupTest()
+
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/hs208Recommendations", nil)
+	suite.router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	assert.Contains(t, w.Body.String(), "05.04 Mortgage payment (primary dwelling)")
+	assert.Contains(t, w.Body.String(), "05.01 Rent paid for primary dwelling")
+	assert.Contains(t, w.Body.String(), "00.00.00.00 Total average weekly household expenditure")
+	assert.Contains(t, w.Body.String(), "01.01.16 Takeaway food brought/delivered to home")
+	assert.Contains(t, w.Body.String(), "02.03 Tobacco")
+	assert.Contains(t, w.Body.String(), "01 Total food")
+
+	assert.NotContains(t, w.Body.String(), "C03387V04072")
 }

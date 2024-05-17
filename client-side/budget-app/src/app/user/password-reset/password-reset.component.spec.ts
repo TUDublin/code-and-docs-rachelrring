@@ -81,4 +81,33 @@ describe('PasswordResetComponent', () => {
         });
         expect(router.url).toBe('/');
     });
+
+    it('should keep submit button disabled when form is invalid', () => {
+        component.resetPasswordForm.controls['email'].setValue('');
+        component.resetPasswordForm.controls['password'].setValue('');
+        component.resetPasswordForm.controls['confirm'].setValue('');
+        fixture.detectChanges();
+        const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+        expect(submitButton.disabled).toBeTruthy();
+    });
+
+    it('should validate password and confirm password fields for mismatch', () => {
+        component.resetPasswordForm.controls['password'].setValue('Password1');
+        component.resetPasswordForm.controls['confirm'].setValue('Password2');
+        fixture.detectChanges();
+        const errors = component.resetPasswordForm.get('confirm')?.errors || {};
+        expect(errors['mustMatch']).toBeTruthy();
+    });
+
+    it('should navigate to login page after successful password reset', () => {
+        spyOn(authService, 'resetPassword').and.returnValue(of({email:'testUser@email.com', password:'newPassword1!'}));
+        spyOn(router, 'navigate');
+        component.resetPasswordForm.patchValue({
+            email: 'testUser@email.com',
+            password: 'Password1!',
+            confirm: 'Password1!'
+        });
+        component.resetPassword(component.resetPasswordForm.value);
+        expect(router.navigate).toHaveBeenCalledWith(['/login']);
+    });
 });

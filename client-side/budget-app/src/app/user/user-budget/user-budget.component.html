@@ -13,7 +13,7 @@
               <th colspan="2" mat-sort-header="value">Yearly Income</th>
             </tr>
             @for (d of sortedIncome; track d) {
-            @if (d.value != 0) {
+            @if (d.value !== 0) {
             <tr>
               <td>{{d.key}}</td>
               €<td>{{d.value}}</td>
@@ -81,7 +81,7 @@
             <th colspan="2" mat-sort-header="value">Yearly Expenses</th>
           </tr>
           @for (d of sortedExpenses; track d) {
-          @if (d.value != 0) {
+          @if (d.value !== 0) {
           <tr>
             <td>{{d.key}}</td>
             €<td>{{d.value}}</td>

@@ -222,7 +222,6 @@ describe('AuthenticationService', () => {
 describe('Additional AuthenticationService Tests', () => {
   let service: AuthenticationService;
   let httpMock: HttpTestingController;
-  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -235,7 +234,6 @@ describe('Additional AuthenticationService Tests', () => {
     });
     service = TestBed.inject(AuthenticationService);
     httpMock = TestBed.inject(HttpTestingController);
-    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
   afterEach(() => {

@@ -3,7 +3,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from './../../shared/services/authentication.service';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { UserPasswordResetDto } from '../../_interfaces/user/userPasswordReset.model';
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -86,7 +86,7 @@ export class PasswordResetComponent implements OnInit {
     }
     this.authService.resetPassword('api/accounts/passwordreset', userNewPassword)
       .subscribe({
-        next: (_) => {
+        next: () => {
           this.router.navigate(["/login"]);
           this.snackBar.open('password successfully changed', 'x', { duration: 2000 });
         },

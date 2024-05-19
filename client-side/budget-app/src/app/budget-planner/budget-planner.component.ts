@@ -428,7 +428,7 @@ export class BudgetPlannerComponent implements OnInit {
 
         this.authService.saveBudget("api/accounts/newbudget", budgettosave)
           .subscribe({
-            next: (_) => {
+            next: () => {
             },
             error: (err: HttpErrorResponse) => {
               console.log(err)
@@ -667,7 +667,7 @@ export class BudgetPlannerComponent implements OnInit {
     } else {
       this.authService.saveBudget("api/accounts/newbudget", budgettosave)
         .subscribe({
-          next: (_) => {
+          next: () => {
             console.log("It Worked!")
             this.router.navigate(["/budget"])
           },

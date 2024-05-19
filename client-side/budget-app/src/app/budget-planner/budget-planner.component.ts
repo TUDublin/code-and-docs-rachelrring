@@ -15,7 +15,7 @@ import { BudgetFields, BudgetFieldsCategories } from './budgetFormFields';
 import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
 
 
-interface budgetData {
+interface BudgetData {
   key: string;
   value: number;
 }
@@ -391,7 +391,7 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   fillInBudgetForm(b: UserBudgetResponseDto) {
-    const headers: budgetData[] = Object.keys(b).map(key => {
+    const headers: BudgetData[] = Object.keys(b).map(key => {
       return { key: key, value: b[key as keyof UserBudgetResponseDto] };
     });
     headers.forEach(header => {
@@ -424,7 +424,7 @@ export class BudgetPlannerComponent implements OnInit {
         this.isUserAuthenticated = this.authService.isUserAuthenticated();
       }
       if (this.isUserAuthenticated) {
-        var budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
+        let budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
 
         this.authService.saveBudget("api/accounts/newbudget", budgettosave)
           .subscribe({
@@ -604,7 +604,7 @@ export class BudgetPlannerComponent implements OnInit {
 
   updateIncomeDoughnutChart(b: BudgetFields) {
 
-    const { incomePay, incomeBenefits, incomePension, incomeOther, ...categoriesWithoutIncome } = b;
+    const { incomePay, incomeBenefits, incomePension, incomeOther } = b;
 
     const keys: string[] = ['Pay', 'Benefits', 'Pension', 'Other'];
     const values: number[] = [incomePay, incomeBenefits, incomePension, incomeOther];
@@ -661,7 +661,7 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   saveBudget() {
-    var budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
+    let budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
     if (budgettosave.incomeTotal == 0 && budgettosave.paymentTotal == 0) {
       console.log("Can't save the budget if everything is 0")
     } else {
@@ -679,9 +679,9 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   populateBudgetToSaveDto() {
-    var userEmail = this.authService.getUserEmail();
+    let userEmail = this.authService.getUserEmail();
 
-    var budgettosave: BudgetToSaveDto = {
+    let budgettosave: BudgetToSaveDto = {
       userEmail: userEmail,
       incomePay: this.budgetFields.incomePay,
       incomeBenefits: this.budgetFields.incomeBenefits,

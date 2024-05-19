@@ -152,7 +152,7 @@ export class DataVisualisationsComponent implements OnInit {
       {
         next: (res: HS2082015) => {
           this.datahs208Recommendations = res;
-          let t = this.datahs208Recommendations.Rows.find(row => row.HouseholdSize === "All household sizes" && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
+          const t = this.datahs208Recommendations.Rows.find(row => row.HouseholdSize === "All household sizes" && row.ExpenditureType === "00.00.00.00 Total average weekly household expenditure");
           this.totalExpWeeklyCSO = t ? t.Value : 0;
           this.updateHouseholdSize("All household sizes");
         },
@@ -166,9 +166,9 @@ export class DataVisualisationsComponent implements OnInit {
       this.isUserAuthenticated = this.authService.isUserAuthenticated();
     }
     if (this.isUserAuthenticated) {
-      let ue = localStorage.getItem('email')?.toString()
+      const ue = localStorage.getItem('email')?.toString()
       if (ue) {
-        let address = 'api/accounts/budget/' + ue
+        const address = 'api/accounts/budget/' + ue
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
             this.hasBudget = true;
@@ -241,7 +241,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -312,7 +312,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -402,7 +402,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -455,7 +455,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -515,7 +515,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -575,7 +575,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
 import { LoginUserComponent } from './login-user.component';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,19 +6,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { of } from 'rxjs';
 import { AuthResponseDto } from '../../_interfaces/response/AuthenticationResponseDto.model';
-import { MatButtonHarness } from '@angular/material/button/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatInputHarness } from '@angular/material/input/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+
 describe('LoginUserComponent', () => {
     let component: LoginUserComponent;
     let fixture: ComponentFixture<LoginUserComponent>;
     let authServiceSpy: jasmine.SpyObj<AuthenticationService>;
     let route: ActivatedRoute;
     let router: Router;
-    let loader: HarnessLoader;
 
     beforeEach(async () => {
         const authServiceSpyObj = jasmine.createSpyObj('AuthenticationService', ['loginUser', 'sendAuthStateChangeNotification']);
@@ -49,7 +45,6 @@ describe('LoginUserComponent', () => {
         component = fixture.componentInstance;
         authServiceSpy = TestBed.inject(AuthenticationService) as jasmine.SpyObj<AuthenticationService>;
         route = TestBed.inject(ActivatedRoute);
-        loader = TestbedHarnessEnvironment.loader(fixture);
         fixture.detectChanges();
     });
     beforeEach(() => {

@@ -15,7 +15,7 @@ import { BudgetFields, BudgetFieldsCategories } from './budgetFormFields';
 import { UserBudgetResponseDto } from '../_interfaces/response/UserBudgetResponseDto.model';
 
 
-interface budgetData {
+interface BudgetData {
   key: string;
   value: number;
 }
@@ -359,10 +359,10 @@ export class BudgetPlannerComponent implements OnInit {
       this.isUserAuthenticated = this.authService.isUserAuthenticated();
     }
     if (this.isUserAuthenticated) {
-      let ue = localStorage.getItem('email')?.toString()
+      const ue = localStorage.getItem('email')?.toString()
       if (ue) {
-        let address = 'api/accounts/budget/' + ue
-        let res = ue.split('@');
+        const address = 'api/accounts/budget/' + ue
+        const res = ue.split('@');
         this.userEmail = res[0];
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
@@ -391,7 +391,7 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   fillInBudgetForm(b: UserBudgetResponseDto) {
-    const headers: budgetData[] = Object.keys(b).map(key => {
+    const headers: BudgetData[] = Object.keys(b).map(key => {
       return { key: key, value: b[key as keyof UserBudgetResponseDto] };
     });
     headers.forEach(header => {
@@ -424,11 +424,11 @@ export class BudgetPlannerComponent implements OnInit {
         this.isUserAuthenticated = this.authService.isUserAuthenticated();
       }
       if (this.isUserAuthenticated) {
-        var budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
+        const budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
 
         this.authService.saveBudget("api/accounts/newbudget", budgettosave)
           .subscribe({
-            next: (_) => {
+            next: () => {
             },
             error: (err: HttpErrorResponse) => {
               console.log(err)
@@ -604,7 +604,7 @@ export class BudgetPlannerComponent implements OnInit {
 
   updateIncomeDoughnutChart(b: BudgetFields) {
 
-    const { incomePay, incomeBenefits, incomePension, incomeOther, ...categoriesWithoutIncome } = b;
+    const { incomePay, incomeBenefits, incomePension, incomeOther } = b;
 
     const keys: string[] = ['Pay', 'Benefits', 'Pension', 'Other'];
     const values: number[] = [incomePay, incomeBenefits, incomePension, incomeOther];
@@ -650,8 +650,8 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   getYearlyValues(controlField: string): number {
-    let frequencyField = this.myForm.get(controlField.concat('Frequency'));
-    let controlValue: number = this.myForm.get(controlField)?.value;
+    const frequencyField = this.myForm.get(controlField.concat('Frequency'));
+    const controlValue: number = this.myForm.get(controlField)?.value;
     if (frequencyField?.value == 'weekly') {
       return controlValue * 52;
     } else if (frequencyField?.value == 'monthly') {
@@ -661,13 +661,13 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   saveBudget() {
-    var budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
+    const budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
     if (budgettosave.incomeTotal == 0 && budgettosave.paymentTotal == 0) {
       console.log("Can't save the budget if everything is 0")
     } else {
       this.authService.saveBudget("api/accounts/newbudget", budgettosave)
         .subscribe({
-          next: (_) => {
+          next: () => {
             console.log("It Worked!")
             this.router.navigate(["/budget"])
           },
@@ -679,9 +679,9 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   populateBudgetToSaveDto() {
-    var userEmail = this.authService.getUserEmail();
+    const userEmail = this.authService.getUserEmail();
 
-    var budgettosave: BudgetToSaveDto = {
+    const budgettosave: BudgetToSaveDto = {
       userEmail: userEmail,
       incomePay: this.budgetFields.incomePay,
       incomeBenefits: this.budgetFields.incomeBenefits,

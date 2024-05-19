@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserForAuthenticationDto } from './../../_interfaces/user/userForAuthenticationDto.model';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthenticationService } from './../../shared/services/authentication.service';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, Form, AbstractControl, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthResponseDto } from '../../_interfaces/response/AuthenticationResponseDto.model';
 
 @Component({
@@ -65,7 +65,7 @@ export class LoginUserComponent implements OnInit {
           }
           this.router.navigate([this.returnUrl]);
         },
-        error: (err: HttpErrorResponse) => {
+        error: () => {
           this.showError = true;
         }
       })

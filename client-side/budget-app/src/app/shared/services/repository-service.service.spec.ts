@@ -29,7 +29,6 @@ describe('RepositoryService', () => {
     });
 
     it('should retrieve data from the server', () => {
-        const mockResponse = { expenses: 1000, income: 2000 };
         const mockRoute = 'api/budget/get';
         const mockUrlAddress = 'http://example.com';
         envUrlServiceSpy.urlAddress = mockUrlAddress;

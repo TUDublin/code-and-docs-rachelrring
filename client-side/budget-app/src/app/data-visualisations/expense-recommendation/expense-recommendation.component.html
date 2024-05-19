@@ -33,7 +33,7 @@
             For {{householdSize}}, you are <strong>{{spending}}</strong> by €{{difference}} weekly.
         </div>
     </div>
-    <ng-container *ngIf="this.over==status.Over">
+    <ng-container *ngIf="this.over === status.Over">
         <hr>
         <app-recommendation-list [expenseName]="expenseName"></app-recommendation-list>
     </ng-container>

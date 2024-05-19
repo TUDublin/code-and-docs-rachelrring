@@ -155,7 +155,7 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('incomePay')?.setValue(10);
       component.myForm.get('incomeBenefits')?.setValue(20);
       fixture.detectChanges();
-      let expectedYearlyIncome = (10 * 52) + (20 * 52);
+      const expectedYearlyIncome = (10 * 52) + (20 * 52);
 
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();
@@ -175,7 +175,7 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('paymentMortgage')?.setValue(100);
       component.myForm.get('paymentOther')?.setValue(100);
       fixture.detectChanges();
-      let expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
+      const expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
 
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();
@@ -197,9 +197,9 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('incomePay')?.setValue(10);
       component.myForm.get('incomeBenefits')?.setValue(20);
       fixture.detectChanges();
-      let expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
-      let expectedYearlyIncome = (10 * 52) + (20 * 52);
-      let expectedYearlySurplus = expectedYearlyIncome - expectedYearlyExpenses;
+      const expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
+      const expectedYearlyIncome = (10 * 52) + (20 * 52);
+      const expectedYearlySurplus = expectedYearlyIncome - expectedYearlyExpenses;
 
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();
@@ -220,9 +220,9 @@ describe('BudgetPlannerComponent', () => {
       component.myForm.get('incomeBenefits')?.setValue(20);
       fixture.detectChanges();
 
-      let expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
-      let expectedYearlyIncome = (10 * 52) + (20 * 52);
-      let expectedYearlySurplus = expectedYearlyIncome - expectedYearlyExpenses;
+      const expectedYearlyExpenses = (100 * 52) + (20 * 52) + (100 * 52) + (100 * 52);
+      const expectedYearlyIncome = (10 * 52) + (20 * 52);
+      const expectedYearlySurplus = expectedYearlyIncome - expectedYearlyExpenses;
 
       const submitButton = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
       submitButton.click();

@@ -4,7 +4,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterUserComponent } from './register-user.component';
@@ -16,7 +16,6 @@ describe('PasswordResetComponent', () => {
     let fixture: ComponentFixture<RegisterUserComponent>;
     let authService: AuthenticationService;
     let router: Router;
-    let route: ActivatedRoute;
     let snackBar: MatSnackBar;
 
     beforeEach(async () => {
@@ -44,7 +43,6 @@ describe('PasswordResetComponent', () => {
     });
     beforeEach(() => {
         router = TestBed.get(Router);
-        route = TestBed.get(ActivatedRoute);
     });
 
     it('should create', () => {
@@ -74,7 +72,7 @@ describe('PasswordResetComponent', () => {
     });
 
     it('should call authService.registerUser and navigate to login page on successful registration', () => {
-        let r: RegistrationResponseDto = {
+        const r: RegistrationResponseDto = {
             isSuccessfulRegistration: false,
             errros: []
         }

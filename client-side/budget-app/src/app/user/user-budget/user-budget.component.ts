@@ -67,9 +67,9 @@ export class UserBudgetComponent implements OnInit {
       this.isUserAuthenticated = this.authService.isUserAuthenticated();
     }
     if (this.isUserAuthenticated) {
-      let ue = localStorage.getItem('email')?.toString()
+      const ue = localStorage.getItem('email')?.toString()
       if (ue) {
-        let address = 'api/accounts/budget/' + ue
+        const address = 'api/accounts/budget/' + ue
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
             this.hasBudget = true;
@@ -90,10 +90,10 @@ export class UserBudgetComponent implements OnInit {
             const paymentEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('payment') && key !== 'paymentTotal').map(([key, value]) =>
                 [key.substring('payment'.length), value]);
-            for (let i = 0; i < paymentEntries.length; i++) {
-              let tmp: budgetData = {
-                key: paymentEntries[i][0],
-                value: paymentEntries[i][1]
+            for (const element of paymentEntries) {
+              const tmp: budgetData = {
+                key: element[0],
+                value: element[1]
               }
               this.expensesBudgetArray.push(tmp);
             }
@@ -101,10 +101,10 @@ export class UserBudgetComponent implements OnInit {
             const incomeEntries = Object.entries(this.budget).filter(([key, _]) =>
               key.startsWith('income') && key !== 'incomeTotal').map(([key, value]) =>
                 [key.substring('income'.length), value]);
-            for (let i = 0; i < incomeEntries.length; i++) {
-              let tmp: budgetData = {
-                key: incomeEntries[i][0],
-                value: incomeEntries[i][1]
+            for (const element of incomeEntries) {
+              const tmp: budgetData = {
+                key: element[0],
+                value: element[1]
               }
               this.incomeBudgetArray.push(tmp);
             }

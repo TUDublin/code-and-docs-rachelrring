@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { PasswordConfirmationValidatorService } from './password-confirmation-validator.service';
 
 describe('PasswordConfirmationValidatorService', () => {

@@ -5,7 +5,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { UserPasswordResetDto } from '../../_interfaces/user/userPasswordReset.model';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +16,6 @@ describe('PasswordResetComponent', () => {
     let fixture: ComponentFixture<PasswordResetComponent>;
     let authService: AuthenticationService;
     let router: Router;
-    let route: ActivatedRoute;
     let snackBar: MatSnackBar;
 
     beforeEach(async () => {
@@ -44,7 +43,6 @@ describe('PasswordResetComponent', () => {
     });
     beforeEach(() => {
         router = TestBed.get(Router);
-        route = TestBed.get(ActivatedRoute);
     });
 
     it('should create', () => {
@@ -52,7 +50,7 @@ describe('PasswordResetComponent', () => {
     });
 
     it('should reset password successfully', () => {
-        let x: UserPasswordResetDto = {email:'testUser@email.com', password:'newPassword1!'}
+        const x: UserPasswordResetDto = {email:'testUser@email.com', password:'newPassword1!'}
         spyOn(authService, 'resetPassword').and.returnValue(of(x));
         spyOn(snackBar, 'open').and.stub();
 

@@ -74,7 +74,7 @@ describe('PasswordResetComponent', () => {
     });
 
     it('should call authService.registerUser and navigate to login page on successful registration', () => {
-        let r: RegistrationResponseDto = {
+        const r: RegistrationResponseDto = {
             isSuccessfulRegistration: false,
             errros: []
         }

@@ -359,10 +359,10 @@ export class BudgetPlannerComponent implements OnInit {
       this.isUserAuthenticated = this.authService.isUserAuthenticated();
     }
     if (this.isUserAuthenticated) {
-      let ue = localStorage.getItem('email')?.toString()
+      const ue = localStorage.getItem('email')?.toString()
       if (ue) {
-        let address = 'api/accounts/budget/' + ue
-        let res = ue.split('@');
+        const address = 'api/accounts/budget/' + ue
+        const res = ue.split('@');
         this.userEmail = res[0];
         this.authService.getBudget(address).subscribe({
           next: (res: UserBudgetResponseDto) => {
@@ -424,7 +424,7 @@ export class BudgetPlannerComponent implements OnInit {
         this.isUserAuthenticated = this.authService.isUserAuthenticated();
       }
       if (this.isUserAuthenticated) {
-        let budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
+        const budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
 
         this.authService.saveBudget("api/accounts/newbudget", budgettosave)
           .subscribe({
@@ -650,8 +650,8 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   getYearlyValues(controlField: string): number {
-    let frequencyField = this.myForm.get(controlField.concat('Frequency'));
-    let controlValue: number = this.myForm.get(controlField)?.value;
+    const frequencyField = this.myForm.get(controlField.concat('Frequency'));
+    const controlValue: number = this.myForm.get(controlField)?.value;
     if (frequencyField?.value == 'weekly') {
       return controlValue * 52;
     } else if (frequencyField?.value == 'monthly') {
@@ -661,7 +661,7 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   saveBudget() {
-    let budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
+    const budgettosave: BudgetToSaveDto = this.populateBudgetToSaveDto();
     if (budgettosave.incomeTotal == 0 && budgettosave.paymentTotal == 0) {
       console.log("Can't save the budget if everything is 0")
     } else {
@@ -679,9 +679,9 @@ export class BudgetPlannerComponent implements OnInit {
   }
 
   populateBudgetToSaveDto() {
-    let userEmail = this.authService.getUserEmail();
+    const userEmail = this.authService.getUserEmail();
 
-    let budgettosave: BudgetToSaveDto = {
+    const budgettosave: BudgetToSaveDto = {
       userEmail: userEmail,
       incomePay: this.budgetFields.incomePay,
       incomeBenefits: this.budgetFields.incomeBenefits,

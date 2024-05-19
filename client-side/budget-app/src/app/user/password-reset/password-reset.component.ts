@@ -48,7 +48,7 @@ export class PasswordResetComponent implements OnInit {
       this.auth = true;
     }
     if (this.auth || this.isUserAuthenticated) {
-      let ue = this.authService.getUserEmail();
+      const ue = this.authService.getUserEmail();
       if (ue != "") {
         this.userEmail = ue;
         this.setField = true;

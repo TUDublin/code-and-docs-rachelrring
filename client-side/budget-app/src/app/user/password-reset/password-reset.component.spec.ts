@@ -52,7 +52,7 @@ describe('PasswordResetComponent', () => {
     });
 
     it('should reset password successfully', () => {
-        let x: UserPasswordResetDto = {email:'testUser@email.com', password:'newPassword1!'}
+        const x: UserPasswordResetDto = {email:'testUser@email.com', password:'newPassword1!'}
         spyOn(authService, 'resetPassword').and.returnValue(of(x));
         spyOn(snackBar, 'open').and.stub();
 

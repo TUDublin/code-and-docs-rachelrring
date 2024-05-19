@@ -10,7 +10,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Setup and Teardown
+const hs067 = "/hs067"
+const hs067Region = "/hs067Region"
+const hs208 = "/hs208"
+const hs208OverView = "/hs208OverView"
+const hs208Recommendations = "/hs208Recommendations"
+
 type TestSuite struct {
 	router *gin.Engine
 }
@@ -26,11 +31,11 @@ func (suite *TestSuite) SetupTest() {
 	config.ExposeHeaders = []string{"Content-Length", "Content-Disposition"}
 	suite.router.Use(cors.New(config))
 
-	suite.router.GET("/hs067", getHS067)
-	suite.router.GET("/hs067Region", getHS067Region)
-	suite.router.GET("/hs208", getHS208)
-	suite.router.GET("/hs208OverView", getHS208OverView)
-	suite.router.GET("/hs208Recommendations", getHS208Recommendations)
+	suite.router.GET(hs067, getHS067)
+	suite.router.GET(hs067Region, getHS067Region)
+	suite.router.GET(hs208, getHS208)
+	suite.router.GET(hs208OverView, getHS208OverView)
+	suite.router.GET(hs208Recommendations, getHS208Recommendations)
 }
 
 func TestMain(m *testing.M) {
@@ -42,7 +47,7 @@ func TestHS067(t *testing.T) {
 	suite.SetupTest()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/hs067", nil)
+	req, _ := http.NewRequest("GET", hs067, nil)
 	suite.router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -57,7 +62,7 @@ func TestHS067Region(t *testing.T) {
 	suite.SetupTest()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/hs067Region", nil)
+	req, _ := http.NewRequest("GET", hs067Region, nil)
 	suite.router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -71,7 +76,7 @@ func TestHS208(t *testing.T) {
 	suite.SetupTest()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/hs208", nil)
+	req, _ := http.NewRequest("GET", hs208, nil)
 	suite.router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -91,7 +96,7 @@ func TestHS208OverView(t *testing.T) {
 	suite.SetupTest()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/hs208OverView", nil)
+	req, _ := http.NewRequest("GET", hs208OverView, nil)
 	suite.router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -111,7 +116,7 @@ func TestOnlyAllowGETHeaders(t *testing.T) {
 	suite.SetupTest()
 
 	methods := []string{"POST", "PUT", "DELETE", "PATCH"}
-	paths := []string{"/hs067", "/hs067Region", "/hs208", "/hs208OverView"}
+	paths := []string{hs067, hs067Region, hs208, hs208OverView}
 
 	for _, path := range paths {
 		for _, method := range methods {
@@ -137,7 +142,7 @@ func TestHS208Recommendations(t *testing.T) {
 	suite.SetupTest()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/hs208Recommendations", nil)
+	req, _ := http.NewRequest("GET", hs208Recommendations, nil)
 	suite.router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)

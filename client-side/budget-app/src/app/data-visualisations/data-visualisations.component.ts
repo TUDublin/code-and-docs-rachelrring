@@ -241,7 +241,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -312,7 +312,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -402,7 +402,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -455,7 +455,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -515,7 +515,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';
@@ -575,7 +575,7 @@ export class DataVisualisationsComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: function (context) {
-                let label = context.dataset.label || '';
+                let label = context.dataset.label ?? '';
 
                 if (label) {
                   label += ': ';

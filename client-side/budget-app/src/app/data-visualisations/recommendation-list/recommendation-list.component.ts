@@ -16,6 +16,6 @@ export class RecommendationListComponent implements OnInit {
 
   ngOnInit(): void {
     let l = RecommendationLinks.find(x => x.expenseName == this.expenseName)?.links;
-    this.links = l ? l : [];
+    this.links = l || [];
   }
 }
